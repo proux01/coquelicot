@@ -1799,7 +1799,7 @@ Ltac reify fct nb :=
     constr:(Int f' a' b')
   | pow ?f ?n =>
       reify ((fun x => pow x n) f) nb
-  | appcontext [var ?i] =>
+  | context [var ?i] =>
     match fct with
     | ?f ?a =>
       let e := reify a nb in
