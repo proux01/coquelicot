@@ -1,3 +1,6 @@
+Version 3.0.2:
+- ensured compatibility from Coq 8.5 to Coq 8.8
+
 Version 3.0.1:
 - ensured compatibility from Coq 8.5 to Coq 8.7
 
