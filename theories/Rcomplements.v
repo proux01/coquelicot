@@ -121,7 +121,7 @@ Proof.
   exists n ; split.
   apply r.
   apply Rlt_le, Hn2.
-  exists (Zpred n) ; rewrite <- e ; split.
+  exists (Z.pred n) ; rewrite <- e ; split.
   apply IZR_lt, Zlt_pred.
   rewrite <- (succ_IZR), <-Zsucc_pred ; apply Rle_refl.
 Qed.

@@ -484,7 +484,7 @@ Proof.
   rewrite !Riemann_sum_cons.
   assert (Hx0 := proj1 (ptd_sort _ Hptd)).
   case: Hx0 => /= Hx0.
-Focus 2. (* fst x0 = SF_h y *)
+2 : { (* fst x0 = SF_h y *)
   rewrite Hx0 Rminus_eq_0 !scal_zero_l !plus_zero_l.
   apply: IH.
   move: Hab ; unfold a, b ; simpl ; by rewrite Hx0.
@@ -495,6 +495,7 @@ Focus 2. (* fst x0 = SF_h y *)
   eapply ptd_cons, Hptd.
   move: Hstep ; unfold a, b ; simpl ; rewrite Hx0.
   apply Rle_lt_trans, Rmax_r.
+  }
 (* fst x0 < SF_h y *)
   clear IH.
   rewrite (double_var (eps / 2)).
@@ -3004,18 +3005,19 @@ Proof.
 (* * appliquer H *)
   apply: H => {IH}.
 
-  Focus 3.
+  3: {
     rewrite -Ha /ptd_r /ptd_r_belast.
     move: (proj1 Hab0) ; rewrite -Ha.
     apply SF_cons_dec with (s := ptd) => [x0 | [x0 y0] s] //= Hx0 ;
-    by case: Rle_dec.
-  Focus 3.
+                                          by case: Rle_dec.
+  }
+  3 : {
     revert ptd_r_belast ptd_r ; move: (proj1 Hab0) ;
     rewrite -Ha ;
     apply SF_cons_ind with (s := ptd) => [x0 | [x0 y0] s IH]
     //= Hx0 ; case: Rle_dec => //= _.
     by rewrite unzip1_rcons /= last_rcons.
-
+  }
 (* ** ptd_r est une subdivision pointée *)
 
   revert ptd_r_belast ptd_r Hptd ;
@@ -3575,10 +3577,11 @@ Proof.
 
   replace (fst (last (SF_h ptd, SF_h ptd) (SF_t ptd)))
     with (last (SF_h ptd) (unzip1 (SF_t ptd))).
-Focus 2.
+2 : {
 pattern (SF_h ptd) at 1.
 replace (SF_h ptd) with (fst (SF_h ptd, SF_h ptd)) by auto.
 elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
+}
   by rewrite Hb Ha.
 
   replace lx1 with (pos_Rl (RList.cons lx0 (RList.cons lx1 lx)) 1) by reflexivity.
@@ -4610,7 +4613,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   exact: Hnth.
   exact: H0.
 
-  Focus 2.
+  2: {
   rewrite StepFun_P30.
   replace (RiemannInt_SF psi2) with 0.
   rewrite Rmult_0_r Rplus_0_r /RiemannInt_SF SF_sup_subdiv SF_sup_subdiv_val ;
@@ -4634,8 +4637,8 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   case => /= [ | x1 s] IH.
   by [].
   rewrite -IH ; ring.
-
-  Focus 2.
+  }
+  2: {
   rewrite StepFun_P30.
   replace (RiemannInt_SF psi2) with 0.
   rewrite Rmult_0_r Rplus_0_r ;
@@ -4679,7 +4682,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   case => /= [ | x1 s] IH.
   by [].
   rewrite -IH ; ring.
-
+}
 (* ** c'est la bonne borne sup *)
 
   move: Hfin.

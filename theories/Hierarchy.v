@@ -19,7 +19,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect.
+Require Import Reals mathcomp.ssreflect.ssreflect Psatz.
 Require Import Rcomplements Rbar Markov Iter Lub.
 
 (** This file first describes [Filter]s that are predicates of type
@@ -4396,7 +4396,7 @@ assert (H1 : z - Rmin 2 eps / 2 + 1 <= x + 1).
   clear -Bu.
   destruct Bu as [Bu1 Bu2].
   assert (H := Rmin_l 2 eps).
-  split ; Fourier.fourier.
+  split ; lra.
 assert (H2 : x + 1 <= z + Rmin 2 eps / 2 + 1).
   apply Rplus_le_compat_r.
   apply (Hx2 (Finite _)).
@@ -4412,7 +4412,7 @@ assert (H2 : x + 1 <= z + Rmin 2 eps / 2 + 1).
   destruct Hw2 as [Hw2 _].
   clear -Hw1 Hw2 Hlt.
   simpl in Hw1, Hw2, Hlt.
-  Fourier.fourier.
+  lra.
 revert Hz.
 apply filter_imp.
 unfold ball ; simpl ; intros u Hu.
@@ -4422,7 +4422,7 @@ assert (H3 := Rmin_l 2 eps).
 assert (H4 := Rmin_r 2 eps).
 clear -H1 H2 Hu H3 H4.
 destruct Hu.
-split ; Fourier.fourier.
+split ; lra.
 -
   destruct (HF (mkposreal _ Rlt_0_1)) as [y Fy].
   elim (Hx2 (y + 1)).

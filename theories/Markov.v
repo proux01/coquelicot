@@ -75,7 +75,7 @@ destruct (Rle_lt_dec l 0) as [Hl|Hl].
   apply ub.
   now apply HE.
 left.
-set (N := Zabs_nat (up (/l) - 2)).
+set (N := Z.abs_nat (up (/l) - 2)).
 exists N.
 assert (HN: INR N + 1 = IZR (up (/ l)) - 1).
   unfold N.
@@ -83,7 +83,7 @@ assert (HN: INR N + 1 = IZR (up (/ l)) - 1).
   rewrite inj_Zabs_nat.
   replace (IZR (up (/ l)) - 1) with (IZR (up (/ l) - 2) + 1).
   apply (f_equal (fun v => IZR v + 1)).
-  apply Zabs_eq.
+  apply Z.abs_eq.
   apply Zle_minus_le_0.
   apply (Zlt_le_succ 1).
   apply lt_IZR.
