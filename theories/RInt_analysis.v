@@ -86,17 +86,17 @@ Proof.
     rewrite /ball /= /AbsRing_ball /= /abs /minus /plus /opp /=.
     field_simplify (a - d1 / 2 + - a)%R.
     rewrite Rabs_left.
-    apply Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1.
+    apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1.
     by apply is_pos_div_2.
-    apply Ropp_lt_cancel ; field_simplify ; rewrite Rdiv_1.
+    apply Ropp_lt_cancel ; field_simplify ; rewrite ?Rdiv_1.
     by apply is_pos_div_2.
     eexists ; apply CIf.
     rewrite /ball /= /AbsRing_ball /= /abs /minus /plus /opp /=.
     field_simplify (a + d1 / 2 + - a)%R.
     rewrite Rabs_pos_eq.
-    apply Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1.
+    apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1.
     by apply is_pos_div_2.
-    apply Rlt_le ; field_simplify ; rewrite Rdiv_1.
+    apply Rlt_le ; field_simplify ; rewrite ?Rdiv_1.
     by apply is_pos_div_2.
   assert ((a - d1 / 2) <= (a + d1 / 2)).
     apply Rminus_le_0.
@@ -125,7 +125,7 @@ Proof.
   destruct CIf as [d' CIf].
   apply Rlt_trans with (1 := Hx).
   apply Rle_lt_trans with (1 := Rmin_l _ _).
-  apply Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1 ; by apply is_pos_div_2.
+  apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1 ; by apply is_pos_div_2.
   assert (exists y0, seq_step (SF_lx y0) < d' /\
       pointed_subdiv y0 /\
       SF_h y0 = Rmin a x /\ seq.last (SF_h y0) (SF_lx y0) = Rmax a x).
@@ -164,12 +164,12 @@ Proof.
   rewrite (proj2 (proj2 Hptd)) (proj1 (proj2 Hptd)) => Ht.
   apply HMf ; split ; eapply Rle_trans ; try apply Ht.
   apply Rmin_case.
-  apply Rlt_le, Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1 ; by apply is_pos_div_2.
+  apply Rlt_le, Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1 ; by apply is_pos_div_2.
   apply Rlt_le, Rabs_lt_between'.
   apply Rlt_le_trans with (1 := Hx).
   by apply Rmin_l.
   apply Rmax_case.
-  apply Rlt_le, Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1 ; by apply is_pos_div_2.
+  apply Rlt_le, Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1 ; by apply is_pos_div_2.
   apply Rlt_le, Rabs_lt_between'.
   apply Rlt_le_trans with (1 := Hx).
   by apply Rmin_l.

@@ -1949,13 +1949,13 @@ Proof.
       by apply Rplus_lt_le_0_compat.
       by apply Rlt_R0_R2.
       apply Rminus_lt, Ropp_lt_cancel ; field_simplify.
-      rewrite Rdiv_1 ; apply Rdiv_lt_0_compat.
+      rewrite ?Rdiv_1 ; apply Rdiv_lt_0_compat.
       by apply -> Rminus_lt_0.
       by apply Rlt_R0_R2.
     move: (H2 _ H4).
     apply Rlt_not_le.
     apply Rminus_lt, Ropp_lt_cancel ; field_simplify.
-    rewrite Rdiv_1 ; apply Rdiv_lt_0_compat.
+    rewrite ?Rdiv_1 ; apply Rdiv_lt_0_compat.
     rewrite Rplus_comm ; by apply -> Rminus_lt_0.
     by apply Rlt_R0_R2.
   move => y Hy.

@@ -767,7 +767,7 @@ Proof.
   apply Rle_minus_l.
   rewrite Rplus_comm.
   by apply Ha_.
-  apply Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1.
+  apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1.
   by apply is_pos_div_2.
   apply Rle_minus_r ; rewrite Rplus_0_l.
   by apply Hx'.
@@ -807,7 +807,7 @@ Proof.
   apply Rle_minus_l.
   rewrite Rplus_comm.
   by apply Ha_.
-  apply Rminus_lt_0 ; field_simplify ; rewrite Rdiv_1.
+  apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1.
   by apply is_pos_div_2.
   apply Rle_minus_r ; rewrite Rplus_0_l.
   apply Rle_trans with x ; apply Hx'.

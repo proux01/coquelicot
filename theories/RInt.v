@@ -200,7 +200,7 @@ Proof.
       rewrite size_mkseq /= in Hj.
       rewrite ?nth_mkseq ?S_INR /= ; try apply SSR_leq.
       apply Rminus_gt ; field_simplify.
-      rewrite Rplus_comm Rdiv_1 ; apply Rdiv_lt_0_compat.
+      rewrite Rplus_comm ?Rdiv_1 ; apply Rdiv_lt_0_compat.
       exact: Rgt_minus.
       by intuition.
       apply Rgt_not_eq ; by intuition.
@@ -3990,7 +3990,7 @@ Proof.
   exists phi ; exists psi ; split.
   exact: H.
   apply Rle_lt_trans with (1 := H0).
-  apply Rminus_gt ; simpl ; field_simplify ; rewrite Rdiv_1 ; by apply eps2.
+  apply Rminus_gt ; simpl ; field_simplify ; rewrite ?Rdiv_1 ; by apply eps2.
 
   move => eps ; set eps2 := pos_div_2 eps.
   case: (Hn eps2) => {Hn} n Hn.
@@ -4093,7 +4093,7 @@ have Hfin : forall i, (S i < size (unif_part a b n))%nat ->
   have H : (a + INR i * (b - a) / (INR n + 1)) <
     (a + (INR (S i)) * (b - a) / (INR n + 1)).
     rewrite S_INR ; apply Rminus_gt ; field_simplify.
-    rewrite Rdiv_1 Rplus_comm ; apply Rdiv_lt_0_compat.
+    rewrite ?Rdiv_1 Rplus_comm ; apply Rdiv_lt_0_compat.
     by apply Rgt_minus.
     by apply INRp1_pos.
     by apply Rgt_not_eq, INRp1_pos.
@@ -4436,11 +4436,11 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     rewrite !nth_mkseq.
     rewrite S_INR.
     split ; simpl ; apply Rminus_le_0 ; field_simplify.
-    rewrite Rdiv_1 ; apply Rdiv_le_0_compat.
+    rewrite ?Rdiv_1 ; apply Rdiv_le_0_compat.
     rewrite Rplus_comm -Rminus_le_0 ; exact: (Rlt_le _ _ Hab).
     generalize (pos_INR n) ; lra.
     apply Rgt_not_eq ; by intuition.
-    rewrite Rdiv_1 ; apply Rdiv_le_0_compat.
+    rewrite ?Rdiv_1 ; apply Rdiv_le_0_compat.
     rewrite Rplus_comm -Rminus_le_0 ; exact: (Rlt_le _ _ Hab).
     generalize (pos_INR n) ; lra.
     apply Rgt_not_eq ; by intuition.
@@ -4471,11 +4471,11 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     move => ->.
     rewrite !nth_mkseq ?S_INR.
     split ; simpl ; apply Rminus_le_0 ; field_simplify.
-    rewrite Rdiv_1 ; apply Rdiv_le_0_compat.
+    rewrite ?Rdiv_1 ; apply Rdiv_le_0_compat.
     rewrite Rplus_comm -Rminus_le_0 ; exact: (Rlt_le _ _ Hab).
     generalize (pos_INR n) ; lra.
     apply Rgt_not_eq ; by intuition.
-    rewrite Rdiv_1 ; apply Rdiv_le_0_compat.
+    rewrite ?Rdiv_1 ; apply Rdiv_le_0_compat.
     rewrite Rplus_comm -Rminus_le_0 ; exact: (Rlt_le _ _ Hab).
     generalize (pos_INR n) ; lra.
     apply Rgt_not_eq ; by intuition.
@@ -4690,7 +4690,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     apply sorted_nth => i.
     rewrite size_mkseq => Hi x0 ; rewrite !nth_mkseq.
     apply Rminus_gt ; rewrite S_INR ; field_simplify.
-    rewrite Rdiv_1.
+    rewrite ?Rdiv_1.
     apply Rdiv_lt_0_compat.
     rewrite Rplus_comm ; by apply Rgt_minus.
     by intuition.

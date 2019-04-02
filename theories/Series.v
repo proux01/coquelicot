@@ -974,7 +974,7 @@ Proof.
     exists N => n Hn.
     move: (H n Hn) => {H} H.
     apply Rabs_lt_between' in H ; case: H => _ H ;
-    field_simplify in H ; rewrite Rdiv_1 in H ; by apply Rlt_le.
+    field_simplify in H ; rewrite ?Rdiv_1 in H ; by apply Rlt_le.
   case => {H} N H.
   apply ex_series_incr_n with N.
   apply @ex_series_le with (fun n => Rabs (a N) * ((k+1)/2)^n).
