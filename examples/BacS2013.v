@@ -98,7 +98,7 @@ Proof.
   replace (Derive (fab 2 b) 1) with (((b - 2) - b * ln 1) / 1 ^ 2) in Hdf.
   rewrite ln_1 /= in Hdf.
   field_simplify in Hdf.
-  rewrite !Rdiv_1 in Hdf.
+  rewrite ?Rdiv_1 in Hdf.
   by apply Rminus_diag_uniq.
   apply sym_eq, is_derive_unique.
   apply Dfab.

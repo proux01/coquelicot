@@ -192,7 +192,7 @@ Proof.
   have Hy : y <> 0.
   unfold y ; contradict Hx.
   replace x with (2 * (x/2)) by field ; rewrite Hx ; ring.
-  case: n => [ | n] ; simpl ; field_simplify => // ; rewrite Rdiv_1 -/(pow _ 2).
+  case: n => [ | n] ; simpl ; field_simplify => // ; rewrite ?Rdiv_1 -/(pow _ 2).
 (* * cas n = 0 *)
   replace (- 2 * y ^ 2 * PSeries (PS_derive (Bessel1_seq 0)) (y ^ 2) / (2 * y))
     with (y * ((-1) * PSeries (PS_derive (Bessel1_seq 0)) (y ^ 2)))
