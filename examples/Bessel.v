@@ -137,8 +137,7 @@ Proof.
   with (4 * y^S (S n) * (y^2 * PSeries (PS_derive (PS_derive (Bessel1_seq n))) (y ^ 2)
     + (INR n + 1) * PSeries (PS_derive (Bessel1_seq n)) (y ^ 2)
     + PSeries (Bessel1_seq n) (y ^ 2))).
-  Focus 2.
-  case: n => [|[|n]] ; rewrite ?S_INR /= ; field.
+  2: { case: n => [|[|n]] ; rewrite ?S_INR /= ; field. }
 
   apply Rmult_eq_0_compat_l.
 
@@ -243,10 +242,10 @@ Proof.
     by (simpl ; field ; exact: Hx).
   apply f_equal.
   rewrite -PSeries_incr_1 -PSeries_scal -PSeries_plus.
-Focus 2. (* ex_pseries (PS_incr_1 (Bessel1_seq (S (S n))) (S (S n))) ((x / 2) ^ 2) *)
-  by apply ex_pseries_incr_1, ex_Bessel1.
-Focus 2. (* ex_pseries (PS_incr_n (Bessel1_seq n) n) ((x / 2) ^ 2) *)
-  by apply ex_Bessel1.
+  2: (* ex_pseries (PS_incr_1 (Bessel1_seq (S (S n))) (S (S n))) ((x / 2) ^ 2) *)
+    by apply ex_pseries_incr_1, ex_Bessel1.
+  2: (* ex_pseries (PS_incr_n (Bessel1_seq n) n) ((x / 2) ^ 2) *)
+    by apply ex_Bessel1.
   apply PSeries_ext => k.
 (* egalité *)
   rewrite /PS_plus /PS_scal /PS_incr_1 /Bessel1_seq ;
