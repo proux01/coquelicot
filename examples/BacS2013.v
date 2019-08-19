@@ -30,7 +30,8 @@ Require Import Derive RInt Continuity Lim_seq ElemFct RInt_analysis.
 students pass an exam called Baccalaureate which ends the high school
 and is required for attending the university. We took the 2013
 mathematics test of the scientific Baccalaureate at the same time as
-the students. The pdf of the test is available #<a href="https://www.lri.fr/~lelay/Bac2013/Bac_S_2013_Metropole.pdf">here</a>#. *)
+the students. The pdf of the test is available
+#<a href="https://eduscol.education.fr/prep-exam/sujets/13MASCOMLR1.pdf">here</a>#. *)
 
 
 Ltac pos_rat :=
