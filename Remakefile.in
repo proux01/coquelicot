@@ -89,6 +89,7 @@ install:
 	exec_prefix=@exec_prefix@
 	mkdir -p @libdir@
 	cp $(OBJS) @libdir@
+	( cd theories && find . -type d -name ".coq-native" -exec cp -RT "{}" "@libdir@/{}" \; )
 
 EXTRA_DIST = \
 	configure
