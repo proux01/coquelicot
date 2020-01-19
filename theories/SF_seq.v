@@ -32,37 +32,15 @@ defining pointed subvivision in order to define Riemann sums. *)
 Open Scope R_scope.
 
 (** * Complements abouts lists *)
-(** seq R <-> Rlist *)
-Fixpoint seq2Rlist (s : seq R) :=
-  match s with
-    | [::] => RList.nil
-    | h::t => RList.cons h (seq2Rlist t)
-  end.
-Fixpoint Rlist2seq (s : RList.Rlist) : seq R :=
-  match s with
-    | RList.nil => [::]
-    | RList.cons h t => h::(Rlist2seq t)
-  end.
-
-Lemma seq2Rlist_bij (s : RList.Rlist) :
-  seq2Rlist (Rlist2seq s) = s.
-Proof.
-  by elim: s => //= h s ->.
-Qed.
-Lemma Rlist2seq_bij (s : seq R) :
-  Rlist2seq (seq2Rlist s) = s.
-Proof.
-  by elim: s => //= h s ->.
-Qed.
 
 Lemma size_compat (s : seq R) :
-  RList.Rlength (seq2Rlist s) = size s.
+  length s = size s.
 Proof.
   elim: s => // t s IHs /= ; by rewrite IHs.
 Qed.
 
 Lemma nth_compat (s : seq R) (n : nat) :
-  RList.pos_Rl (seq2Rlist s) n = nth 0 s n.
+  RList.pos_Rl s n = nth 0 s n.
 Proof.
   elim: s n => [n|t s IHs n] /= ;
   case: n => //=.
@@ -245,7 +223,7 @@ Proof.
 Qed.
 
 Lemma sorted_compat (s : seq R) :
-  sorted Rle s <-> RList.ordered_Rlist (seq2Rlist s).
+  sorted Rle s <-> RList.ordered_Rlist (s).
 Proof.
   case: s => [| h s].
 (* s = [::] *)
@@ -381,7 +359,7 @@ Qed.
 
 Definition SF_nil (x0 : R) : SF_seq := mkSF_seq x0 [::].
 Definition SF_cons (h : R*T) (s : SF_seq) :=
-  mkSF_seq (fst h) ((SF_h s,snd h)::(SF_t s)).
+  mkSF_seq (fst h) ((SF_h s,snd h)::SF_t s).
 Definition SF_rcons (s : SF_seq) (t : R*T) :=
   mkSF_seq (SF_h s) (rcons (SF_t s) t).
 
@@ -2134,7 +2112,7 @@ Qed.
 
 Lemma ad_SF_compat z0 (s : SF_seq) (pr : SF_sorted Rle s) :
   adapted_couple (SF_fun s z0) (head 0 (SF_lx s)) (last 0 (SF_lx s))
-    (seq2Rlist (SF_lx s)) (seq2Rlist (SF_ly s)).
+    (SF_lx s) (SF_ly s).
 Proof.
 (* head and last *)
   have H : ((head 0 (SF_lx s)) <= (last 0 (SF_lx s))).
@@ -2173,7 +2151,7 @@ Qed.
 Definition SF_compat_le (s : @SF_seq R) (pr : SF_sorted Rle s) :
   StepFun (head 0 (SF_lx s)) (last 0 (SF_lx s)).
 Proof.
-  exists (SF_fun s 0) ; exists (seq2Rlist (SF_lx s)) ; exists (seq2Rlist (SF_ly s)).
+  exists (SF_fun s 0) ; exists (SF_lx s) ; exists (SF_ly s).
   by apply ad_SF_compat.
 Defined.
 
@@ -2198,9 +2176,9 @@ Qed.
 
 Lemma ad_SF_val_fun (f : R -> R) (a b : R) (n : nat) :
   ((a <= b) -> adapted_couple (SF_val_fun f a b n) a b
-      (seq2Rlist (unif_part a b n)) (seq2Rlist (SF_val_ly f a b n)))
+      (unif_part a b n) (SF_val_ly f a b n))
   /\ (~(a <= b) -> adapted_couple (SF_val_fun f b a n) a b
-      (seq2Rlist (unif_part b a n)) (seq2Rlist (SF_val_ly f b a n))).
+      (unif_part b a n) (SF_val_ly f b a n)).
 Proof.
   wlog : a b / (a <= b) => Hw.
     split ; case: (Rle_dec a b) => // Hab _.
@@ -2230,17 +2208,17 @@ Definition sf_SF_val_fun (f : R -> R) (a b : R) (n : nat) : StepFun a b.
 Proof.
   case : (Rle_dec a b) => Hab.
   exists (SF_val_fun f a b n) ;
-  exists (seq2Rlist (unif_part a b n)) ;
-  exists (seq2Rlist (SF_val_ly f a b n)) ; by apply ad_SF_val_fun.
+  exists (unif_part a b n) ;
+  exists (SF_val_ly f a b n) ; by apply ad_SF_val_fun.
   exists (SF_val_fun f b a n) ;
-  exists (seq2Rlist (unif_part b a n)) ;
-  exists (seq2Rlist (SF_val_ly f b a n)) ; by apply ad_SF_val_fun.
+  exists (unif_part b a n) ;
+  exists (SF_val_ly f b a n) ; by apply ad_SF_val_fun.
 Defined.
 Lemma SF_val_subdiv (f : R -> R) (a b : R) (n : nat) :
   subdivision (sf_SF_val_fun f a b n) =
   match (Rle_dec a b) with
-    | left _ => seq2Rlist (unif_part a b n)
-    | right _ => seq2Rlist (unif_part b a n)
+    | left _ => unif_part a b n
+    | right _ => unif_part b a n
   end.
 Proof.
   rewrite /sf_SF_val_fun ; case: (Rle_dec a b) => Hab //.
@@ -2248,8 +2226,8 @@ Qed.
 Lemma SF_val_subdiv_val (f : R -> R) (a b : R) (n : nat) :
   subdivision_val (sf_SF_val_fun f a b n) =
   match (Rle_dec a b) with
-    | left _ => seq2Rlist (SF_val_ly f a b n)
-    | right _ => seq2Rlist (SF_val_ly f b a n)
+    | left _ => SF_val_ly f a b n
+    | right _ => SF_val_ly f b a n
   end.
 Proof.
   rewrite /sf_SF_val_fun ; case: (Rle_dec a b) => Hab //.
@@ -2647,11 +2625,11 @@ Qed.
 
 Lemma ad_SF_sup_r (f : R -> R) (a b : R) (n : nat) :
   ((a <= b) -> adapted_couple (fun x => real (SF_sup_fun f a b n x)) a b
-      (seq2Rlist (unif_part a b n))
-      (seq2Rlist (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part a b n)))))
+      (unif_part a b n)
+      (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part a b n))))
   /\ (~(a <= b) -> adapted_couple (fun x => real (SF_sup_fun f a b n x)) a b
-      (seq2Rlist (unif_part b a n))
-      (seq2Rlist (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part b a n))))).
+      (unif_part b a n)
+      (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part b a n)))).
 Proof.
   wlog : a b / (a <= b) => [Hw|Hab].
   case: (Rle_dec a b) => // Hab ; split => // _.
@@ -2726,18 +2704,18 @@ Definition SF_sup_r (f : R -> R) (a b : R) (n : nat) : StepFun a b.
 Proof.
   exists (fun x => real (SF_sup_fun f a b n x)) ;
   case : (Rle_dec a b) => Hab.
-  exists (seq2Rlist (unif_part a b n)) ;
-  exists (seq2Rlist (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part a b n)))) ;
+  exists (unif_part a b n) ;
+  exists (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part a b n))) ;
   by apply ad_SF_sup_r.
-  exists (seq2Rlist ((unif_part b a n))) ;
-  exists (seq2Rlist (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part b a n)))) ;
+  exists (unif_part b a n) ;
+  exists (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part b a n))) ;
   by apply ad_SF_sup_r.
 Defined.
 Lemma SF_sup_subdiv (f : R -> R) (a b : R) (n : nat) :
   subdivision (SF_sup_r f a b n) =
   match (Rle_dec a b) with
-    | left _ => seq2Rlist (unif_part a b n)
-    | right _ => seq2Rlist (unif_part b a n)
+    | left _ => unif_part a b n
+    | right _ => unif_part b a n
   end.
 Proof.
   rewrite /SF_sup_r ; case: (Rle_dec a b) => Hab //.
@@ -2745,8 +2723,8 @@ Qed.
 Lemma SF_sup_subdiv_val (f : R -> R) (a b : R) (n : nat) :
   subdivision_val (SF_sup_r f a b n) =
   match (Rle_dec a b) with
-    | left _ => (seq2Rlist (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part a b n))))
-    | right _ => (seq2Rlist (behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part b a n))))
+    | left _ => behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part a b n))
+    | right _ => behead (pairmap (fun x y => real (Sup_fct f x y)) 0 (unif_part b a n))
   end.
 Proof.
   rewrite /SF_sup_r ; case: (Rle_dec a b) => Hab //.
@@ -2762,11 +2740,11 @@ Qed.
 
 Lemma ad_SF_inf_r (f : R -> R) (a b : R) (n : nat) :
   ((a <= b) -> adapted_couple (fun x => real (SF_inf_fun f a b n x)) a b
-      (seq2Rlist (unif_part a b n))
-      (seq2Rlist (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part a b n)))))
+      (unif_part a b n)
+      (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part a b n))))
   /\ (~(a <= b) -> adapted_couple (fun x => real (SF_inf_fun f a b n x)) a b
-      (seq2Rlist (unif_part b a n))
-      (seq2Rlist (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part b a n))))).
+      (unif_part b a n)
+      (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part b a n)))).
 Proof.
   wlog : a b / (a <= b) => [Hw|Hab].
   case: (Rle_dec a b) => // Hab ; split => // _.
@@ -2841,18 +2819,18 @@ Definition SF_inf_r (f : R -> R) (a b : R) (n : nat) : StepFun a b.
 Proof.
   exists (fun x => real (SF_inf_fun f a b n x)) ;
   case : (Rle_dec a b) => Hab.
-  exists (seq2Rlist (unif_part a b n)) ;
-  exists (seq2Rlist (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part a b n)))) ;
+  exists (unif_part a b n) ;
+  exists (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part a b n))) ;
   by apply ad_SF_inf_r.
-  exists (seq2Rlist ((unif_part b a n))) ;
-  exists (seq2Rlist (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part b a n)))) ;
+  exists (unif_part b a n) ;
+  exists (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part b a n))) ;
   by apply ad_SF_inf_r.
 Defined.
 Lemma SF_inf_subdiv (f : R -> R) (a b : R) (n : nat) :
   subdivision (SF_inf_r f a b n) =
   match (Rle_dec a b) with
-    | left _ => seq2Rlist (unif_part a b n)
-    | right _ => seq2Rlist (unif_part b a n)
+    | left _ => unif_part a b n
+    | right _ => unif_part b a n
   end.
 Proof.
   rewrite /SF_inf_r ; case: (Rle_dec a b) => Hab //.
@@ -2860,8 +2838,8 @@ Qed.
 Lemma SF_inf_subdiv_val (f : R -> R) (a b : R) (n : nat) :
   subdivision_val (SF_inf_r f a b n) =
   match (Rle_dec a b) with
-    | left _ => (seq2Rlist (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part a b n))))
-    | right _ => (seq2Rlist (behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part b a n))))
+    | left _ => behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part a b n))
+    | right _ => behead (pairmap (fun x y => real (Inf_fct f x y)) 0 (unif_part b a n))
   end.
 Proof.
   rewrite /SF_inf_r ; case: (Rle_dec a b) => Hab //.

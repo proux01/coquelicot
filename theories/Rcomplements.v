@@ -1630,12 +1630,12 @@ Proof.
   case: f => /= f [lx [ly [Hsort [Hhead [Hlast [Hsize Hval]]]]]];
   rename a into a0 ; rename b into b0 ; set a := Rmin a0 b0 ; set b := Rmax a0 b0 ;
   set Rl_max := fun x0 => fix f l := match l with
-    | RList.nil => x0
-    | RList.cons h t => Rmax h (f t)
+    | nil => x0
+    | h :: t => Rmax h (f t)
   end ;
   set f_lx := (fix app l := match l with
-    | RList.nil => RList.nil
-    | RList.cons h t => RList.cons (f h) (app t)
+    | nil => nil
+    | h :: t => f h :: app t
   end) lx ;
   set M_f_lx := Rl_max (f 0) f_lx ;
   set M_ly := Rl_max 0 ly.
@@ -1653,9 +1653,9 @@ Proof.
 (* lx = [:: h,h'::l] *)
   move => h l h' Hsort Hhead Hlast Hsize Hval.
   apply Rle_lt_or_eq_dec in Hx' ; case: Hx' => Hx'.
-  have H : exists i : nat, (i < S (RList.Rlength l))%nat /\
-    (RList.pos_Rl (RList.cons h' (RList.cons h l)) i) <= x
-    < (RList.pos_Rl (RList.cons h' (RList.cons h l)) (S i)).
+  have H : exists i : nat, (i < S (length l))%nat /\
+    (RList.pos_Rl (cons h' (h :: l)) i) <= x
+    < (RList.pos_Rl (cons h' (h :: l)) (S i)).
     rewrite /a -Hhead in Hx ; rewrite /b -Hlast in Hx'.
     elim: l h' h Hx Hx' Hsort {Hhead Hlast Hsize Hval} => [| h'' l IH] h' h Hx Hx' Hsort ; simpl in Hx, Hsort.
     case: (Rlt_le_dec x h) => H.
@@ -1663,7 +1663,7 @@ Proof.
     exists O => /= ; intuition.
     case: (Rlt_le_dec x h) => H.
     exists O => /= ; intuition.
-    have H0 : RList.ordered_Rlist (RList.cons h (RList.cons h'' l)).
+    have H0 : RList.ordered_Rlist (h :: h''  :: l).
     move => i Hi ; apply (Hsort (S i)) => /= ; apply lt_n_S, Hi.
     case: (IH _ _ H Hx' H0) => {IH} i Hi.
     exists (S i) ; split.

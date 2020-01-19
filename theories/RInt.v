@@ -2925,10 +2925,10 @@ Proof.
 (* * alpha1 from IH *)
   case: (IH ly eps4 lx1 b) => {IH}.
 
-  replace b with (last 0 (Rlist2seq (RList.cons lx0 (RList.cons lx1 lx)))).
-  apply (sorted_last (Rlist2seq (RList.cons lx0 (RList.cons lx1 lx))) 1%nat)
+  replace b with (last 0 (cons lx0 (cons lx1 lx))).
+  apply (sorted_last (cons lx0 (cons lx1 lx)) 1%nat)
   with (x0 := 0).
-  apply sorted_compat ; rewrite seq2Rlist_bij ; apply Had.
+  apply sorted_compat; apply Had.
   simpl ; apply lt_n_S, lt_O_Sn.
   case: Had => /= _ [_ [Hb _]] ; move: Hb ; rewrite /Rmax ;
   case : Rle_dec => //= _ ;
@@ -2949,11 +2949,11 @@ Proof.
   intros H.
   case: (H eps4) => {H} alpha2 H.
 (* * alpha3 from (fmax - fmin) *)
-  set fmin1 := foldr Rmin 0 (ly0::Rlist2seq ly).
-  set fmin2 := foldr Rmin 0 (map phi (lx0::lx1::Rlist2seq lx)).
+  set fmin1 := foldr Rmin 0 (ly0::ly).
+  set fmin2 := foldr Rmin 0 (map phi (lx0::lx1::lx)).
   set fmin := Rmin fmin1 fmin2.
-  set fmax1 := foldr Rmax 0 (ly0::Rlist2seq ly).
-  set fmax2 := foldr Rmax 0 (map phi (lx0::lx1::Rlist2seq lx)).
+  set fmax1 := foldr Rmax 0 (ly0::ly).
+  set fmax2 := foldr Rmax 0 (map phi (lx0::lx1::lx)).
   set fmax := Rmax fmax1 fmax2.
 
   have Ha3 : (0 < eps4 / (Rmax (fmax - fmin) 1)).
@@ -2974,7 +2974,7 @@ Proof.
   rewrite (SF_Chasles _ _ lx1 (SF_h ptd)) /=.
   replace (_-_) with
     ((ly0 * (lx1 - lx0) - 1* Riemann_sum phi (SF_cut_down' ptd lx1 (SF_h ptd)))
-    + (Int_SF ly (RList.cons lx1 lx) - 1* Riemann_sum phi (SF_cut_up' ptd lx1 (SF_h ptd))))
+    + (Int_SF ly (cons lx1 lx) - 1* Riemann_sum phi (SF_cut_up' ptd lx1 (SF_h ptd))))
     ; [ | rewrite /plus /= ; by ring_simplify].
 
   rewrite (double_var eps) ;
@@ -3314,7 +3314,7 @@ Proof.
 
   move: (IH ptd_l) => {IH} IH.
 
-  replace (_-_) with ((Int_SF ly (RList.cons lx1 lx) - 1 * Riemann_sum phi ptd_l) -
+  replace (_-_) with ((Int_SF ly (cons lx1 lx) - 1 * Riemann_sum phi ptd_l) -
     (phi ((lx1 + fst (SF_head 0 ptd_l_behead))/2) - phi (snd ptd_l_head))
       * (lx1 - fst (SF_head 0 ptd_l_behead))).
   rewrite (double_var (eps/2)) ;
@@ -3576,18 +3576,18 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
 }
   by rewrite Hb Ha.
 
-  replace lx1 with (RList.pos_Rl (RList.cons lx0 (RList.cons lx1 lx)) 1) by reflexivity.
+  replace lx1 with (RList.pos_Rl (cons lx0 (cons lx1 lx)) 1) by reflexivity.
   move: (proj1 (proj2 Had)) (proj1 (proj2 (proj2 Had))) ; rewrite /Rmin /Rmax ;
   case: Rle_dec => // _ <- <-.
-  rewrite -(seq2Rlist_bij (RList.cons lx0 _)) !nth_compat size_compat.
+  rewrite !nth_compat size_compat.
   split.
   rewrite nth0.
-  apply (sorted_head (Rlist2seq (RList.cons lx0 (RList.cons lx1 lx))) 1).
-  apply sorted_compat ; rewrite seq2Rlist_bij ; apply Had.
+  apply (sorted_head (lx0 :: lx1 :: lx) 1).
+  apply sorted_compat; apply Had.
   simpl ; by apply lt_n_S, lt_O_Sn.
   simpl ; rewrite -last_nth.
-  apply (sorted_last (Rlist2seq (RList.cons lx0 (RList.cons lx1 lx))) 1) with (x0 := 0).
-  apply sorted_compat ; rewrite seq2Rlist_bij ; apply Had.
+  apply (sorted_last (lx0 :: lx1 :: lx) 1) with (x0 := 0).
+  apply sorted_compat; apply Had.
   simpl ; by apply lt_n_S, lt_O_Sn.
 
   rewrite -Ha -Hb /SF_lx /= => i Hi.
@@ -3597,8 +3597,8 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   exact: (sorted_last (SF_h ptd :: unzip1 (SF_t ptd)) i (ptd_sort _ Hptd) Hi).
 
   clear H IH.
-  move => x Hx ; case: (sorted_dec ([:: lx0, lx1 & Rlist2seq lx]) 0 x).
-  apply sorted_compat ; rewrite /= seq2Rlist_bij ; apply Had.
+  move => x Hx ; case: (sorted_dec ([:: lx0, lx1 & lx]) 0 x).
+  apply sorted_compat ; rewrite /=; apply Had.
   move: (proj1 (proj2 Had)) (proj1 (proj2 (proj2 Had))) ; rewrite /Rmin /Rmax ;
   case: Rle_dec => // _.
   rewrite -nth0 -nth_last /= => -> Hb'.
@@ -3609,17 +3609,16 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   by apply IH.
   case => i ; case ; case ; case => {Hx} Hx Hx' Hi.
   rewrite (proj2 (proj2 (proj2 (proj2 Had))) i).
-  suff H : fmin1 <= RList.pos_Rl (RList.cons ly0 ly) i <= fmax1.
+  suff H : fmin1 <= RList.pos_Rl (cons ly0 ly) i <= fmax1.
   split.
   apply Rle_trans with (1 := Rmin_l _ _), H.
   apply Rle_trans with (2 := RmaxLess1 _ _), H.
-  rewrite -(seq2Rlist_bij (RList.cons ly0 _)) nth_compat /= /fmin1 /fmax1 .
-  have : (S i < size (ly0 :: Rlist2seq ly))%nat.
+  rewrite nth_compat /= /fmin1 /fmax1 .
+  have : (S i < size (ly0 :: ly))%nat.
     move: (proj1 (proj2 (proj2 (proj2 Had)))) Hi.
-    rewrite /= -{1}(seq2Rlist_bij lx) -{1}(seq2Rlist_bij ly) ?size_compat /=
-      => -> ; exact: lt_S_n.
+    rewrite /= ?size_compat /= => -> ; exact: lt_S_n.
   move: i {Hx Hx' Hi}.
-  elim: (ly0 :: Rlist2seq ly) => [ | h0 s IH] i Hi.
+  elim: (ly0 :: ly) => [ | h0 s IH] i Hi.
   by apply lt_n_O in Hi.
   case: i Hi => /= [ | i] Hi.
   split ; [exact: Rmin_l | exact: RmaxLess1].
@@ -3627,19 +3626,19 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   [apply Rle_trans with (1 := Rmin_r _ _)
   | apply Rle_trans with (2 := RmaxLess2 _ _)] ;
   apply IH ; by apply lt_S_n.
-  simpl in Hi |-* ; rewrite -size_compat seq2Rlist_bij in Hi ;
+  simpl in Hi |-* ; rewrite -size_compat in Hi ;
   by intuition.
   split.
-  rewrite -nth_compat /= seq2Rlist_bij in Hx ; exact: Hx.
-  rewrite -nth_compat /= seq2Rlist_bij in Hx' ; exact: Hx'.
+  rewrite -nth_compat /= in Hx ; exact: Hx.
+  rewrite -nth_compat /= in Hx' ; exact: Hx'.
   rewrite -Hx.
-  suff H : fmin2 <= phi (nth 0 [:: lx0, lx1 & Rlist2seq lx] i) <= fmax2.
+  suff H : fmin2 <= phi (nth 0 [:: lx0, lx1 & lx] i) <= fmax2.
   split.
   apply Rle_trans with (1 := Rmin_r _ _), H.
   apply Rle_trans with (2 := RmaxLess2 _ _), H.
   rewrite /fmin2 /fmax2 .
   move: i Hi {Hx Hx'}.
-  elim: ([:: lx0, lx1 & Rlist2seq lx]) => [ | h0 s IH] i Hi.
+  elim: ([:: lx0, lx1 & lx]) => [ | h0 s IH] i Hi.
   by apply lt_n_O in Hi.
   case: i Hi => /= [ | i] Hi.
   split ; [exact: Rmin_l | exact: RmaxLess1].
@@ -3647,25 +3646,24 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   [apply Rle_trans with (1 := Rmin_r _ _)
   | apply Rle_trans with (2 := RmaxLess2 _ _)] ;
   apply IH ; by apply lt_S_n.
-  have : (((size [:: lx0, lx1 & Rlist2seq lx] - 1)%nat) <
-    size [:: lx0, lx1 & Rlist2seq lx])%nat.
+  have : (((size [:: lx0, lx1 & lx] - 1)%nat) <
+    size [:: lx0, lx1 & lx])%nat.
     by [].
-  replace (size [:: lx0, lx1 & Rlist2seq lx] - 1)%nat with
-    (S (size [:: lx0, lx1 & Rlist2seq lx] - 2)) by (simpl ; intuition).
-  move: (size [:: lx0, lx1 & Rlist2seq lx] - 2)%nat => i Hi.
+  replace (size [:: lx0, lx1 & lx] - 1)%nat with
+    (S (size [:: lx0, lx1 & lx] - 2)) by (simpl ; intuition).
+  move: (size [:: lx0, lx1 & lx] - 2)%nat => i Hi.
   case ; case => {Hx} Hx ; [ case => Hx' | move => _ ].
   rewrite (proj2 (proj2 (proj2 (proj2 Had))) i).
-  suff H : fmin1 <= RList.pos_Rl (RList.cons ly0 ly) i <= fmax1.
+  suff H : fmin1 <= RList.pos_Rl (cons ly0 ly) i <= fmax1.
   split.
   apply Rle_trans with (1 := Rmin_l _ _), H.
   apply Rle_trans with (2 := RmaxLess1 _ _), H.
-  rewrite -(seq2Rlist_bij (RList.cons ly0 _)) nth_compat /= /fmin1 /fmax1 .
-  have : (i < size (ly0 :: Rlist2seq ly))%nat.
+  rewrite nth_compat /= /fmin1 /fmax1 .
+  have : (i < size (ly0 :: ly))%nat.
     move: (proj1 (proj2 (proj2 (proj2 Had)))) Hi.
-    rewrite /= -{1}(seq2Rlist_bij lx) -{1}(seq2Rlist_bij ly) ?size_compat /=
-      => -> ; exact: lt_S_n.
+    rewrite /= ?size_compat /= => -> ; exact: lt_S_n.
   move: i {Hx Hx' Hi}.
-  elim: (ly0 :: Rlist2seq ly) => [ | h0 s IH] i Hi.
+  elim: (ly0 :: ly) => [ | h0 s IH] i Hi.
   by apply lt_n_O in Hi.
   case: i Hi => /= [ | i] Hi.
   split ; [exact: Rmin_l | exact: RmaxLess1].
@@ -3673,19 +3671,19 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   [apply Rle_trans with (1 := Rmin_r _ _)
   | apply Rle_trans with (2 := RmaxLess2 _ _)] ;
   apply IH ; by apply lt_S_n.
-  simpl in Hi |-* ; rewrite -size_compat seq2Rlist_bij in Hi ;
+  simpl in Hi |-* ; rewrite -size_compat in Hi ;
   by intuition.
   split.
-  rewrite -nth_compat /= seq2Rlist_bij in Hx ; exact: Hx.
-  rewrite -nth_compat /= seq2Rlist_bij in Hx' ; exact: Hx'.
+  rewrite -nth_compat /= in Hx ; exact: Hx.
+  rewrite -nth_compat /= in Hx' ; exact: Hx'.
   rewrite Hx'.
-  suff H : fmin2 <= phi (nth 0 [:: lx0, lx1 & Rlist2seq lx] (S i)) <= fmax2.
+  suff H : fmin2 <= phi (nth 0 [:: lx0, lx1 & lx] (S i)) <= fmax2.
   split.
   apply Rle_trans with (1 := Rmin_r _ _), H.
   apply Rle_trans with (2 := RmaxLess2 _ _), H.
   rewrite /fmin2 /fmax2 .
   move: i Hi {Hx Hx'}.
-  elim: ([:: lx0, lx1 & Rlist2seq lx]) => [ | h0 s IH] i Hi.
+  elim: ([:: lx0, lx1 & lx]) => [ | h0 s IH] i Hi.
   by apply lt_n_O in Hi.
   case: s IH Hi => /= [ | h1 s] IH Hi.
   by apply lt_S_n, lt_n_O in Hi.
@@ -3698,13 +3696,13 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   | apply Rle_trans with (2 := RmaxLess2 _ _)] ;
   apply IH ; by apply lt_S_n.
   rewrite -Hx.
-  suff H : fmin2 <= phi (nth 0 [:: lx0, lx1 & Rlist2seq lx] i) <= fmax2.
+  suff H : fmin2 <= phi (nth 0 [:: lx0, lx1 & lx] i) <= fmax2.
   split.
   apply Rle_trans with (1 := Rmin_r _ _), H.
   apply Rle_trans with (2 := RmaxLess2 _ _), H.
   rewrite /fmin2 /fmax2 .
   move: i Hi {Hx}.
-  elim: ([:: lx0, lx1 & Rlist2seq lx]) => [ | h0 s IH] i Hi.
+  elim: ([:: lx0, lx1 & lx]) => [ | h0 s IH] i Hi.
   by apply lt_n_O in Hi.
   case: i Hi => /= [ | i] Hi.
   split ; [exact: Rmin_l | exact: RmaxLess1].
@@ -4019,8 +4017,8 @@ Proof.
     | inleft Hi => Rabs (f x - phi x) - psi1 x
     | inright _ => 0
   end.
-  set psi2_ly := seq2Rlist (SF_ly (SF_seq_f1 (fun _ => 0) (unif_part a b n))).
-  have psi2_ad : adapted_couple psi2_aux a b (seq2Rlist (unif_part a b n)) psi2_ly.
+  set psi2_ly := (SF_ly (SF_seq_f1 (fun _ => 0) (unif_part a b n))).
+  have psi2_ad : adapted_couple psi2_aux a b (unif_part a b n) psi2_ly.
     split.
     by apply sorted_compat, unif_part_sort, Rlt_le.
     split.
@@ -4032,9 +4030,10 @@ Proof.
     field ; apply Rgt_not_eq ; by intuition.
     by [].
     split.
-    by rewrite !size_compat SF_ly_f1 size_belast' size_map.
-    rewrite size_compat => i Hi ;
-    rewrite !nth_compat SF_ly_f1 => x Hx.
+    rewrite !size_compat /psi2_ly.
+    by rewrite (SF_ly_f1 (fun _ => 0)) size_belast' size_map.
+    rewrite size_compat => i Hi.
+    rewrite !nth_compat /psi2_ly (SF_ly_f1 (fun _ => 0)) => x Hx.
     rewrite /psi2_aux => {psi2_aux} ;
     case: Haux => [ [j [Hx' Hj]] | Hx' ].
     rewrite Hx' in Hx |- * ; case: Hx => Hxi Hxj.
@@ -4058,7 +4057,7 @@ Proof.
     by [].
     by apply IH, lt_S_n.
   have psi2_is : IsStepFun psi2_aux a b.
-    exists (seq2Rlist (unif_part a b n)).
+    exists (unif_part a b n).
     exists psi2_ly.
     by [].
   set psi2 := mkStepFun psi2_is.
