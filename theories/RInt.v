@@ -3584,7 +3584,7 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
 }
   by rewrite Hb Ha.
 
-  replace lx1 with (pos_Rl (RList.cons lx0 (RList.cons lx1 lx)) 1) by reflexivity.
+  replace lx1 with (RList.pos_Rl (RList.cons lx0 (RList.cons lx1 lx)) 1) by reflexivity.
   move: (proj1 (proj2 Had)) (proj1 (proj2 (proj2 Had))) ; rewrite /Rmin /Rmax ;
   case: Rle_dec => // _ <- <-.
   rewrite -(seq2Rlist_bij (RList.cons lx0 _)) !nth_compat size_compat.
@@ -3617,7 +3617,7 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   by apply IH.
   case => i ; case ; case ; case => {Hx} Hx Hx' Hi.
   rewrite (proj2 (proj2 (proj2 (proj2 Had))) i).
-  suff H : fmin1 <= pos_Rl (RList.cons ly0 ly) i <= fmax1.
+  suff H : fmin1 <= RList.pos_Rl (RList.cons ly0 ly) i <= fmax1.
   split.
   apply Rle_trans with (1 := Rmin_l _ _), H.
   apply Rle_trans with (2 := RmaxLess1 _ _), H.
@@ -3663,7 +3663,7 @@ elim: (SF_t ptd) (SF_h ptd, SF_h ptd) => //=.
   move: (size [:: lx0, lx1 & Rlist2seq lx] - 2)%nat => i Hi.
   case ; case => {Hx} Hx ; [ case => Hx' | move => _ ].
   rewrite (proj2 (proj2 (proj2 (proj2 Had))) i).
-  suff H : fmin1 <= pos_Rl (RList.cons ly0 ly) i <= fmax1.
+  suff H : fmin1 <= RList.pos_Rl (RList.cons ly0 ly) i <= fmax1.
   split.
   apply Rle_trans with (1 := Rmin_l _ _), H.
   apply Rle_trans with (2 := RmaxLess1 _ _), H.

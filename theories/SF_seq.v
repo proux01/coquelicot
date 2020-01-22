@@ -38,13 +38,13 @@ Fixpoint seq2Rlist (s : seq R) :=
     | [::] => RList.nil
     | h::t => RList.cons h (seq2Rlist t)
   end.
-Fixpoint Rlist2seq (s : Rlist) : seq R :=
+Fixpoint Rlist2seq (s : RList.Rlist) : seq R :=
   match s with
     | RList.nil => [::]
     | RList.cons h t => h::(Rlist2seq t)
   end.
 
-Lemma seq2Rlist_bij (s : Rlist) :
+Lemma seq2Rlist_bij (s : RList.Rlist) :
   seq2Rlist (Rlist2seq s) = s.
 Proof.
   by elim: s => //= h s ->.
@@ -56,13 +56,13 @@ Proof.
 Qed.
 
 Lemma size_compat (s : seq R) :
-  Rlength (seq2Rlist s) = size s.
+  RList.Rlength (seq2Rlist s) = size s.
 Proof.
   elim: s => // t s IHs /= ; by rewrite IHs.
 Qed.
 
 Lemma nth_compat (s : seq R) (n : nat) :
-  pos_Rl (seq2Rlist s) n = nth 0 s n.
+  RList.pos_Rl (seq2Rlist s) n = nth 0 s n.
 Proof.
   elim: s n => [n|t s IHs n] /= ;
   case: n => //=.
@@ -245,7 +245,7 @@ Proof.
 Qed.
 
 Lemma sorted_compat (s : seq R) :
-  sorted Rle s <-> ordered_Rlist (seq2Rlist s).
+  sorted Rle s <-> RList.ordered_Rlist (seq2Rlist s).
 Proof.
   case: s => [| h s].
 (* s = [::] *)

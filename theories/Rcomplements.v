@@ -1654,9 +1654,9 @@ Proof.
 (* lx = [:: h,h'::l] *)
   move => h l h' Hsort Hhead Hlast Hsize Hval.
   apply Rle_lt_or_eq_dec in Hx' ; case: Hx' => Hx'.
-  have H : exists i : nat, (i < S (Rlength l))%nat /\
-    (pos_Rl (RList.cons h' (RList.cons h l)) i) <= x
-    < (pos_Rl (RList.cons h' (RList.cons h l)) (S i)).
+  have H : exists i : nat, (i < S (RList.Rlength l))%nat /\
+    (RList.pos_Rl (RList.cons h' (RList.cons h l)) i) <= x
+    < (RList.pos_Rl (RList.cons h' (RList.cons h l)) (S i)).
     rewrite /a -Hhead in Hx ; rewrite /b -Hlast in Hx'.
     elim: l h' h Hx Hx' Hsort {Hhead Hlast Hsize Hval} => [| h'' l IH] h' h Hx Hx' Hsort ; simpl in Hx, Hsort.
     case: (Rlt_le_dec x h) => H.
@@ -1664,7 +1664,7 @@ Proof.
     exists O => /= ; intuition.
     case: (Rlt_le_dec x h) => H.
     exists O => /= ; intuition.
-    have H0 : ordered_Rlist (RList.cons h (RList.cons h'' l)).
+    have H0 : RList.ordered_Rlist (RList.cons h (RList.cons h'' l)).
     move => i Hi ; apply (Hsort (S i)) => /= ; apply lt_n_S, Hi.
     case: (IH _ _ H Hx' H0) => {IH} i Hi.
     exists (S i) ; split.
