@@ -423,6 +423,22 @@ Proof.
   now apply (f_equal (@snd R R)) in H.
 Qed.
 
+Lemma C_ring_theory : ring_theory (RtoC 0) (RtoC 1) Cplus Cmult Cminus Copp eq.
+Proof.
+constructor.
+exact Cplus_0_l.
+exact Cplus_comm.
+exact Cplus_assoc.
+exact Cmult_1_l.
+exact Cmult_comm.
+exact Cmult_assoc.
+exact Cmult_plus_distr_r.
+easy.
+exact Cplus_opp_r.
+Qed.
+
+Add Ring C_ring_ring : C_ring_theory.
+
 Lemma C_field_theory : field_theory (RtoC 0) (RtoC 1) Cplus Cmult Cminus Copp Cdiv Cinv eq.
 Proof.
 constructor.
