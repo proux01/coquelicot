@@ -12,5 +12,7 @@ deps.dot
 html
 *.aux
 *.vo
+*.vok
+*.vos
 *.glob
 .coq-native
