@@ -320,6 +320,31 @@ apply filterlimi_ext_loc.
 now apply filter_forall.
 Qed.
 
+Lemma filterlimi_lim_ext_loc :
+  forall {T U F G} {FF : Filter F} (f : T -> U) (g : T -> U -> Prop),
+  F (fun x => g x (f x)) ->
+  filterlim f F G ->
+  filterlimi g F G.
+Proof.
+intros T U F G FF f g HF Hf P HP.
+generalize (filter_and (fun x => g x (f x)) _ HF (Hf P HP)).
+unfold filtermapi.
+apply: filter_imp.
+intros x [H1 H2].
+now exists (f x).
+Qed.
+
+Lemma filterlimi_lim_ext :
+  forall {T U F G} {FF : Filter F} (f : T -> U) (g : T -> U -> Prop),
+  (forall x, g x (f x)) ->
+  filterlim f F G ->
+  filterlimi g F G.
+Proof.
+intros T U F G FF f g HF.
+apply filterlimi_lim_ext_loc.
+now apply filter_forall.
+Qed.
+
 Lemma filterlimi_filter_le_1 :
   forall {T U F G H} (f : T -> U -> Prop),
   filter_le G F ->
