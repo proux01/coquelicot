@@ -78,6 +78,14 @@ Proof.
   by apply @continuous_abs.
 Qed.
 
+Lemma continuous_Rabs_comp f (x : R) :
+  continuous f x -> continuous (fun x0 => Rabs (f x0)) x.
+Proof.
+move => Hcontfx.
+apply: continuous_comp => // .
+apply: continuous_Rabs.
+Qed.
+
 Lemma filterlim_Rabs (x : Rbar) :
   filterlim Rabs (Rbar_locally' x) (Rbar_locally (Rbar_abs x)).
 Proof.
@@ -246,6 +254,27 @@ Proof.
   by apply Hy, Hy.
 Qed.
 
+Lemma continuous_Rinv x :
+  x <> 0 ->
+  continuous (fun x => / x) x.
+Proof.
+move => Hxneq0.
+apply continuity_pt_filterlim. (* strange: apply works but not apply: *)
+apply: continuity_pt_inv => // .
+apply continuity_pt_filterlim.
+apply: continuous_id.
+Qed.
+
+Lemma continuous_Rinv_comp (f : R -> R) x:
+  continuous f x ->
+  f x <> 0 ->
+  continuous (fun x => / (f x)) x.
+Proof.
+move => Hcont Hfxneq0.
+apply: continuous_comp => //.
+by apply: continuous_Rinv.
+Qed.
+
 (** * Square root function *)
 
 Lemma filterlim_sqrt_p : filterlim sqrt (Rbar_locally' p_infty) (Rbar_locally p_infty).
@@ -291,7 +320,39 @@ Proof.
   reflexivity.
 Qed.
 
+Lemma continuous_sqrt (x : R) : continuous sqrt x.
+Proof.
+destruct (Rle_or_lt 0 x) as [Hx|Hx].
+apply continuity_pt_filterlim.
+by apply: continuity_pt_sqrt.
+assert (Hs: forall t, t < 0 -> sqrt t = 0).
+  intros t Ht.
+  unfold sqrt.
+  case Rcase_abs.
+  easy.
+  intros Ht'.
+  now elim Rge_not_lt with (1 := Ht').
+intros P H.
+rewrite Hs // in H.
+unfold filtermap.
+eapply locally_open.
+apply open_lt. 2: exact Hx.
+move => /= t Ht.
+rewrite Hs //.
+now apply locally_singleton.
+Qed.
+
+Lemma continuous_sqrt_comp (f : R -> R) x:
+  continuous f x ->
+  continuous (fun x => sqrt (f x)) x.
+Proof.
+move => Hcont.
+apply: continuous_comp => // .
+by apply: continuous_sqrt.
+Qed.
+
 (** * Power function *)
+
 Section nat_to_ring.
 
 Context {K : Ring}.
@@ -690,6 +751,24 @@ apply derivable_continuous_pt.
 apply derivable_pt_exp.
 Qed.
 
+(** Continuity *)
+
+Lemma continuous_exp x : continuous exp x.
+Proof.
+apply: ex_derive_continuous.
+apply: ex_derive_Reals_1.
+exact: derivable_pt_exp.
+Qed.
+
+Lemma continuous_exp_comp (f : R -> R) x:
+  continuous f x ->
+  continuous (fun x => exp (f x)) x.
+Proof.
+move => Hcont.
+apply: continuous_comp => //.
+by apply: continuous_exp.
+Qed.
+
 (** * Natural logarithm *)
 
 Lemma is_lim_ln_p : is_lim (fun y => ln y) p_infty p_infty.
@@ -826,6 +905,15 @@ Proof.
   by rewrite ln_1 Rinv_1 Rminus_0_r.
 Qed.
 
+Lemma continuous_ln x : (0 < x) -> continuous ln x.
+Proof.
+move => Hxgt0.
+apply: ex_derive_continuous.
+exists (/x).
+apply is_derive_Reals.
+exact: derivable_pt_lim_ln.
+Qed.
+
 (** * Unnormalized sinc *)
 
 Lemma is_lim_sinc_0 : is_lim (fun x => sin x / x) 0 1.
@@ -922,4 +1010,64 @@ Proof.
   by left.
   by left.
   by rewrite -Hx0 atan_0 Rmult_0_l.
+Qed.
+
+Lemma continuous_atan x : continuous atan x.
+Proof.
+apply: ex_derive_continuous.
+apply: ex_derive_Reals_1.
+exact: derivable_pt_atan.
+Qed.
+
+Lemma continuous_atan_comp (f : R -> R) x:
+  continuous f x ->
+  continuous (fun x => atan (f x)) x.
+Proof.
+move => Hcont.
+apply: continuous_comp => //.
+by apply: continuous_atan.
+Qed.
+
+(** * Cosine *)
+
+Lemma continuous_cos x : continuous cos x.
+Proof.
+apply continuity_pt_filterlim.
+by apply: continuity_cos => // .
+Qed.
+
+Lemma continuous_cos_comp (f : R -> R) x:
+  continuous f x ->
+  continuous (fun x => cos (f x)) x.
+Proof.
+move => Hcont.
+apply: continuous_comp => //.
+by apply: continuous_cos.
+Qed.
+
+(** * Sine *)
+
+Lemma continuous_sin x : continuous sin x.
+Proof.
+apply continuity_pt_filterlim.
+by apply: continuity_sin => // .
+Qed.
+
+Lemma continuous_sin_comp (f : R -> R) x:
+  continuous f x ->
+  continuous (fun x => sin (f x)) x.
+Proof.
+move => Hcont.
+apply: continuous_comp => //.
+by apply: continuous_sin.
+Qed.
+
+(** * Tangent *)
+
+Lemma continuous_tan x : cos x <> 0 -> continuous tan x.
+Proof.
+move => Hcos.
+rewrite /tan.
+apply: continuous_mult; first by apply: continuous_sin.
+by apply: continuous_Rinv_comp; first by apply: continuous_cos.
 Qed.
