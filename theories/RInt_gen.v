@@ -148,6 +148,19 @@ apply: is_RInt_Chasles Hya1 Hyc1.
 now apply H.
 Qed.
 
+Lemma ex_RInt_gen_Chasles :
+  forall {Fa Fc : (R -> Prop) -> Prop},
+  forall {FFa : Filter Fa} {FFc : Filter Fc},
+  forall (f : R -> V) (b : R),
+  ex_RInt_gen f Fa (at_point b) ->
+  ex_RInt_gen f (at_point b) Fc ->
+  ex_RInt_gen f Fa Fc.
+Proof.
+intros Fa Fc FFa FFc f b [Iab Hab] [Ibc Hbc].
+exists (plus Iab Ibc).
+now apply is_RInt_gen_Chasles with b.
+Qed.
+
 (** * Composition *)
 
 (*
@@ -344,6 +357,21 @@ Proof.
 move => Heq.
 apply: (RInt_gen_ext f g).
 exact: filter_forall => bnds x _.
+Qed.
+
+Lemma RInt_gen_Chasles :
+  forall {Fa Fc : (R -> Prop) -> Prop},
+  forall {FFa : ProperFilter' Fa} {FFc : ProperFilter' Fc},
+  forall (f : R -> V) (b : R),
+  ex_RInt_gen f Fa (at_point b) ->
+  ex_RInt_gen f (at_point b) Fc ->
+  plus (RInt_gen f Fa (at_point b)) (RInt_gen f (at_point b) Fc) = RInt_gen f Fa Fc.
+Proof.
+intros Fa Fc FFa FFc f b Hab Hbc.
+apply eq_sym, is_RInt_gen_unique.
+apply: is_RInt_gen_Chasles.
+now apply RInt_gen_correct.
+now apply RInt_gen_correct.
 Qed.
 
 End RInt_gen.
