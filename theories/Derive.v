@@ -7,6 +7,8 @@ Copyright (C) 2011-2015 Sylvie Boldo
 Copyright (C) 2011-2015 Catherine Lelay
 #<br />#
 Copyright (C) 2011-2015 Guillaume Melquiond
+#<br />#
+Copyright (C) 2016-2016 Thomas Sibut-Pinote
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
