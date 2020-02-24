@@ -19,10 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals.
-Require Import Rcomplements Derive RInt Hierarchy Derive_2d.
-Require Import AutoDerive.
-Require Import mathcomp.ssreflect.ssreflect.
+From Coq Require Import Reals ssreflect.
+
+Require Import Rcomplements Derive RInt Hierarchy Derive_2d AutoDerive.
 
 (** This file aims at proving that d'Alembert's formula defines a
 function that is solution to the one-dimensional wave equation. We

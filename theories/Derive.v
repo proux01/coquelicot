@@ -19,10 +19,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Psatz.
-Require Import mathcomp.ssreflect.ssreflect.
-Require Import Rcomplements Rbar Lim_seq Iter.
-Require Import Hierarchy Continuity Equiv.
+From Coq Require Import Reals Psatz ssreflect.
+
+Require Import Rcomplements Rbar Lim_seq Iter Hierarchy Continuity Equiv.
+
 Open Scope R_scope.
 
 (** This file describes results about differentiability on a generic

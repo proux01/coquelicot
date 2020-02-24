@@ -19,8 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Psatz.
-Require Import mathcomp.ssreflect.ssreflect mathcomp.ssreflect.ssrbool mathcomp.ssreflect.eqtype mathcomp.ssreflect.seq.
+From Coq Require Import Reals Psatz ssreflect ssrbool.
+From mathcomp Require Import eqtype seq.
+
 Require Import Markov Rcomplements Rbar Lub Lim_seq Derive SF_seq.
 Require Import Continuity Hierarchy Seq_fct RInt PSeries.
 

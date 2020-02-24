@@ -19,10 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals.
-Require Import mathcomp.ssreflect.ssreflect.
-Require Import Rcomplements Rbar Hierarchy.
-Require Import Compactness Lim_seq.
+From Coq Require Import Reals ssreflect.
+
+Require Import Rcomplements Rbar Hierarchy Compactness Lim_seq.
 
 (** This file describes defineitions and properties of continuity on
 [R] and on uniform spaces. It also contains many results about the

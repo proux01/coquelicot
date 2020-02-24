@@ -19,9 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect.
-Require Import Rcomplements Rbar.
-Require Import Continuity Derive Hierarchy.
+From Coq Require Import Reals ssreflect.
+
+Require Import Rcomplements Rbar Continuity Derive Hierarchy.
 
 (** This file defines complex numbers [C] as [R * R]. Operations are
 given, and [C] is proved to be a field, a normed module, and a

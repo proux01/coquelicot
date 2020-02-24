@@ -19,8 +19,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals.
-Require Import mathcomp.ssreflect.ssreflect.
+From Coq Require Import Reals ssreflect.
+
 Require Import Rcomplements.
 
 (** This file contains the definition and properties of the set

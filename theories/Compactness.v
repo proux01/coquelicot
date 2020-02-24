@@ -19,9 +19,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals.
-Require Import mathcomp.ssreflect.ssreflect.
-Require Import List.
+From Coq Require Import Reals List ssreflect.
 
 (** This file describes compactness results: finite covering of opens,
 finite covering based on a gauge function, specific instances for 1D

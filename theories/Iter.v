@@ -19,10 +19,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect.
+From Coq Require Import Reals Lia List ssreflect ssrbool.
+From mathcomp Require Import seq eqtype.
+
 Require Import Rcomplements.
-Require Import List Omega.
-Require Import mathcomp.ssreflect.seq mathcomp.ssreflect.ssrbool mathcomp.ssreflect.eqtype.
 
 (** This file describes iterators on lists. This is mainly used for
 Riemannn sums. *)
@@ -126,7 +126,7 @@ Proof.
   split => // _.
   split => //.
   case: (le_dec n (S m)).
-  intro ; omega.
+  intro ; lia.
   intro H2.
   rewrite not_le_minus_0 in H1 => //.
   contradict H2.
@@ -140,7 +140,7 @@ Proof.
   apply Bool.andb_false_iff in H0.
   case: H0 => //.
   move/SSR_leq: H1 ; by case: ssrnat.leq.
-  rewrite -le_plus_minus ; try omega.
+  rewrite <- le_plus_minus by lia.
   move/le_n_S/SSR_leq: H2 ; by case: ssrnat.leq.
 Qed.
 
@@ -187,9 +187,9 @@ Proof.
   rewrite -(iota_add n (S m - n)).
   apply (f_equal (fun k => iter _ _ (iota n k) _)).
   change ssrnat.addn with Peano.plus.
-  omega.
+  lia.
   change ssrnat.addn with Peano.plus.
-  omega.
+  lia.
 Qed.
 
 Lemma iter_nat_S a n m :

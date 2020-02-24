@@ -19,12 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
+From Coq Require Import Reals Psatz ssreflect.
 
-
-Require Import Reals mathcomp.ssreflect.ssreflect.
-Require Import Psatz.
-Require Import Rcomplements Rbar Hierarchy.
-Require Import Derive RInt Continuity Lim_seq ElemFct RInt_analysis.
+Require Import Rcomplements Rbar Hierarchy Derive RInt Continuity Lim_seq ElemFct RInt_analysis.
 
 (** This file describes an experiment: most 18-year old French
 students pass an exam called Baccalaureate which ends the high school

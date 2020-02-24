@@ -19,7 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import RIneq Rcomplements Omega.
+From Coq Require Import RIneq Lia.
+
+Require Import Rcomplements.
 
 (** This file proves the Limited Principle of Omniscience: given a
 decidable property P on [nat], either P never holds or we can construct
@@ -130,7 +132,7 @@ refine (Rle_not_lt _ _ (lub (/ (INR (S N) + 1)) _) _).
   refine (H _ _ Py).
   apply INR_lt in Hy.
   clear -Hy HyN.
-  omega.
+  lia.
   now apply Rlt_le, Rinv_0_lt_compat.
 rewrite S_INR, HN.
 ring_simplify (IZR (up (/ l)) - 1 + 1).

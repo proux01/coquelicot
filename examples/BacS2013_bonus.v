@@ -19,7 +19,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect Psatz Omega.
+From Coq Require Import Reals Psatz ssreflect.
+
 Require Import Hierarchy PSeries Rbar Lim_seq.
 
 (** This file describes an experiment: most 18-year old French
@@ -62,10 +63,10 @@ Proof.
   apply (coeff_mat_ext 0).
   case ; [ | case => //].
   case ; [ | case => //] ;
-  rewrite coeff_mat_bij /= ; (try omega) ;
+  rewrite coeff_mat_bij /= ; (try lia) ;
   rewrite sum_Sn sum_O /plus /mult //=.
   case ; [ | case => //] ;
-  rewrite coeff_mat_bij /= ; (try omega) ;
+  rewrite coeff_mat_bij /= ; (try lia) ;
   rewrite sum_Sn sum_O /plus /mult //=.
 Qed.
 

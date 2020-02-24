@@ -35,8 +35,7 @@ Ltac evar_last :=
     unfold tmp ; clear tmp
   end.
 
-Require Import Reals mathcomp.ssreflect.ssreflect.
-Require Import Psatz.
+From Coq Require Import Reals Psatz ssreflect.
 
 Module MyNat.
 
@@ -91,8 +90,8 @@ Qed.
 
 End MyNat.
 
-Require Import Even Div2.
-Require Import mathcomp.ssreflect.seq mathcomp.ssreflect.ssrbool.
+From Coq Require Import Even Div2 ssrbool.
+From mathcomp Require Import seq.
 
 Open Scope R_scope.
 

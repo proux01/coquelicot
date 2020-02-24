@@ -19,10 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Even Div2 Omega Psatz.
-Require Import mathcomp.ssreflect.ssreflect.
-Require Import Rcomplements Rbar Lim_seq Lub Hierarchy.
-Require Import Continuity Derive Seq_fct Series.
+From Coq Require Import Reals Even Div2 Psatz ssreflect.
+
+Require Import Rcomplements Rbar Lim_seq Lub Hierarchy Continuity Derive Seq_fct Series.
 
 (** This file describes power series: #&Sigma; a<sub>k</sub>
 x<sup>k</sup>#. It contains definition, equivalence with the standard
@@ -1088,7 +1087,7 @@ Proof.
   now rewrite !sum_Sn plus_comm.
   apply filterlim_comp_2 with (3 := filterlim_plus _ _).
   apply filterlim_comp with (f:= fun x => S x) (2:=Ha).
-  apply eventually_subseq; intros n; omega.
+  apply eventually_subseq; intros n; lia.
   apply filterlim_const.
 Qed.
 

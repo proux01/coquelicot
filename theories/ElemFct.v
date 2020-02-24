@@ -19,9 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Omega mathcomp.ssreflect.ssreflect.
-Require Import Rbar Rcomplements Continuity Derive Hierarchy RInt PSeries.
-Require Import Lim_seq RInt_analysis.
+From Coq Require Import Reals Lia ssreflect.
+
+Require Import Rbar Rcomplements Continuity Derive Hierarchy RInt PSeries Lim_seq RInt_analysis.
 
 (** This file describes basic properties (such as limits or
 differentiability) about basic functions: absolute value, inverse,
@@ -441,7 +441,7 @@ Proof.
   rewrite Derive_n_pow.
   case: le_dec => Hip.
   by apply (is_derive_n_pow_smalli (S i)).
-  apply (is_derive_n_pow_bigi (S i)) ; omega.
+  apply (is_derive_n_pow_bigi (S i)) ; lia.
 Qed.
 
 Lemma is_RInt_pow :

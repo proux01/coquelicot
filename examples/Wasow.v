@@ -19,7 +19,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect.
+From Coq Require Import Reals ssreflect.
 Require Import Coquelicot.
 
 (** This file describes some complex analysis results, including path

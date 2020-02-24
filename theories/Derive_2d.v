@@ -19,8 +19,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Omega Psatz.
-Require Import mathcomp.ssreflect.ssreflect.
+From Coq Require Import Reals Psatz ssreflect.
+
 Require Import Rcomplements Hierarchy Continuity Derive.
 
 (** This file describes results about differentiability in [R x
@@ -788,7 +788,7 @@ apply locally_2d_forall.
 intros u v; unfold partial_derive.
 reflexivity.
 apply ex_diff_n_deriv_aux2.
-replace ((S (n - S q))) with (n-q)%nat by omega.
+replace ((S (n - S q))) with (n-q)%nat by lia.
 apply IHq.
 now apply lt_le_weak.
 exact H1.
@@ -799,7 +799,7 @@ apply locally_2d_forall.
 intros u v; unfold partial_derive.
 reflexivity.
 apply ex_diff_n_deriv_aux1.
-replace ((S (n - (S p +q)))) with (n-(p+q))%nat by omega.
+replace ((S (n - (S p +q)))) with (n-(p+q))%nat by lia.
 apply IHp.
 now apply lt_le_weak.
 exact H1.
@@ -995,7 +995,7 @@ apply ex_diff_n_deriv.
 rewrite plus_0_l.
 apply lt_le_S; apply lt_0_Sn.
 rewrite plus_0_l.
-omega.
+lia.
 Qed.
 
 Lemma Derive_partial_derive_aux2: forall p k f x y,
@@ -1025,7 +1025,7 @@ apply locally_2d_impl with (2:=H).
 apply locally_2d_forall.
 intros u'' v''.
 apply ex_diff_n_m.
-omega.
+lia.
 apply trans_eq with (partial_derive p (S k) (partial_derive 1 0 f) x y).
 rewrite partial_derive_add_zero.
 now rewrite plus_0_l plus_0_r.
@@ -1066,7 +1066,7 @@ apply ex_diff_n_deriv.
 rewrite plus_0_r.
 apply le_plus_trans; apply lt_le_S; apply lt_0_Sn.
 rewrite plus_0_r.
-omega.
+lia.
 Qed.
 
 Lemma Derive_partial_derive: forall p k f x y,
@@ -1090,7 +1090,7 @@ now apply lt_le_weak.
 exact Hf.
 revert H; case_eq (n-(p+k))%nat.
 intros H; contradict Hn.
-omega.
+lia.
 intros n0 Hn0; simpl; intros (T1&T2&T3&T4&T5).
 revert T5; case n0.
 intros Y; apply Y.
@@ -1245,7 +1245,7 @@ apply locally_2d_impl with (2:=HH).
 apply locally_2d_forall.
 intros u' v' (Y,_).
 apply ex_diff_n_m with (2:=Y).
-omega.
+lia.
 apply is_derive_Reals ; eapply filterdiff_ext_lin.
 apply @filterdiff_plus_fct ; try apply locally_filter.
 apply filterdiff_const.

@@ -19,9 +19,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals.
+From Coq Require Import Reals Datatypes ssreflect ssrbool.
+From mathcomp Require Import seq.
+
 Require Import Rcomplements Hierarchy Derive RInt RInt_analysis Derive_2d Continuity ElemFct.
-Require Import mathcomp.ssreflect.ssreflect mathcomp.ssreflect.ssrbool mathcomp.ssreflect.seq Datatypes.
 
 (** * Reflective tactic for solving goals of the form [derivable_pt_lim] *)
 
@@ -552,7 +553,7 @@ easy.
 Qed.
 
 Definition index_not_const l n :=
-  filter (fun v => ~~ is_const (nth (Cst 0) l v) n) (iota 0 (size l)).
+  filter (fun v => ~~ is_const (nth (Cst 0) l v) n) (seq.iota 0 (size l)).
 
 Lemma uniq_index_not_const :
   forall n l,

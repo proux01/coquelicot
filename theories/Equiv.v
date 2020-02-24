@@ -19,8 +19,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Psatz.
-Require Import mathcomp.ssreflect.ssreflect.
+From Coq Require Import Reals Psatz ssreflect.
+
 Require Import Rbar Rcomplements Hierarchy.
 
 (** This file gives definitions of equivalent (g ~ f) and dominant (g

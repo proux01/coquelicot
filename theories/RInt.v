@@ -19,10 +19,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Psatz.
-Require Import mathcomp.ssreflect.ssreflect mathcomp.ssreflect.ssrbool mathcomp.ssreflect.eqtype mathcomp.ssreflect.seq.
-Require Import Markov Rcomplements Rbar Lub Lim_seq SF_seq.
-Require Import Continuity Hierarchy.
+From Coq Require Import Reals Psatz ssreflect ssrbool.
+From mathcomp Require Import eqtype seq.
+
+Require Import Markov Rcomplements Rbar Lub Lim_seq SF_seq Continuity Hierarchy.
 
 (** This file contains the definition and properties of the Riemann
 integral, defined on a normed module on [R]. For real functions, a

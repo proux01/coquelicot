@@ -19,11 +19,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Psatz.
-Require Import mathcomp.ssreflect.ssreflect Rbar.
-Require Import Rcomplements.
-Require Import Lim_seq Continuity Derive Series.
-Require Import Lub Hierarchy.
+From Coq Require Import Reals Psatz ssreflect.
+Require Import Rcomplements Rbar Lim_seq Continuity Derive Series Lub Hierarchy.
 
 (** This file describes sequences of functions and results about
 their convergence. *)

@@ -19,10 +19,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Psatz.
-Require Import mathcomp.ssreflect.ssreflect mathcomp.ssreflect.seq mathcomp.ssreflect.ssrbool.
-Require Import Rcomplements Rbar Lub.
-Require Import Hierarchy.
+From Coq Require Import Reals Psatz ssreflect ssrbool.
+From mathcomp Require Import seq.
+
+Require Import Rcomplements Rbar Lub Hierarchy.
 
 (** This file describes many properties about sequences of real
 numbers. Several formalizations are provided. They are mainly used for

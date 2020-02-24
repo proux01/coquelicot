@@ -19,9 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect.
-Require Import Rbar Hierarchy RInt Lim_seq Continuity Derive.
-Require Import Rcomplements RInt_analysis.
+From Coq Require Import Reals ssreflect.
+
+Require Import Rbar Hierarchy RInt Lim_seq Continuity Derive Rcomplements RInt_analysis.
 
 (** This file describes improper integrals, such as integrals with an
 infinity endpoint or integrals of a function with a singularity. A few

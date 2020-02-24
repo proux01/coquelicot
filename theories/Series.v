@@ -19,10 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals Omega Psatz.
-Require Import mathcomp.ssreflect.ssreflect.
-Require Import Rcomplements.
-Require Import Lim_seq Rbar Hierarchy.
+From Coq Require Import Reals Psatz ssreflect.
+
+Require Import Rcomplements Lim_seq Rbar Hierarchy.
 
 (** This file gives definitions and properties about series defined on
 a normed module. An equivalence with the standard library and several
@@ -244,7 +243,7 @@ Proof.
   apply filterlim_comp with (G:=(locally (plus l (a 0%nat)))) (g:=fun x => plus x (opp (a 0%nat))).
   (* . *)
   apply filterlim_comp with (f:= fun x => S x) (2:=H).
-  apply eventually_subseq; intros n; omega.
+  apply eventually_subseq; intros n; lia.
   (* . *)
   pattern l at 2; replace l with (plus (plus l (a 0%nat)) (opp (a 0%nat))).
   apply filterlim_comp_2 with (3 := filterlim_plus _ _).
@@ -284,7 +283,7 @@ Proof.
   rewrite /sum_n sum_Sn_m.
   apply f_equal.
   rewrite sum_n_m_S.
-  apply f_equal ; omega.
+  apply f_equal ; lia.
   by apply le_O_n.
   replace l with (plus (a 0%nat) (plus l (opp (a 0%nat)))).
   apply filterlim_comp_2 with (3 := filterlim_plus _ _).
@@ -293,7 +292,7 @@ Proof.
   apply filterlim_comp with (f:= fun x => pred x) (2:=H).
   intros P (N1,HN1).
   exists (S N1).
-  intros n Hn; apply HN1; omega.
+  intros n Hn; apply HN1; lia.
   rewrite plus_comm; rewrite <- plus_assoc.
   rewrite (plus_comm _ (a 0%nat)); rewrite plus_opp_r.
   apply plus_zero_r.

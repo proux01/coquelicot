@@ -19,7 +19,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 COPYING file for more details.
 *)
 
-Require Import Reals mathcomp.ssreflect.ssreflect Psatz.
+From Coq Require Import Reals Psatz ssreflect.
+
 Require Import Rcomplements Rbar Markov Iter Lub.
 
 (** This file first describes [Filter]s that are predicates of type
