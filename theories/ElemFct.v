@@ -769,6 +769,30 @@ apply: continuous_comp => //.
 by apply: continuous_exp.
 Qed.
 
+(** Derivative *)
+
+Lemma is_derive_exp : forall x, is_derive exp x (exp x).
+Proof.
+intros x.
+apply is_derive_Reals.
+apply derivable_pt_lim_exp.
+Qed.
+
+Lemma is_derive_n_exp : forall n x, is_derive_n exp n x (exp x).
+Proof.
+intros [|n]. easy.
+simpl.
+induction n.
+apply is_derive_exp.
+intros x.
+apply is_derive_ext with exp ; cycle 1.
+apply is_derive_exp.
+simpl.
+intros t.
+apply eq_sym.
+now apply is_derive_unique.
+Qed.
+
 (** * Natural logarithm *)
 
 Lemma is_lim_ln_p : is_lim (fun y => ln y) p_infty p_infty.
@@ -914,6 +938,14 @@ apply is_derive_Reals.
 exact: derivable_pt_lim_ln.
 Qed.
 
+Lemma is_derive_ln x :
+  0 < x -> is_derive ln x (/ x)%R.
+Proof.
+intros H.
+apply is_derive_Reals.
+now apply derivable_pt_lim_ln.
+Qed.
+
 (** * Unnormalized sinc *)
 
 Lemma is_lim_sinc_0 : is_lim (fun x => sin x / x) 0 1.
@@ -1028,6 +1060,13 @@ apply: continuous_comp => //.
 by apply: continuous_atan.
 Qed.
 
+Lemma is_derive_atan x :
+  is_derive atan x (/ (1 + x²)).
+Proof.
+rewrite Rsqr_pow2.
+apply is_derive_Reals, derivable_pt_lim_atan.
+Qed.
+
 (** * Cosine *)
 
 Lemma continuous_cos x : continuous cos x.
@@ -1043,6 +1082,12 @@ Proof.
 move => Hcont.
 apply: continuous_comp => //.
 by apply: continuous_cos.
+Qed.
+
+Lemma is_derive_cos x : is_derive cos x (- sin x).
+Proof.
+apply is_derive_Reals.
+apply derivable_pt_lim_cos.
 Qed.
 
 (** * Sine *)
@@ -1062,6 +1107,12 @@ apply: continuous_comp => //.
 by apply: continuous_sin.
 Qed.
 
+Lemma is_derive_sin x : is_derive sin x (cos x).
+Proof.
+apply is_derive_Reals.
+apply derivable_pt_lim_sin.
+Qed.
+
 (** * Tangent *)
 
 Lemma continuous_tan x : cos x <> 0 -> continuous tan x.
@@ -1070,4 +1121,19 @@ move => Hcos.
 rewrite /tan.
 apply: continuous_mult; first by apply: continuous_sin.
 by apply: continuous_Rinv_comp; first by apply: continuous_cos.
+Qed.
+
+Lemma is_derive_tan x :
+  cos x <> 0%R -> is_derive tan x (tan x ^ 2 + 1)%R.
+Proof.
+intros Hx.
+unfold tan.
+evar_last.
+apply Derive.is_derive_mult.
+apply is_derive_sin.
+apply is_derive_inv.
+apply is_derive_cos.
+exact Hx.
+simpl.
+now field.
 Qed.
