@@ -1,3 +1,9 @@
+Version 3.1.0
+-------------
+
+* ensured compatibility from Coq 8.8 to Coq 8.11
+* added some theorems about continuity and differentiability of elementary functions
+
 Version 3.0.3
 -------------
 
