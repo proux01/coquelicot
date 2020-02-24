@@ -51,6 +51,7 @@ Proof.
   by rewrite /minus -plus_assoc plus_opp_l plus_zero_r.
   by apply -> Rminus_le_0.
 Qed.
+
 Lemma filterlim_abs_0 {K : AbsRing} :
   (forall x : K, abs x = 0 -> x = zero) ->
   filterlim (abs (K := K)) (locally' (zero (G := K))) (at_right 0).
@@ -97,6 +98,7 @@ Proof.
   by apply Ropp_le_contravar, Rlt_le.
   apply (is_lim_opp id m_infty m_infty), is_lim_id.
 Qed.
+
 Lemma is_lim_Rabs (f : R -> R) (x l : Rbar) :
   is_lim f x l -> is_lim (fun x => Rabs (f x)) x (Rbar_abs l).
 Proof.
@@ -119,6 +121,7 @@ Proof.
   apply @filterlim_abs_0.
   by apply Rabs_eq_0.
 Qed.
+
 Lemma is_lim_Rabs_0 (f : R -> R) (x : Rbar) :
   is_lim f x 0 -> Rbar_locally' x (fun x => f x <> 0)
     -> filterlim (fun x => Rabs (f x)) (Rbar_locally' x) (at_right 0).
@@ -161,6 +164,7 @@ Proof.
   apply @is_derive_opp.
   by apply @is_derive_id.
 Qed.
+
 Lemma is_derive_Rabs (f : R -> R) (x df : R) :
   is_derive f x df -> f x <> 0
     -> is_derive (fun x => Rabs (f x)) x (sign (f x) * df).
@@ -194,6 +198,7 @@ Proof.
   rewrite -/(Rminus _ _) Rminus_0_r Rabs_pos_eq // in Hx.
   exact: Rlt_le.
 Qed.
+
 Lemma is_lim_Rinv_0_right (f : R -> R) (x : Rbar) :
   is_lim f x 0 -> Rbar_locally' x (fun x => 0 < f x) ->
   is_lim (fun x => / (f x)) x p_infty.
@@ -226,6 +231,7 @@ Proof.
   by apply filterlim_Rinv_0_right.
   apply filterlim_Rbar_opp.
 Qed.
+
 Lemma is_lim_Rinv_0_left (f : R -> R) (x : Rbar) :
   is_lim f x 0 -> Rbar_locally' x (fun x => f x < 0) ->
   is_lim (fun x => / (f x)) x m_infty.
@@ -255,6 +261,7 @@ Proof.
   by apply Hx.
   apply Rmax_l.
 Qed.
+
 Lemma is_lim_sqrt_p (f : R -> R) (x : Rbar) :
   is_lim f x p_infty
   -> is_lim (fun x => sqrt (f x)) x p_infty.
@@ -271,6 +278,7 @@ Proof.
   apply is_derive_Reals.
   by apply derivable_pt_lim_sqrt.
 Qed.
+
 Lemma is_derive_sqrt (f : R -> R) (x df : R) :
   is_derive f x df -> 0 < f x
   -> is_derive (fun x => sqrt (f x)) x (df / (2 * sqrt (f x))).
@@ -290,11 +298,13 @@ Context {K : Ring}.
 
 Definition nat_to_ring (n : nat) : K :=
   sum_n_m (fun _ => one) 1 n.
+
 Lemma nat_to_ring_O :
   nat_to_ring O = zero.
 Proof.
   rewrite /nat_to_ring sum_n_m_zero //.
 Qed.
+
 Lemma nat_to_ring_Sn (n : nat) :
   nat_to_ring (S n) = plus (nat_to_ring n) one.
 Proof.
@@ -393,6 +403,7 @@ Proof.
   apply not_0_INR, sym_not_eq, O_S.
   by apply lt_minus_O_lt.
 Qed.
+
 Lemma Derive_n_pow_smalli: forall i p x, (i <= p)%nat ->
   Derive_n (fun x : R => x ^ p) i x
     = INR (fact p) / INR (fact (p - i)%nat) * x ^ (p - i)%nat.
@@ -400,6 +411,7 @@ Proof.
   intros.
   now apply is_derive_n_unique, is_derive_n_pow_smalli.
 Qed.
+
 Lemma is_derive_n_pow_bigi: forall i p x,  (p < i) %nat ->
                          is_derive_n (fun x : R => x ^ p) i x 0.
 Proof.
@@ -415,6 +427,7 @@ Proof.
   by apply le_refl.
   by apply @is_derive_const.
 Qed.
+
 Lemma Derive_n_pow_bigi: forall i p x,  (p < i) %nat ->
                          Derive_n (fun x : R => x ^ p) i x = 0.
 Proof.
@@ -513,6 +526,7 @@ Proof.
   apply Series.is_series_ext => n.
   by rewrite Rmult_comm pow_n_pow.
 Qed.
+
 Lemma exp_Reals (x : R) :
   exp x = PSeries (fun n => / INR (fact n)) x.
 Proof.
@@ -534,6 +548,7 @@ Proof.
   apply is_lim_id.
   by [].
 Qed.
+
 Lemma is_lim_exp_m : is_lim (fun y => exp y) m_infty 0.
 Proof.
   evar_last.
@@ -559,6 +574,7 @@ Proof.
   exists p_infty ; by apply is_lim_exp_p.
   exists 0 ; by apply is_lim_exp_m.
 Qed.
+
 Lemma Lim_exp (x : Rbar) :
   Lim (fun y => exp y) x =
     match x with
@@ -870,6 +886,7 @@ Proof.
   reflexivity.
   simpl ; apply f_equal ; ring.
 Qed.
+
 Lemma atan_Reals (x : R) : Rabs x < 1
   -> atan x = x * PSeries (fun n => (-1)^n / (INR (S (n + n)))) (x ^ 2).
 Proof.
