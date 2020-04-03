@@ -3,13 +3,13 @@ config.status
 configure
 aclocal.m4
 autom4te.cache
-ChangeLog
 Remakefile
 .remake
 remake
 remake.exe
 deps.dot
-html
+/html
+/public
 *.aux
 *.vo
 *.vok
