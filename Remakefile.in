@@ -60,6 +60,10 @@ doc: html/index.html deps.dot
 	sed -e '/img src="deps.png"/ r deps.map' -i html/Coquelicot.Coquelicot.html
 	rm -f deps.map
 
+public: doc
+	rm -rf public
+	cp -r html public
+
 deps.dot: $(addprefix theories/,$(FILES))
 	(echo "digraph coquelicot_deps {" ;
 	 echo "node [shape = ellipse, style=filled, URL=\"Coquelicot.\N.html\", color=black, fillcolor=cornflowerblue];";
