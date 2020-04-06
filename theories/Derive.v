@@ -62,6 +62,13 @@ Proof.
   exact Hl.
 Qed.
 
+Lemma linear_minus (l : U -> V) (x y : U) : is_linear l ->
+  l (minus x y) = minus (l x) (l y).
+Proof.
+  intros Hl.
+  rewrite /minus linear_plus // linear_opp //.
+Qed.
+
 Lemma linear_cont (l : U -> V) (x : U) :
   is_linear l -> continuous l x.
 Proof.
