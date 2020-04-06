@@ -1337,6 +1337,18 @@ Proof.
   apply Req_le ; ring.
 Qed.
 
+Lemma abs_gt_0 :
+  forall x : K,
+  x <> zero -> 0 < abs x.
+Proof.
+intros x Hx.
+apply Rnot_le_lt.
+contradict Hx.
+apply abs_eq_zero.
+apply Rle_antisym with (1 := Hx).
+apply abs_ge_0.
+Qed.
+
 Lemma abs_pow_n :
   forall (x : K) n,
   abs (pow_n x n) <= (abs x)^n.
@@ -2977,6 +2989,18 @@ Proof.
   apply norm_triangle.
   apply Req_le ; rewrite norm_opp.
   ring.
+Qed.
+
+Lemma norm_gt_0 :
+  forall x : V,
+  x <> zero -> 0 < norm x.
+Proof.
+intros x Hx.
+apply Rnot_le_lt.
+contradict Hx.
+apply norm_eq_zero.
+apply Rle_antisym with (1 := Hx).
+apply norm_ge_0.
 Qed.
 
 Lemma norm_triangle_inv :
