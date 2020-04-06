@@ -1349,6 +1349,17 @@ apply Rle_antisym with (1 := Hx).
 apply abs_ge_0.
 Qed.
 
+Lemma abs_minus_gt_0 :
+  forall x y : K,
+  x <> y -> 0 < abs (minus x y).
+Proof.
+intros x y Hxy.
+apply abs_gt_0.
+contradict Hxy.
+apply plus_reg_r with (opp y).
+now rewrite plus_opp_r.
+Qed.
+
 Lemma abs_pow_n :
   forall (x : K) n,
   abs (pow_n x n) <= (abs x)^n.
@@ -3001,6 +3012,17 @@ contradict Hx.
 apply norm_eq_zero.
 apply Rle_antisym with (1 := Hx).
 apply norm_ge_0.
+Qed.
+
+Lemma norm_minus_gt_0 :
+  forall x y : V,
+  x <> y -> 0 < norm (minus x y).
+Proof.
+intros x y Hxy.
+apply norm_gt_0.
+contradict Hxy.
+apply plus_reg_r with (opp y).
+now rewrite plus_opp_r.
 Qed.
 
 Lemma norm_triangle_inv :
