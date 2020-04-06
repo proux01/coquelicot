@@ -3042,6 +3042,22 @@ Proof.
   by rewrite /minus plus_comm -plus_assoc plus_opp_l plus_zero_r.
 Qed.
 
+Lemma eq_dec :
+  forall x y : V,
+  { x = y } + { x <> y }.
+Proof.
+intros x y.
+destruct (Req_EM_T (norm (minus y x)) 0) as [H|H].
+- left.
+  apply plus_reg_r with (opp x).
+  rewrite plus_opp_r.
+  now apply eq_sym, norm_eq_zero.
+- right.
+  contradict H.
+  rewrite H minus_eq_zero.
+  apply norm_zero.
+Qed.
+
 Lemma eq_close :
   forall x y : V,
   close x y -> x = y.
