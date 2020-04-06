@@ -750,15 +750,8 @@ Context {K : AbsRing} {V : NormedModule K}.
 Lemma filterdiff_id (F : (V -> Prop) -> Prop) :
   filterdiff (fun y => y) F (fun y => y).
 Proof.
-  split.
+  apply filterdiff_linear.
   by apply is_linear_id.
-
-  move => x Hx eps.
-  apply Hx ; exists eps => y /= Hy.
-  rewrite /minus plus_opp_r norm_zero.
-  apply Rmult_le_pos.
-  by apply Rlt_le, eps.
-  by apply norm_ge_0.
 Qed.
 
 Lemma ex_filterdiff_id (F : (V -> Prop) -> Prop) :
@@ -771,15 +764,8 @@ Qed.
 Lemma filterdiff_opp (F : (V -> Prop) -> Prop) :
   filterdiff opp F opp.
 Proof.
-  split.
+  apply filterdiff_linear.
   by apply is_linear_opp.
-  move => x Hx eps.
-  apply Hx.
-  exists eps => y /= Hy.
-  rewrite /minus -!opp_plus plus_opp_r norm_opp norm_zero.
-  apply Rmult_le_pos.
-  by apply Rlt_le, eps.
-  by apply norm_ge_0.
 Qed.
 
 Lemma ex_filterdiff_opp (F : (V -> Prop) -> Prop) :
@@ -792,18 +778,8 @@ Qed.
 Lemma filterdiff_plus (F : (V * V -> Prop) -> Prop) :
   filterdiff (fun u => plus (fst u) (snd u)) F (fun u => plus (fst u) (snd u)).
 Proof.
-  split.
+  apply filterdiff_linear.
   by apply is_linear_plus.
-  move => x Hx eps.
-  apply Hx ; exists eps => u /= Hu.
-  set v := plus (plus _ _) _.
-  replace v with (minus (plus (fst u) (snd u)) (plus (fst x) (snd x))).
-  rewrite /minus plus_opp_r norm_zero.
-  apply Rmult_le_pos.
-  by apply Rlt_le, eps.
-  by apply sqrt_pos.
-  rewrite /v /minus -!plus_assoc ; apply f_equal.
-  rewrite opp_plus plus_comm -!plus_assoc ; apply f_equal, @plus_comm.
 Qed.
 
 Lemma ex_filterdiff_plus (F : (V * V -> Prop) -> Prop) :
@@ -816,7 +792,7 @@ Qed.
 Lemma filterdiff_minus (F : (V * V -> Prop) -> Prop) :
   filterdiff (fun u => minus (fst u) (snd u)) F (fun u => minus (fst u) (snd u)).
 Proof.
-  split.
+  apply filterdiff_linear.
   apply (is_linear_comp (fun u => (fst u, opp (snd u))) (fun u => plus (fst u) (snd u))).
   apply is_linear_prod.
   by apply is_linear_fst.
@@ -824,18 +800,6 @@ Proof.
   by apply is_linear_snd.
   by apply is_linear_opp.
   by apply is_linear_plus.
-  move => x Hx eps.
-  apply Hx ; exists eps => u Hu.
-  simpl fst ; simpl snd.
-  set v := minus (plus _ (opp (fst x))) _.
-  replace v with (minus (minus (fst u) (snd u)) (minus (fst x) (snd x))).
-  rewrite /minus plus_opp_r norm_zero.
-  apply Rmult_le_pos.
-  by apply Rlt_le, eps.
-  by apply sqrt_pos.
-  rewrite /v /minus -!plus_assoc ; apply f_equal.
-  rewrite !opp_plus !opp_opp plus_comm -!plus_assoc ;
-  apply f_equal, @plus_comm.
 Qed.
 
 Lemma ex_filterdiff_minus (F : (V * V -> Prop) -> Prop) :
@@ -977,6 +941,7 @@ Proof.
   by [].
   by apply filterdiff_opp.
 Qed.
+
 Lemma ex_filterdiff_opp_fct {F} {FF : Filter F} (f : U -> V) :
   ex_filterdiff f F ->
   ex_filterdiff (fun t => opp (f t)) F.
@@ -996,6 +961,7 @@ Proof.
   by [].
   by apply filterdiff_plus.
 Qed.
+
 Lemma ex_filterdiff_plus_fct {F} {FF : Filter F} (f g : U -> V) :
   ex_filterdiff f F -> ex_filterdiff g F ->
   ex_filterdiff (fun u => plus (f u) (g u)) F.
@@ -1004,6 +970,7 @@ Proof.
   eexists.
   apply filterdiff_plus_fct ; eassumption.
 Qed.
+
 Lemma filterdiff_iter_plus_fct {I} {F} {FF : Filter F}
   (l : list I) (f : I -> U -> V) df (x : U) :
   (forall (j : I), List.In j l -> filterdiff (f j) F (df j)) ->
@@ -1031,6 +998,7 @@ Proof.
   by [].
   by apply filterdiff_minus.
 Qed.
+
 Lemma ex_filterdiff_minus_fct {F} {FF : Filter F} (f g : U -> V) :
   ex_filterdiff f F -> ex_filterdiff g F ->
   ex_filterdiff (fun u => minus (f u) (g u)) F.
@@ -1050,6 +1018,7 @@ Proof.
   apply (filterdiff_comp'_2 f g scal x lf lg (fun k v => plus (scal k (g x)) (scal (f x) v))) => //.
   by apply (filterdiff_scal (f x, g x)).
 Qed.
+
 Lemma ex_filterdiff_scal_fct x (f : U -> K) (g : U -> V) :
   (forall (n m : K), mult n m = mult m n) ->
   ex_filterdiff f (locally x) -> ex_filterdiff g (locally x) ->
@@ -1070,6 +1039,7 @@ Proof.
   apply filterdiff_linear.
   by apply is_linear_scal_l.
 Qed.
+
 Lemma ex_filterdiff_scal_l_fct : forall {F} {FF : Filter F} (x : V) (f : U -> K),
   ex_filterdiff f F ->
   ex_filterdiff (fun u => scal (f u) x) F.
@@ -1090,6 +1060,7 @@ Proof.
   apply filterdiff_linear.
   by apply is_linear_scal_r.
 Qed.
+
 Lemma ex_filterdiff_scal_r_fct : forall {F} {FF : Filter F} (k : K) (f : U -> V),
   (forall (n m : K), mult n m = mult m n) ->
   ex_filterdiff f F ->
