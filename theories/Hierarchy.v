@@ -498,6 +498,38 @@ apply: filterlimi_comp Ch.
 now apply filterlim_pair.
 Qed.
 
+Lemma prod_filtermap_le {T1 T2 U1 U2 F G} {FF : Filter F} {FG : Filter G}
+    (f1 : T1 -> U1) (f2 : T2 -> U2) :
+  filter_le (filter_prod (filtermap f1 F) (filtermap f2 G))
+    (filtermap (fun x => (f1 (fst x), f2 (snd x))) (filter_prod F G)).
+Proof.
+intros P [Q1 Q2 H1 H2 H].
+unfold filtermap.
+split with (fun y => exists x, Q1 x /\ f1 x = y) (fun y => exists x, Q2 x /\ f2 x = y).
+- apply: filter_imp H1.
+  intros x Qx.
+  now exists x.
+- apply: filter_imp H2.
+  intros x Qx.
+  now exists x.
+intros y1 y2 [x1 [Qx1 <-]] [x2 [Qx2 <-]].
+now apply H.
+Qed.
+
+Lemma filtermap_prod_le {T1 T2 U1 U2 F G} {FF : Filter F} {FG : Filter G}
+    (f1 : T1 -> U1) (f2 : T2 -> U2) :
+  filter_le (filtermap (fun x => (f1 (fst x), f2 (snd x))) (filter_prod F G))
+   (filter_prod (filtermap f1 F) (filtermap f2 G)).
+Proof.
+intros P [Q1 Q2 H1 H2 H].
+unfold filtermap.
+split with (fun x => Q1 (f1 x)) (fun x => Q2 (f2 x)).
+now apply: filter_imp H1.
+now apply: filter_imp H2.
+intros x1 x2 Qx1 Qx2.
+now apply H.
+Qed.
+
 (** Restriction of a filter to a domain *)
 
 Definition within {T : Type} D (F : (T -> Prop) -> Prop) (P : T -> Prop) :=
