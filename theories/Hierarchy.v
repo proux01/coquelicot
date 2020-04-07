@@ -1385,6 +1385,7 @@ End AbsRing1.
 Module UniformSpace.
 
 Record mixin_of (M : Type) := Mixin {
+  point_of : M ;
   ball : M -> R -> M -> Prop ;
   ax1 : forall x (e : posreal), ball x e x ;
   ax2 : forall x y e, ball x e y -> ball y e x ;
@@ -1415,6 +1416,8 @@ Export UniformSpace.Exports.
 Section UniformSpace1.
 
 Context {M : UniformSpace}.
+
+Definition point_of := UniformSpace.point_of _ (UniformSpace.class M).
 
 Definition ball := UniformSpace.ball _ (UniformSpace.class M).
 
@@ -1521,9 +1524,8 @@ rewrite <- plus_assoc.
 now rewrite plus_opp_l plus_zero_r.
 Qed.
 
-
 Definition AbsRing_UniformSpace_mixin :=
-  UniformSpace.Mixin _ _ AbsRing_ball_center AbsRing_ball_sym AbsRing_ball_triangle.
+  UniformSpace.Mixin _ zero _ AbsRing_ball_center AbsRing_ball_sym AbsRing_ball_triangle.
 
 Canonical AbsRing_UniformSpace :=
   UniformSpace.Pack K AbsRing_UniformSpace_mixin K.
@@ -1565,7 +1567,7 @@ Qed.
 
 
 Definition fct_UniformSpace_mixin :=
-  UniformSpace.Mixin _ _ fct_ball_center fct_ball_sym fct_ball_triangle.
+  UniformSpace.Mixin _ (fun _ => point_of) _ fct_ball_center fct_ball_sym fct_ball_triangle.
 
 Canonical fct_UniformSpace :=
   UniformSpace.Pack (T -> U) fct_UniformSpace_mixin (T -> U).
@@ -3680,7 +3682,7 @@ Qed.
 End prod_UniformSpace.
 
 Definition prod_UniformSpace_mixin (U V : UniformSpace) :=
-  UniformSpace.Mixin (U * V) _ prod_ball_center prod_ball_sym prod_ball_triangle.
+  UniformSpace.Mixin (U * V) (point_of, point_of) _ prod_ball_center prod_ball_sym prod_ball_triangle.
 
 Canonical prod_UniformSpace (U V : UniformSpace) :=
   UniformSpace.Pack (U * V) (prod_UniformSpace_mixin U V) (U * V).
