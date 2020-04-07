@@ -1920,6 +1920,65 @@ apply within_filter.
 apply locally_filter.
 Qed.
 
+(** closely *)
+
+Section closely.
+
+Context {T : UniformSpace}.
+
+Definition closely (P : T * T -> Prop) :=
+  exists eps : posreal, forall u v : T, ball u eps v -> P (u, v).
+
+Global Instance closely_filter :
+  ProperFilter closely.
+Proof.
+split.
+{ intros P [eps He].
+  exists (point_of, point_of).
+  apply He.
+  apply ball_center. }
+split.
+- now exists (mkposreal _ Rlt_0_1).
+- intros P Q [eP HP] [eQ HQ].
+  exists (mkposreal _ (Rmin_stable_in_posreal eP eQ)).
+  intros u v H.
+  split.
+  apply HP.
+  apply ball_le with (2 := H).
+  apply Rmin_l.
+  apply HQ.
+  apply ball_le with (2 := H).
+  apply Rmin_r.
+- intros P Q H [eps HP].
+  exists eps.
+  intros u v H'.
+  now apply H, HP.
+Qed.
+
+End closely.
+
+Lemma filterlim_closely {T} {U : UniformSpace} {F : (T -> Prop) -> Prop} {FF : Filter F} (f : T -> U) :
+  filterlim (fun x => (f (fst x), f (snd x))) (filter_prod F F) closely <->
+  (forall eps : posreal, exists P, F P /\ forall u v : T, P u -> P v -> ball (f u) eps (f v)).
+Proof.
+split.
+- intros H eps.
+  destruct (H (fun '(u, v) => ball u eps v)) as [P Q HP HQ H'].
+  now exists eps.
+  exists (fun x => P x /\ Q x).
+  split.
+  now apply filter_and.
+  intros u v Hu Hv.
+  now apply H'.
+- intros H P [eps He].
+  destruct (H eps) as [Q [H1 H2]].
+  clear H.
+  unfold filtermap.
+  split with Q Q ; try easy.
+  intros x y Hx Hy.
+  now apply He, H2.
+Qed.
+
 (** Pointed filter *)
 
 Section at_point.
