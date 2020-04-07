@@ -81,7 +81,7 @@ Proof.
     apply cond_pos.
     apply Hn.
   exists (mkposreal _ H) => y Hy.
-  rewrite /ball_norm /minus -linear_opp // -linear_plus //.
+  rewrite /ball_norm -linear_minus //.
   eapply Rle_lt_trans.
   by apply Hn.
   evar_last.
@@ -471,8 +471,9 @@ Lemma filterdiff_ext {F} {FF : Filter F} (f g : U -> V) (l : U -> V) :
 Proof.
   move => H.
   apply filterdiff_ext_loc => //.
-  now apply filter_imp with (2 := filter_true).
+  now apply filter_forall.
 Qed.
+
 Lemma ex_filterdiff_ext {F} {FF : Filter F} (f g : U -> V) :
   (forall y , f y = g y)
   -> ex_filterdiff f F -> ex_filterdiff g F.
@@ -487,12 +488,13 @@ Proof.
   split.
   by apply is_linear_zero.
   move => x Hx eps.
-  apply filter_imp with (2 := filter_true) => y _.
-  rewrite /minus plus_opp_r plus_zero_l norm_opp norm_zero.
+  apply filter_forall => y.
+  rewrite minus_eq_zero minus_zero_r norm_zero.
   apply Rmult_le_pos.
   by apply Rlt_le, eps.
   by apply norm_ge_0.
 Qed.
+
 Lemma ex_filterdiff_const {F} {FF : Filter F} (a : V) :
   ex_filterdiff (fun _ => a) F.
 Proof.
@@ -509,11 +511,12 @@ Proof.
   move => x Hx eps.
   apply Hx.
   apply filter_forall => y.
-  rewrite /minus -(linear_opp l x Hl) -linear_plus // plus_opp_r norm_zero.
+  rewrite -linear_minus // minus_eq_zero norm_zero.
   apply Rmult_le_pos.
   apply Rlt_le, eps.
   by apply norm_ge_0.
 Qed.
+
 Lemma ex_filterdiff_linear {F} (l : U -> V) :
   is_linear l -> ex_filterdiff l F.
 Proof.
@@ -1123,7 +1126,7 @@ split ; case => d Df.
   simpl in Df.
   apply domin_rw_r with (2 := Df t Ht).
   apply equiv_ext_loc.
-  apply filter_imp with (2 := filter_true) => y /= _.
+  apply filter_forall => y.
   apply f_equal.
   rewrite -linear_scal //=.
   apply f_equal, sym_eq, mult_one_r.
@@ -2619,7 +2622,7 @@ have H c : (forall t, a <= t < c -> P t) -> a <= c <= b ->
   apply Rmax_case_strong ; lra.
   destruct (Req_dec a d') as [Had|Had].
   rewrite Had.
-  rewrite /minus plus_opp_r /Rminus Rplus_opp_r Rmult_0_r norm_zero.
+  rewrite minus_eq_zero Rminus_eq_0 Rmult_0_r norm_zero.
   apply Rle_refl.
   apply HP.
   revert Had.

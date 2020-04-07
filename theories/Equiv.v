@@ -268,7 +268,7 @@ Proof.
   intros F FF f g c H.
   case: (Req_dec (abs c) 0) => Hc.
   move => eps /=.
-  apply filter_imp with (2 := filter_true) => x _.
+  apply filter_forall => x.
   eapply Rle_trans.
   apply @norm_scal.
   rewrite Hc Rmult_0_l.
