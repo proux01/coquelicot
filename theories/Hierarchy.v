@@ -406,10 +406,8 @@ Global Instance filter_prod_proper' {T1 T2 : Type}
   ProperFilter' (filter_prod F G).
 Proof.
   split.
-  unfold not.
-  apply filter_prod_ind.
-  intros Q R HQ HR HQR.
-  apply filter_not_empty.
+  intros [Q R HQ HR HQR].
+  apply FG.
   apply filter_imp with (2 := HR).
   intros y Hy.
   apply FF.
@@ -729,6 +727,7 @@ rewrite -(plus_zero_l x) -(plus_opp_l r) -plus_assoc.
 rewrite H.
 now rewrite plus_assoc plus_opp_l plus_zero_l.
 Qed.
+
 Lemma plus_reg_r :
   forall r x y : G,
   plus x r = plus y r -> x = y.
@@ -762,6 +761,7 @@ rewrite plus_opp_l.
 rewrite plus_zero_r.
 apply sym_eq, plus_opp_l.
 Qed.
+
 Lemma opp_minus (x y : G) :
   opp (minus x y) = minus y x.
 Proof.
@@ -808,10 +808,12 @@ Proof.
   apply iter_nat_point.
   by apply plus_zero_r.
 Qed.
+
 Lemma sum_O (a : nat -> G) : sum_n a 0 = a O.
 Proof.
   by apply sum_n_n.
 Qed.
+
 Lemma sum_n_Sm (a : nat -> G) (n m : nat) :
   (n <= S m)%nat -> sum_n_m a n (S m) = plus (sum_n_m a n m) (a (S m)).
 Proof.
@@ -821,6 +823,7 @@ Proof.
   by [].
   by apply le_n_Sn.
 Qed.
+
 Lemma sum_Sn_m (a : nat -> G) (n m : nat) :
   (n <= m)%nat -> sum_n_m a n m = plus (a n) (sum_n_m a (S n) m).
 Proof.
@@ -830,6 +833,7 @@ Proof.
   by apply le_n_Sn.
   by [].
 Qed.
+
 Lemma sum_n_m_S (a : nat -> G) (n m : nat) :
   sum_n_m (fun n => a (S n)) n m = sum_n_m a (S n) (S m).
 Proof.
@@ -855,6 +859,7 @@ Proof.
   apply IH.
   by apply lt_S_n.
 Qed.
+
 Lemma sum_n_m_const_zero (n m : nat) :
   sum_n_m (fun _ => zero) n m = zero.
 Proof.
@@ -887,6 +892,7 @@ Proof.
   apply sum_n_m_ext_loc => k [ _ Hk].
   by apply H.
 Qed.
+
 Lemma sum_n_ext :
   forall (a b : nat -> G) N,
   (forall n, a n = b n) ->
@@ -2107,7 +2113,7 @@ Lemma closed_false :
 Proof.
 intros x Hx.
 apply Hx.
-now exists (mkposreal _ Rlt_0_1).
+now apply filter_forall.
 Qed.
 
 End Closed.
