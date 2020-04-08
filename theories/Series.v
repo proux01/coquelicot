@@ -142,26 +142,19 @@ Lemma Cauchy_ex_series {K : AbsRing} {V : CompleteNormedModule K}
   ex_series a -> Cauchy_series a.
 Proof.
 intros [l Hl] eps.
-set (eps' := eps / (norm_factor (V := V))).
-assert (He: 0 < eps').
-  apply Rdiv_lt_0_compat.
-  apply eps.
-  apply norm_factor_gt_0.
-destruct (proj2 (filterlim_locally_cauchy (U := V) (F := eventually) (sum_n (fun k => a k)))
-  (ex_intro _ l Hl) (mkposreal _ He)) as [P [[N HN] HP]].
+generalize (filterlim_locally_closely (U := V) (F := eventually) (sum_n (fun k => a k))).
+move /proj2 /(_ (ex_intro _ l Hl)).
+move /(filterlim_filter_le_2 _ closely_le_closely_norm).
+move /filterlim_closely_norm.
+case /(_ eps) => [P [[N HN] HP]].
 exists (S N).
 intros [|u] v Hu Hv.
 elim le_Sn_O with (1 := Hu).
 destruct (le_or_lt u v) as [Huv|Huv].
 rewrite -> sum_n_m_sum_n with (1 := Huv).
-replace (pos eps) with (norm_factor (V := V) * mkposreal _ He).
-apply norm_compat2.
 apply HP ; apply HN.
 now apply le_S_n.
 now apply le_Sn_le.
-rewrite /eps' /=.
-field.
-apply Rgt_not_eq, norm_factor_gt_0.
 rewrite sum_n_m_zero.
 rewrite norm_zero.
 apply cond_pos.
