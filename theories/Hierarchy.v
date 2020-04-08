@@ -2374,9 +2374,33 @@ Qed.
 
 End CompleteSpace1.
 
+Lemma cauchy_distance' :
+  forall {T : UniformSpace} {F} {FF : ProperFilter F},
+  cauchy F <-> filter_le (filter_prod F F) (@closely T).
+Proof.
+intros T F FF.
+split.
+- intros H P [eps HP].
+  case: (H (pos_div_2 eps)) => {H} x Hx.
+  split with (1 := Hx) (2 := Hx).
+  move => u v Hu Hv.
+  apply HP.
+  rewrite (double_var eps).
+  apply ball_triangle with x.
+  by apply ball_sym.
+  exact Hv.
+- intros H eps.
+  destruct (H (fun '(u,v) => ball u eps v)) as [P Q HP HQ H'].
+  now exists eps.
+  destruct (filter_ex P HP) as [x Hx].
+  exists x.
+  move: (fun v => H' x v Hx) => {H H'} H.
+  now apply filter_imp with (1 := H).
+Qed.
+
 Lemma cauchy_distance :
   forall {T : UniformSpace} {F} {FF : ProperFilter F},
-  (forall eps : posreal, exists x, F (ball x eps)) <->
+  cauchy F <->
   (forall eps : posreal, exists P, F P /\ forall u v : T, P u -> P v -> ball u eps v).
 Proof.
 intros T F FF.
@@ -2404,9 +2428,9 @@ Section fct_CompleteSpace.
 
 Context {T : Type} {U : CompleteSpace}.
 
-Lemma filterlim_locally_cauchy :
+Lemma filterlim_locally_closely :
   forall {F} {FF : ProperFilter F} (f : T -> U),
-  (forall eps : posreal, exists P, F P /\ forall u v : T, P u -> P v -> ball (f u) eps (f v)) <->
+  filterlim (fun x => (f (fst x), f (snd x))) (filter_prod F F) closely <->
   exists y, filterlim f F (locally y).
 Proof.
 intros F FF f.
@@ -2416,27 +2440,28 @@ split.
   intros P [eps HP].
   refine (_ (complete_cauchy (filtermap f F) _ _ eps)).
   + now apply filter_imp.
-  + clear eps P HP.
-    intros eps.
-    destruct (H eps) as [P [FP H']].
-    destruct (filter_ex _ FP) as [x Hx].
-    exists (f x).
-    unfold filtermap.
-    generalize FP.
-    apply filter_imp.
-    intros x' Hx'.
-    now apply H'.
-- intros [y Hy] eps.
-  exists (fun x => ball y (pos_div_2 eps) (f x)).
-  split.
-  apply Hy.
-  now exists (pos_div_2 eps).
+  + apply cauchy_distance'.
+    apply filter_le_trans with (2 := H).
+    apply prod_filtermap_le.
+- intros [y Hy] P [eps HP].
+  split with (fun x => ball y (pos_div_2 eps) (f x)) (fun x => ball y (pos_div_2 eps) (f x)).
+  apply Hy, locally_ball.
+  apply Hy, locally_ball.
   intros u v Hu Hv.
+  apply HP.
   rewrite (double_var eps).
-  apply ball_triangle with y.
-  apply ball_sym.
-  exact Hu.
-  exact Hv.
+  apply ball_triangle with (2 := Hv).
+  now apply ball_sym.
+Qed.
+
+Lemma filterlim_locally_cauchy :
+  forall {F} {FF : ProperFilter F} (f : T -> U),
+  (forall eps : posreal, exists P, F P /\ forall u v : T, P u -> P v -> ball (f u) eps (f v)) <->
+  exists y, filterlim f F (locally y).
+Proof.
+intros F FF f.
+apply iff_trans with (2 := filterlim_locally_closely f).
+apply iff_sym, filterlim_closely.
 Qed.
 
 Lemma filterlimi_locally_cauchy :
