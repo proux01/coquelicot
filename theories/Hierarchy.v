@@ -530,6 +530,28 @@ intros x1 x2 Qx1 Qx2.
 now apply H.
 Qed.
 
+Lemma filterlim_prod {E} {T} {U} {F : (T -> Prop) -> Prop} {FF : Filter F} (g : E -> U -> U -> Prop) (f : T -> U) :
+  filterlim (fun x => (f (fst x), f (snd x))) (filter_prod F F) (fun P => exists e, forall u v, g e u v -> P (u, v)) <->
+  (forall e, exists P, F P /\ forall u v : T, P u -> P v -> g e (f u) (f v)).
+Proof.
+split.
+- intros H e.
+  destruct (H (fun '(u, v) => g e u v)) as [P Q HP HQ H'].
+  now exists e.
+  exists (fun x => P x /\ Q x).
+  split.
+  now apply filter_and.
+  intros u v Hu Hv.
+  now apply H'.
+- intros H P [e He].
+  destruct (H e) as [Q [H1 H2]].
+  clear H.
+  unfold filtermap.
+  split with Q Q ; try easy.
+  intros x y Hx Hy.
+  now apply He, H2.
+Qed.
+
 (** Restriction of a filter to a domain *)
 
 Definition within {T : Type} D (F : (T -> Prop) -> Prop) (P : T -> Prop) :=
@@ -1993,22 +2015,7 @@ Lemma filterlim_closely {T} {U : UniformSpace} {F : (T -> Prop) -> Prop} {FF : F
   filterlim (fun x => (f (fst x), f (snd x))) (filter_prod F F) closely <->
   (forall eps : posreal, exists P, F P /\ forall u v : T, P u -> P v -> ball (f u) eps (f v)).
 Proof.
-split.
-- intros H eps.
-  destruct (H (fun '(u, v) => ball u eps v)) as [P Q HP HQ H'].
-  now exists eps.
-  exists (fun x => P x /\ Q x).
-  split.
-  now apply filter_and.
-  intros u v Hu Hv.
-  now apply H'.
-- intros H P [eps He].
-  destruct (H eps) as [Q [H1 H2]].
-  clear H.
-  unfold filtermap.
-  split with Q Q ; try easy.
-  intros x y Hx Hy.
-  now apply He, H2.
+apply filterlim_prod.
 Qed.
 
 (** Pointed filter *)
