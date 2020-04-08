@@ -3345,11 +3345,51 @@ apply eq_close.
 now apply is_filter_lim_locally_close.
 Qed.
 
+Definition closely_norm (P : V * V -> Prop) :=
+  exists eps : posreal, forall x y, ball_norm x eps y -> P (x, y).
+
+Lemma closely_le_closely_norm :
+  filter_le closely closely_norm.
+Proof.
+intros P [eps H].
+assert (He : 0 < / norm_factor * eps).
+  apply Rmult_lt_0_compat.
+  apply Rinv_0_lt_compat.
+  apply norm_factor_gt_0.
+  apply cond_pos.
+exists (mkposreal _ He).
+intros u v Buv.
+apply H.
+unfold ball_norm.
+rewrite -(Rmult_1_l eps) -(Rinv_r norm_factor).
+rewrite Rmult_assoc.
+apply norm_compat2 with (1 := Buv).
+apply Rgt_not_eq.
+apply norm_factor_gt_0.
+Qed.
+
+Lemma closely_norm_le_closely :
+  filter_le closely_norm closely.
+Proof.
+intros P [eps H].
+exists eps.
+intros u v Buv.
+apply H.
+now apply norm_compat1.
+Qed.
+
 End NormedModule1.
 
 Section NormedModule2.
 
 Context {T : Type} {K : AbsRing} {V : NormedModule K}.
+
+Lemma filterlim_closely_norm {F : (T -> Prop) -> Prop} {FF : Filter F} (f : T -> V) :
+  filterlim (fun x => (f (fst x), f (snd x))) (filter_prod F F) closely_norm <->
+  (forall eps : posreal, exists P, F P /\ forall u v : T, P u -> P v -> ball_norm (f u) eps (f v)).
+Proof.
+apply filterlim_prod.
+Qed.
 
 Lemma filterlim_locally_unique :
   forall {F} {FF : ProperFilter' F} (f : T -> V) (x y : V),
