@@ -1465,18 +1465,16 @@ Proof.
   case: Hab => [Hab | <- ].
   2: by apply ex_RInt_point.
 
-  assert (H1 := filterlim_locally_cauchy (F := (Riemann_fine a b)) (fun ptd : SF_seq => scal (sign (b - a)) (Riemann_sum f ptd))).
-  apply H1 ; clear H1.
+  apply (filterlim_locally_closely (F := Riemann_fine a b) (fun ptd : SF_seq => scal (sign (b - a)) (Riemann_sum f ptd))).
+  apply: (filterlim_filter_le_2 _ closely_norm_le_closely).
+  apply <- (filterlim_closely_norm (F := Riemann_fine a b) (fun ptd : SF_seq => scal (sign (b - a)) (Riemann_sum f ptd))).
   intros eps.
 
-  set (M := @norm_factor _ V).
-  assert (He : 0 < eps / M).
-    apply Rdiv_lt_0_compat.
-    apply cond_pos.
-    apply norm_factor_gt_0.
-
-  assert (H1 := proj2 (filterlim_locally_cauchy (F := (Riemann_fine a c)) (fun ptd : SF_seq => scal (sign (c - a)) (Riemann_sum f ptd)))).
-  destruct (H1 If (mkposreal _ He)) as [P [[alpha HP] H2]] ; clear If H1 ; rename H2 into If.
+  generalize (filterlim_locally_closely (F := Riemann_fine a c) (fun ptd : SF_seq => scal (sign (c - a)) (Riemann_sum f ptd))).
+  move /proj2 /(_ If).
+  move /(filterlim_filter_le_2 _ closely_le_closely_norm) => H.
+  generalize (proj1 (filterlim_closely_norm (F := Riemann_fine a c) (fun ptd : SF_seq => scal (sign (c - a)) (Riemann_sum f ptd))) H).
+  intros [P [[alpha HP] H2]] ; clear If H ; rename H2 into If.
   destruct (filter_ex (F := Riemann_fine b c) (fun y => seq_step (SF_lx y) < alpha
     /\ pointed_subdiv y /\
      SF_h y = Rmin b c /\ seq.last (SF_h y) (SF_lx y) = Rmax b c)) as [y' Hy'].
@@ -1509,10 +1507,7 @@ Proof.
   specialize (If _ _ (proj1 H) (proj1 H0)).
   rewrite -> sign_eq_1 by exact: Rlt_Rminus.
   rewrite -> sign_eq_1 in If by now apply Rlt_Rminus, Rlt_le_trans with b.
-  apply: norm_compat1.
-  eapply Rlt_le_trans.
-  eapply Rle_lt_trans.
-  2: apply norm_compat2 with (1 := If).
+  eapply Rle_lt_trans with (2 := If).
   apply Req_le, f_equal.
   rewrite !scal_one.
   case: H => _ ; case: H0 => _ ; clear ; intros.
@@ -1544,9 +1539,6 @@ Proof.
   rewrite -SF_cons_cat !Riemann_sum_cons.
   rewrite /minus -!plus_assoc.
   by rewrite -!/(minus _ _) -IH.
-  fold M.
-  apply Req_le ; simpl ; field.
-  by apply Rgt_not_eq, norm_factor_gt_0.
 Qed.
 
 Lemma ex_RInt_Chasles_2 {V : CompleteNormedModule R_AbsRing}
