@@ -16,6 +16,17 @@ depends: [
   "conf-autoconf" {build & dev}
   ("conf-g++" {build} | "conf-clang" {build})
 ]
-tags: [ "keyword:real analysis" "keyword:topology" "keyword:filters" "keyword:metric spaces" "category:Mathematics/Real Calculus and Topology" "logpath:Coquelicot" ]
-authors: [ "Sylvie Boldo <sylvie.boldo@inria.fr>" "Catherine Lelay <catherine.lelay@inria.fr>" "Guillaume Melquiond <guillaume.melquiond@inria.fr>" ]
+tags: [
+  "keyword:real analysis"
+  "keyword:topology"
+  "keyword:filters"
+  "keyword:metric spaces"
+  "category:Mathematics/Real Calculus and Topology"
+  "logpath:Coquelicot"
+]
+authors: [
+  "Sylvie Boldo <sylvie.boldo@inria.fr>"
+  "Catherine Lelay <catherine.lelay@inria.fr>"
+  "Guillaume Melquiond <guillaume.melquiond@inria.fr>"
+]
 synopsis: "A Coq formalization of real analysis compatible with the standard library"
