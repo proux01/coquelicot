@@ -4,6 +4,7 @@
 /.gitlab-ci.yml export-ignore
 /.mailmap export-ignore
 
+/opam export-ignore
 /misc/ export-ignore
 
 /examples/Wasow.v export-ignore
