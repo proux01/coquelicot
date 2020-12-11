@@ -42,7 +42,7 @@ configure config.status: configure.in
 
 %.vo: %.v
 	@COQDEP@ -R theories Coquelicot $< | @REMAKE@ -r $@
-	@COQC@ -R theories Coquelicot $<
+	@COQC@ @COQEXTRAFLAGS@ -R theories Coquelicot $<
 
 theories/clean:
 	rm -f $(OBJS) theories/*.glob
