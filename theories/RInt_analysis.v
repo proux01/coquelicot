@@ -324,7 +324,7 @@ Section Derive.
 Context {V : NormedModule R_AbsRing}.
 
 Lemma is_derive_RInt_0 (f If : R -> V) (a : R) :
-  locally a (fun b => is_RInt f a b (If b))
+  locally a (fun b : R => is_RInt f a b (If b))
   -> continuous f a
   -> is_derive If a (f a).
 Proof.
@@ -348,11 +348,12 @@ Proof.
   simpl.
   apply (proj2 Hy).
   apply locally_singleton in HIf.
-  set (HIf_0 := is_RInt_point f a).
+  assert (HIf_0 := is_RInt_point f a).
   apply (filterlim_locally_unique _ _ _ HIf_0 HIf).
 
   apply filter_and.
   by apply HIf.
+
   assert (0 < eps / @norm_factor _ V).
     apply Rdiv_lt_0_compat.
     by apply eps.
