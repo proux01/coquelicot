@@ -8,11 +8,6 @@ if test "$ac_init_help" = "long"; then
 fi
 m4_divert_pop(99)
 
-m4_divert_push([HELP_ENABLE])
-Fine tuning of the installation directory:
-AS_HELP_STRING([--libdir=DIR], [library @<:@DIR=`$COQC -where`/user-contrib/Coquelicot@:>@])
-m4_divert_pop([HELP_ENABLE])
-
 AC_PROG_CXX
 
 AC_ARG_VAR(COQBIN, [path to Coq executables [empty]])
@@ -44,8 +39,10 @@ AS_IF(
     AC_MSG_ERROR([ *** Unable to find library mathcomp.ssreflect >= 1.6 (http://math-comp.github.io/math-comp/)])])
 rm -f conftest.v conftest.vo conftest.err
 
-if test "$libdir" = '${exec_prefix}/lib'; then
-  libdir="`$COQC -where | tr -d '\r' | tr '\\\\' '/'`/user-contrib/Coquelicot"
+AC_ARG_VAR(COQUSERCONTRIB, [installation directory [`$COQC -where`/user-contrib]])
+
+if test -z "$COQUSERCONTRIB"; then
+  COQUSERCONTRIB="`$COQC -where | tr -d '\r' | tr '\\\\' '/'`/user-contrib"
 fi
 
 AC_MSG_NOTICE([building remake...])

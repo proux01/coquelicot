@@ -89,11 +89,10 @@ examples/clean:
 	rm -f $(EXOBJS) examples/*.glob
 
 install:
-	prefix=@prefix@
-	exec_prefix=@exec_prefix@
-	mkdir -p @libdir@
-	cp $(OBJS) @libdir@
-	( cd theories && find . -type d -name ".coq-native" -exec cp -RT "{}" "@libdir@/{}" \; )
+	dir="${DESTDIR}@COQUSERCONTRIB@/Coquelicot"
+	mkdir -p $dir
+	cp $(OBJS) $dir
+	( cd theories && find . -type d -name ".coq-native" -exec cp -RT "{}" "$dir/{}" \; )
 
 EXTRA_DIST = \
 	configure
