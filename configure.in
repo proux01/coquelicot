@@ -1,4 +1,4 @@
-AC_INIT([Coquelicot], [3.1.0],
+AC_INIT([Coquelicot], [3.2.0],
         [Guillaume Melquiond <guillaume.melquiond@inria.fr>],
         [coquelicot])
 
@@ -34,7 +34,7 @@ AS_IF(
     $COQC conftest.v > conftest.err ],
   [ AC_MSG_RESULT([yes]) ],
   [ AC_MSG_RESULT([no])
-    AC_MSG_ERROR([ *** Unable to find library mathcomp.ssreflect >= 1.6 (http://math-comp.github.io/math-comp/)])])
+    AC_MSG_ERROR([ *** Unable to find library mathcomp.ssreflect (http://math-comp.github.io/math-comp/)])])
 rm -f conftest.v conftest.vo conftest.err
 
 AC_ARG_VAR(COQUSERCONTRIB, [installation directory [`$COQC -where`/user-contrib]])

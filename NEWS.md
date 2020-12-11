@@ -1,7 +1,12 @@
+Version 3.2.0
+-------------
+
+* added `closely` to filter over pairs of close values in place of `cauchy`
+
 Version 3.1.0
 -------------
 
-* ensured compatibility from Coq 8.8 to Coq 8.11
+* ensured compatibility from Coq 8.8 to Coq 8.13
 * added some theorems about continuity and differentiability of elementary functions
 
 Version 3.0.3

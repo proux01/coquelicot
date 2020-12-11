@@ -98,8 +98,8 @@ EXTRA_DIST = \
 	configure
 
 dist: $(EXTRA_DIST)
-        PACK=@PACKAGE_TARNAME@-@PACKAGE_VERSION@
-        rm -f $PACK.tar.gz
-        git archive --format=tar --prefix=$PACK/ -o $PACK.tar HEAD
-        tar rf $PACK.tar --transform="s,^,$PACK/," --mtime="`git show -s --format=%ci`" $(EXTRA_DIST)
-        gzip -n -f --best $PACK.tar
+	PACK=@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	rm -f $PACK.tar.gz
+	git archive --format=tar --prefix=$PACK/ -o $PACK.tar HEAD
+	tar rf $PACK.tar --transform="s,^,$PACK/," --mtime="`git show -s --format=%ci`" $(EXTRA_DIST)
+	gzip -n -f --best $PACK.tar
