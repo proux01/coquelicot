@@ -24,8 +24,8 @@ to set the Coq compiler command. The configure script defaults to `coqc`.
 Similarly, `COQDEP` can be used to specify the location of `coqdep`. The
 `COQBIN` environment variable can be used to set both variables at once.
 
-Option `--libdir=DIR` sets the directory where the compiled library files
-should be installed by `./remake install`. By default, the target directory
-is `` `$COQC -where`/user-contrib/Coquelicot ``.
-
-The files are compiled at a logical location starting with `Coquelicot`.
+The library files are compiled at the logical location `Coquelicot`. The
+`COQUSERCONTRIB` environment variable can be used to override the
+physical location where the `Coquelicot` directory containing these files
+will be installed by `./remake install`. By default, the target directory
+is `` `$COQC -where`/user-contrib ``.
