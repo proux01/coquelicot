@@ -21,7 +21,7 @@ COPYING file for more details.
 
 From Coq Require Import Reals Psatz ssreflect.
 
-Require Import Rcomplements Rbar Hierarchy Derive RInt Continuity Lim_seq ElemFct RInt_analysis.
+From Coquelicot Require Import Rcomplements Rbar Hierarchy Derive RInt Continuity Lim_seq ElemFct RInt_analysis.
 
 (** This file describes an experiment: most 18-year old French
 students pass an exam called Baccalaureate which ends the high school

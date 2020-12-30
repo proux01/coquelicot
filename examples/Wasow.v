@@ -20,7 +20,7 @@ COPYING file for more details.
 *)
 
 From Coq Require Import Reals ssreflect.
-Require Import Coquelicot.
+From Coquelicot Require Import Coquelicot.
 
 (** This file describes some complex analysis results, including path
 integrals. The final goal is to prove a version of Cauchy-Lipschitz

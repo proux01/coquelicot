@@ -21,7 +21,7 @@ COPYING file for more details.
 
 From Coq Require Import Reals Psatz ssreflect.
 
-Require Import Rcomplements Rbar Hierarchy Derive Series PSeries Lim_seq AutoDerive.
+From Coquelicot Require Import Rcomplements Rbar Hierarchy Derive Series PSeries Lim_seq AutoDerive.
 
 (** This file is an example of how to use power series. It defines and
 gives properties of the Bessel functions. *)
