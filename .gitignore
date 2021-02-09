@@ -15,4 +15,5 @@ deps.dot
 *.vok
 *.vos
 *.glob
+*.timing
 .coq-native
