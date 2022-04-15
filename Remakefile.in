@@ -51,7 +51,7 @@ html/index.html: $(OBJS)
 	rm -rf html
 	mkdir -p html
 	@COQDOC@ -toc -interpolate -utf8 -html -g -R theories Coquelicot -d html \
-	  --coqlib http://coq.inria.fr/distrib/current/stdlib \
+	  --coqlib_url http://coq.inria.fr/distrib/current/stdlib \
 	  --external https://math-comp.github.io/htmldoc mathcomp \
 	  $(addprefix theories/,$(FILES))
 
