@@ -557,7 +557,7 @@ Definition index_not_const l n :=
 
 Lemma uniq_index_not_const :
   forall n l,
-  uniq (T:=ssrnat.nat_eqType) (index_not_const l n).
+  uniq (T:=ssrnat_eqType) (index_not_const l n).
 Proof.
 intros n l.
 unfold index_not_const.
@@ -565,7 +565,7 @@ apply filter_uniq.
 apply iota_uniq.
 Qed.
 
-Canonical ssrnat.nat_eqType.
+Canonical ssrnat_eqType.
 
 Lemma index_not_const_correct :
   forall n l (k : nat),
@@ -573,7 +573,7 @@ Lemma index_not_const_correct :
   is_const (nth (Cst 0) l k) n = true.
 Proof.
 intros n l k.
-rewrite /index_not_const (@mem_filter ssrnat.nat_eqType) mem_iota /=.
+rewrite /index_not_const (@mem_filter ssrnat_eqType) mem_iota /=.
 rewrite ssrnat.add0n.
 case E: ssrnat.leq.
 case is_const.
@@ -604,7 +604,7 @@ rewrite 2?(nth_map (Cst 0)) //.
 rewrite (is_const_correct _ n _ l x (nth 0 l n)).
 apply interp_set_nth.
 now apply Hp.
-rewrite (@in_cons ssrnat.nat_eqType) /= -ssrnat.eqnE.
+rewrite (@in_cons ssrnat_eqType) /= -ssrnat.eqnE.
 case E: (ssrnat.eqn m t).
 intros _.
 rewrite (ssrnat.eqnP E).
@@ -831,7 +831,7 @@ case E: (ssrnat.eqn p v1) => //.
 rewrite (ssrnat.eqnP E).
 revert Hv.
 rewrite /in_mem /= ssrnat.eqnE.
-now case eqtype.eq_op.
+now rewrite orbF andbT => /negbTE ->.
 apply continuity_2d_pt_filterlim in H2.
 apply: continuous_ext H2 => [[u v]].
 unfold Derive_Rn.
