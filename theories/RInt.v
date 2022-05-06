@@ -764,16 +764,16 @@ replace (Riemann_sum (fun x => f (-x)) ptd) with (Riemann_sum f (SF_rev ptd')).
     apply SSR_leq in H0.
     by apply le_not_lt.
   case: (ssrnat.leq (S (SF_size s)) (SF_size s)) => // _.
-  move: (@eqtype.eq_refl ssrnat.nat_eqType (SF_size s)) ;
-  case: (@eqtype.eq_op ssrnat.nat_eqType (SF_size s) (SF_size s)) => // _.
+  move: (@eqtype.eq_refl ssrnat_eqType (SF_size s)) ;
+  case: (@eqtype.eq_op ssrnat_eqType (SF_size s) (SF_size s)) => // _.
   have : ~ is_true (ssrnat.leq (S (S (SF_size s))) (S (SF_size s))).
     have H0 := Nat.lt_succ_diag_r (SF_size s).
     contradict H0.
     apply SSR_leq in H0.
     by apply le_not_lt, le_S_n.
   case: (ssrnat.leq (S (S (SF_size s))) (S (SF_size s))) => // _.
-  move: (@eqtype.eq_refl ssrnat.nat_eqType (S (SF_size s))) ;
-  case: (@eqtype.eq_op ssrnat.nat_eqType (S (SF_size s)) (S (SF_size s))) => // _.
+  move: (@eqtype.eq_refl ssrnat_eqType (S (SF_size s))) ;
+  case: (@eqtype.eq_op ssrnat_eqType (S (SF_size s)) (S (SF_size s))) => // _.
   rewrite H SF_lx_rev nth_rev SF_size_lx //=.
   replace (ssrnat.subn (S (SF_size s'')) (S (SF_size s'')))
     with 0%nat by intuition.

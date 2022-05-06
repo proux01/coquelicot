@@ -1299,6 +1299,12 @@ Qed.
 (** * ssreflect.seq *)
 (** Finite subdivision *)
 
+Module ssrnat_eqType.
+Import eqtype ssrnat.
+Definition ssrnat_eqType := [eqType of nat].
+End ssrnat_eqType.
+Export ssrnat_eqType.
+
 Lemma interval_finite_subdiv (a b : R) (eps : posreal) : (a <= b) ->
   {l : seq R | head 0 l = a /\ last 0 l = b /\
     forall i, (S i < size l)%nat -> nth 0 l i < nth 0 l (S i) <= nth 0 l i + eps}.
@@ -1375,7 +1381,7 @@ Proof.
   by apply eps.
   apply (f_equal negb) in H0 ; simpl in H0.
   rewrite -ssrnat.leqNgt in H0.
-  case H1 : (@eqtype.eq_op ssrnat.nat_eqType (S i) (S n)) => //.
+  case H1 : (@eqtype.eq_op ssrnat_eqType (S i) (S n)) => //.
   rewrite ssrnat.eqSS /= in H1.
   replace i with n.
   rewrite nth_mkseq => //.
@@ -1404,7 +1410,7 @@ Proof.
   by apply Rle_refl.
   apply (f_equal negb) in H0 ; simpl in H0.
   rewrite -ssrnat.leqNgt in H0.
-  case H1 : (@eqtype.eq_op ssrnat.nat_eqType (S i) (S n)) => //.
+  case H1 : (@eqtype.eq_op ssrnat_eqType (S i) (S n)) => //.
   rewrite ssrnat.eqSS /= in H1.
   replace i with n.
   rewrite nth_mkseq => //.
