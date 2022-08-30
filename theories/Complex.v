@@ -477,6 +477,33 @@ Qed.
 
 (** ** Ring and Field *)
 
+Definition C_ring_morph :
+ ring_morph (RtoC 0) (RtoC 1) Cplus Cmult Cminus Copp (@eq C)
+  0%Z 1%Z Z.add Z.mul Z.sub Z.opp Z.eqb (fun z => RtoC (IZR z)).
+Proof.
+ constructor; try reflexivity; intros.
+ - now rewrite plus_IZR RtoC_plus.
+ - now rewrite minus_IZR RtoC_minus.
+ - now rewrite mult_IZR RtoC_mult.
+ - now rewrite opp_IZR RtoC_opp.
+ - f_equal. f_equal. now apply Z.eqb_eq.
+Qed.
+
+Lemma C_power_theory : @power_theory C 1 Cmult (@eq C) _ N.to_nat Cpow.
+Proof.
+ constructor. destruct n. reflexivity.
+ simpl. induction p.
+ - rewrite Pos2Nat.inj_xI. simpl. now rewrite Nat.add_0_r Cpow_add_r IHp.
+ - rewrite Pos2Nat.inj_xO. simpl. now rewrite Nat.add_0_r Cpow_add_r IHp.
+ - simpl. now rewrite Cmult_1_r.
+Qed.
+
+Ltac RtoC_IZR_tac t :=
+  match t with
+  | RtoC ?x => IZR_tac x
+  | _ => constr:(NotConstant)
+  end.
+
 Lemma C_ring_theory : ring_theory (RtoC 0) (RtoC 1) Cplus Cmult Cminus Copp eq.
 Proof.
 constructor.
@@ -491,7 +518,11 @@ easy.
 exact Cplus_opp_r.
 Qed.
 
-Add Ring C_ring_ring : C_ring_theory.
+Add Ring C_ring_ring :
+ C_ring_theory
+  (morphism C_ring_morph,
+   constants [RtoC_IZR_tac],
+   power_tac C_power_theory [Rpow_tac]).
 
 Lemma C_field_theory : field_theory (RtoC 0) (RtoC 1) Cplus Cmult Cminus Copp Cdiv Cinv eq.
 Proof.
@@ -513,7 +544,17 @@ easy.
 apply Cinv_l.
 Qed.
 
-Add Field C_field_field : C_field_theory.
+Lemma Zeqb_Ccomplete z z' : RtoC (IZR z) = RtoC (IZR z') -> Z.eqb z z' = true.
+Proof.
+ intros H. apply Z.eqb_eq. now apply eq_IZR, RtoC_inj.
+Qed.
+
+Add Field C_field_field :
+ C_field_theory
+  (morphism C_ring_morph,
+   completeness Zeqb_Ccomplete,
+   constants [RtoC_IZR_tac],
+   power_tac C_power_theory [Rpow_tac]).
 
 (** * C is a NormedModule *)
 
