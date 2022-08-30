@@ -424,6 +424,59 @@ Proof.
   now apply (f_equal (@snd R R)) in H.
 Qed.
 
+(** A power function : c^n *)
+
+Fixpoint Cpow (c : C) n : C :=
+ match n with
+ | O => 1
+ | S n => c * Cpow c n
+ end.
+
+Infix "^" := Cpow : C_scope.
+
+Lemma Cpow_1_l n : 1^n = 1.
+Proof.
+ induction n; simpl; auto. now rewrite IHn Cmult_1_l.
+Qed.
+
+Lemma Cpow_1_r c : c^1 = c.
+Proof.
+ simpl. apply Cmult_1_r.
+Qed.
+
+Lemma Cpow_S c n : c^(S n) = c*c^n.
+Proof.
+ reflexivity.
+Qed.
+
+Lemma Cpow_add_r c n m : c^(n+m) = c^n*c^m.
+Proof.
+ induction n; simpl. now rewrite Cmult_1_l. now rewrite IHn Cmult_assoc.
+Qed.
+
+Lemma Cpow_mult_l a b n : (a*b)^n = a^n * b^n.
+Proof.
+ induction n; simpl. now rewrite Cmult_1_l. rewrite IHn.
+ rewrite Cmult_assoc.
+ rewrite <- (Cmult_assoc a b _). rewrite (Cmult_comm b _).
+ now rewrite !Cmult_assoc.
+Qed.
+
+Lemma Cpow_mult_r c n m : c^(n*m) = (c^n)^m.
+Proof.
+ induction n; simpl. now rewrite Cpow_1_l.
+ now rewrite !Cpow_add_r IHn Cpow_mult_l.
+Qed.
+
+Lemma Cpow_nz (c:C) n : c <> 0 -> c^n <> 0.
+Proof.
+ induction n; simpl; intro H.
+ - injection. apply R1_neq_R0.
+ - apply Cmult_neq_0; auto.
+Qed.
+
+(** ** Ring and Field *)
+
 Lemma C_ring_theory : ring_theory (RtoC 0) (RtoC 1) Cplus Cmult Cminus Copp eq.
 Proof.
 constructor.
