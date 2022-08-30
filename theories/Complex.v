@@ -69,6 +69,7 @@ Definition Cinv (x : C) : C := (fst x / (fst x ^ 2 + snd x ^ 2), - snd x / (fst 
 Definition Cdiv (x y : C) : C := Cmult x (Cinv y).
 
 Delimit Scope C_scope with C.
+Bind Scope C_scope with C.
 Local Open Scope C_scope.
 
 Infix "+" := Cplus : C_scope.
