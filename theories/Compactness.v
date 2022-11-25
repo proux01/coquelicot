@@ -262,7 +262,7 @@ rewrite -(Rplus_0_r b).
 apply Rplus_le_compat with (1 := Hby).
 apply Rlt_le.
 apply cond_pos.
-elimtype False.
+exfalso.
 unfold y in *.
 clear y.
 revert P4 Hby.
