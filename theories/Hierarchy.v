@@ -4583,10 +4583,10 @@ constructor.
   split.
   apply HP.
   apply Nat.le_trans with (2 := Hn).
-  apply Max.le_max_l.
+  apply Nat.le_max_l.
   apply HQ.
   apply Nat.le_trans with (2 := Hn).
-  apply Max.le_max_r.
+  apply Nat.le_max_r.
 - intros P Q H [NP HP].
   exists NP.
   intros n Hn.
