@@ -942,7 +942,7 @@ Lemma is_LimSup_seq_const (a : R) :
 Proof.
   intros eps ; split.
   intros N ; exists N ; split.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Rminus_lt_0 ; ring_simplify.
   by apply eps.
   exists O => _ _.
@@ -961,7 +961,7 @@ Lemma is_LimInf_seq_const (a : R) :
 Proof.
   intros eps ; split.
   intros N ; exists N ; split.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Rminus_lt_0 ; ring_simplify.
   by apply eps.
   exists O => _ _.
@@ -1509,12 +1509,12 @@ Proof.
   apply H2 ; intuition.
   apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1.
   by apply is_pos_div_2.
-  move: (fun n Hn => proj2 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (le_refl _))))
+  move: (fun n Hn => proj2 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (Nat.le_refl _))))
   => {Hcv} Hcv.
   case: (Hl (u Ncv + eps / 2) Ncv) => {Hl} n [Hn Hl].
   contradict Hl ; apply Rle_not_lt, Rlt_le.
   by apply Hcv.
-  move: (fun n Hn => proj1 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (le_refl _))))
+  move: (fun n Hn => proj1 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (Nat.le_refl _))))
   => {Hcv} Hcv.
   case: (Hl (u Ncv - eps / 2)) => {Hl} N Hl.
   move: (Hcv _ (le_plus_l Ncv N)) => H.
@@ -1589,7 +1589,7 @@ apply le_trans with (1:=le_plus_r (phi M) _).
 assert (H:(forall x, M+phi M + x <= M+phi (x+M))%nat).
 induction x as [|x IH].
 rewrite Nat.add_0_l Nat.add_0_r.
-apply le_refl.
+apply Nat.le_refl.
 rewrite <- plus_n_Sm.
 apply lt_le_S.
 apply le_lt_trans with (1:=IH).
@@ -1604,7 +1604,7 @@ apply le_trans with (2:=H).
 rewrite (Nat.add_comm _ (phi M)) -Arith.Plus.plus_assoc.
 apply plus_le_compat_l.
 rewrite le_plus_minus_r.
-apply le_refl.
+apply Nat.le_refl.
 exact H0.
 rewrite Nat.add_comm.
 now apply sym_eq, le_plus_minus_r.
@@ -2175,14 +2175,14 @@ Proof.
   by [].
   apply is_lim_seq_spec in Hu.
   case: (Hu (u O)) => {Hu} N Hu.
-  move: (Hu N (le_refl _)) => {Hu} Hu.
+  move: (Hu N (Nat.le_refl _)) => {Hu} Hu.
   contradict Hu ; apply Rle_not_lt.
   elim: N => [ | N IH].
   by apply Rle_refl.
   by apply Rle_trans with (1 := H _).
   apply is_lim_seq_spec in Hu.
   case: (Hu M) => {Hu} N Hu.
-  move: (Hu N (le_refl _)) => {Hu} Hu.
+  move: (Hu N (Nat.le_refl _)) => {Hu} Hu.
   contradict Hu ; by apply Rle_not_lt.
 Qed.
 Lemma ex_finite_lim_seq_incr (u : nat -> R) (M : R) :

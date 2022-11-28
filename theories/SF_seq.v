@@ -2164,7 +2164,7 @@ Proof.
   rewrite Rmult_comm.
   by apply SF_cons_dec with (s := s).
   apply pr.
-  contradict H ; rewrite -nth_last -nth0 ; move: (le_refl (ssrnat.predn (size (SF_lx (SF_map f s))))) ;
+  contradict H ; rewrite -nth_last -nth0 ; move: (Nat.le_refl (ssrnat.predn (size (SF_lx (SF_map f s))))) ;
   elim: {1 3}(ssrnat.predn (size (SF_lx (SF_map f s)))) => /= [| i IH] Hi.
   apply Rle_refl.
   apply Rle_trans with (1 := IH (le_trans _ _ _ (Nat.le_succ_diag_r i) Hi)), (sorted_nth Rle) ;

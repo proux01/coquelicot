@@ -485,7 +485,7 @@ Proof.
   apply @is_derive_const.
   intros t ; rewrite Derive_n_pow_smalli.
   by rewrite minus_diag /=.
-  by apply le_refl.
+  by apply Nat.le_refl.
   by apply @is_derive_const.
 Qed.
 

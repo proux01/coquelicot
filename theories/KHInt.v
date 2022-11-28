@@ -365,7 +365,7 @@ rewrite SF_size_lx ; simpl ; easy.
 move :Hcase => /ssrnat.leP Hcase.
 absurd (S (SF_size s) <= S (SF_size s))%nat.
 assumption.
-apply le_refl.
+apply Nat.le_refl.
 replace (S (SF_size s)) with (Peano.pred (size (rcons (SF_lx s) (fst (b', b'))))).
 rewrite nth_last ; easy.
 rewrite size_rcons ; rewrite SF_size_lx ; simpl ; easy.

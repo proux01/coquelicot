@@ -4574,7 +4574,7 @@ constructor.
   intros P [N H].
   exists N.
   apply H.
-  apply le_refl.
+  apply Nat.le_refl.
 constructor.
 - now exists 0%nat.
 - intros P Q [NP HP] [NQ HQ].

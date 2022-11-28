@@ -748,7 +748,7 @@ Proof.
     rewrite -sum_f_rw.
     rewrite /sum_f.
     replace (S n + S n - S (S n))%nat with n.
-    elim: {1 5 8}n (le_refl n) => [ | m IH] Hm ; rewrite /sum_f_R0 -/sum_f_R0.
+    elim: {1 5 8}n (Nat.le_refl n) => [ | m IH] Hm ; rewrite /sum_f_R0 -/sum_f_R0.
     rewrite Nat.sub_0_r Nat.add_0_l ; simpl pred.
     rewrite -?sum_f_rw_0.
     replace (sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat))
@@ -765,7 +765,7 @@ Proof.
       repeat apply Rplus_le_compat_r.
       apply Req_le.
       rewrite ?sum_f_rw_0.
-      elim: {1 4 6}n (le_refl n) => [ | k IH] Hk // ;
+      elim: {1 4 6}n (Nat.le_refl n) => [ | k IH] Hk // ;
       rewrite /sum_f_R0 -/sum_f_R0.
       rewrite IH ; try by intuition.
       apply f_equal.
@@ -856,7 +856,7 @@ Proof.
     apply le_trans with (1 := Hn).
     apply (Div2.ind_0_1_SS (fun n => (n <= S (2 * Div2.div2 n))%nat)).
     by apply Nat.le_0_l.
-    by apply le_refl.
+    by apply Nat.le_refl.
     move => k Hk.
     replace (Div2.div2 (S (S k))) with (S (Div2.div2 k)) by auto.
     replace (2 * S (Div2.div2 k))%nat with (S (S (2 * Div2.div2 k))) by ring.
@@ -1003,7 +1003,7 @@ Proof.
   apply (is_lim_seq_geom k0).
   rewrite Rabs_pos_eq.
   unfold k0 ; lra.
-  apply Rle_trans with (2 := H N (le_refl _)) ; by apply Rabs_pos.
+  apply Rle_trans with (2 := H N (Nat.le_refl _)) ; by apply Rabs_pos.
   easy.
 Qed.
 

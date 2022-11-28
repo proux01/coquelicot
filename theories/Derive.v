@@ -2928,10 +2928,10 @@ Proof.
   by apply le_trans with (1 := Hk), Nat.le_succ_diag_r.
   apply Hf with (k := (S n)).
   by apply ball_center.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Hg with (k := S n).
   by apply ball_center.
-  by apply le_refl.
+  by apply Nat.le_refl.
 Qed.
 
 Lemma ex_derive_n_plus (f g : R -> R) (n : nat) (x : R) :
@@ -2981,7 +2981,7 @@ Lemma is_derive_n_iter_plus {I : Type} (l : list I) (f : I -> R -> R) (n: nat) (
     (iter Rplus 0 l (fun j => Derive_n (f j) n x)).
 Proof.
   intros H.
-  elim: n {-2}n x (le_refl n) H => [ | n IH] m x Hn Hx.
+  elim: n {-2}n x (Nat.le_refl n) H => [ | n IH] m x Hn Hx.
   now replace m with O by intuition.
   apply le_lt_eq_dec in Hn ; case: Hn => Hn.
   apply IH => //.
@@ -2992,7 +2992,7 @@ Proof.
   intros y Hy.
   apply sym_equal, is_derive_n_unique.
   apply IH.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Hy.
   apply locally_locally.
   move: Hx ; apply filter_imp.
@@ -3004,7 +3004,7 @@ Proof.
   apply locally_filter.
   intros.
   apply Derive_correct.
-  apply ((locally_singleton _ _ Hx) j (S n) H (le_refl _)).
+  apply ((locally_singleton _ _ Hx) j (S n) H (Nat.le_refl _)).
   simpl => y.
   clear ; elim: l => /= [ | h l IH].
   by rewrite scal_zero_r.
@@ -3458,7 +3458,7 @@ apply: is_derive_plus.
 (* . *)
 clear c g.
 rename n into N.
-generalize (le_refl N).
+generalize (Nat.le_refl N).
 generalize N at -2.
 intros n Hn.
 move: Hn.

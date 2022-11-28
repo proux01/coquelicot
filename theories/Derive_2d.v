@@ -1144,7 +1144,7 @@ apply Rplus_le_compat_l.
 now apply Rlt_le.
 (* . *)
 clear -H.
-generalize (le_refl (S n)).
+generalize (Nat.le_refl (S n)).
 generalize (S n) at 1 3.
 intros p Hp.
 induction p.
@@ -1398,7 +1398,7 @@ rewrite /Rdiv Rmult_1_l Rabs_right .
 right; ring.
 apply Rle_ge; apply Rlt_le; apply Rinv_0_lt_compat.
 apply INR_fact_lt_0.
-apply le_refl.
+apply Nat.le_refl.
 split; apply Rlt_le, Ht.
 intros n0 hn0.
 rewrite H0.

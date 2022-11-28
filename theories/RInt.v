@@ -2032,7 +2032,7 @@ Proof.
       rewrite SF_ly_f2 nth_behead (nth_pairmap 0).
       move: {-2 4}(S (n e)) Hi => Si /= ; clear ; lra.
       rewrite size_mkseq.
-      apply SSR_leq, le_refl.
+      apply SSR_leq, Nat.le_refl.
       apply -> Rminus_le_0.
       apply (sorted_nth Rle (unif_part a b (n e))).
       by apply unif_part_sort, Rlt_le.
@@ -2045,7 +2045,7 @@ Proof.
       rewrite SF_size_ly.
       apply le_S_n ; rewrite -SF_size_lx.
       rewrite SF_lx_f2.
-      rewrite size_mkseq ; by apply le_refl.
+      rewrite size_mkseq ; by apply Nat.le_refl.
       by apply Nat.lt_0_succ.
       by apply Nat.lt_0_succ.
     rewrite minus_eq_zero norm_zero ; by apply e.
@@ -4280,7 +4280,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   rewrite size_mkseq nth_mkseq.
   simpl ssrnat.predn ; rewrite S_INR ;
   field ; apply Rgt_not_eq ; by intuition.
-  simpl ; apply SSR_leq, le_refl.
+  simpl ; apply SSR_leq, Nat.le_refl.
   by apply Nat.lt_0_succ.
   move: H => {HIf} HIf.
   assert (forall g1 g2 : R -> R -> R,

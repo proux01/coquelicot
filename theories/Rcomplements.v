@@ -683,7 +683,7 @@ Proof.
   rewrite -(IH (fun k => u (S k))) => {IH} ; try by intuition.
   apply f_equal2.
   rewrite /sum_f.
-  elim: {1 3 4}(m - n)%nat (le_refl (m-n)%nat) => [ | k IH] // Hk ;
+  elim: {1 3 4}(m - n)%nat (Nat.le_refl (m-n)%nat) => [ | k IH] // Hk ;
   rewrite /sum_f_R0 -/sum_f_R0.
   apply f_equal.
   rewrite Nat.add_0_l MyNat.sub_add ; intuition.
