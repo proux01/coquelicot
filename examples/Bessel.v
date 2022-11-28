@@ -145,7 +145,7 @@ Proof.
   rewrite -(PSeries_const_0 (y^2)).
   apply PSeries_ext.
   case => [ | p] ; rewrite /Bessel1_seq ;
-  rewrite -?plus_n_Sm ?plus_0_r /fact -/fact ?mult_INR ?S_INR ?plus_INR ; simpl INR ; simpl pow ;
+  rewrite -?plus_n_Sm ?Nat.add_0_r /fact -/fact ?mult_INR ?S_INR ?plus_INR ; simpl INR ; simpl pow ;
   rewrite ?Rplus_0_l ?Rmult_1_l.
   rewrite /plus /zero /scal /= /mult /=.
   field.
@@ -248,7 +248,7 @@ Proof.
 (* egalité *)
   rewrite /PS_plus /PS_scal /PS_incr_1 /Bessel1_seq ;
   case: k => [ | k] ;
-  rewrite ?plus_0_r -?plus_n_Sm ?plus_Sn_m
+  rewrite ?Nat.add_0_r -?plus_n_Sm ?plus_Sn_m
     /fact -/fact ?mult_INR ?S_INR ?plus_INR /=.
   rewrite plus_zero_l /scal /= /mult /=.
   field.

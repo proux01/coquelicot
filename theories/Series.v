@@ -259,7 +259,7 @@ Proof.
   apply is_series_ext with (fun k : nat => a (S (n + S k))).
   move => k ; apply f_equal ; ring.
   apply (is_series_incr_1 (fun k : nat => a (S (n + k))) l).
-  rewrite plus_0_r.
+  rewrite Nat.add_0_r.
   apply IH.
   replace (plus (plus l (a (S n))) (sum_n a n)) with (plus l (sum_n a (S n))).
   assumption.
@@ -769,7 +769,7 @@ Proof.
       rewrite /sum_f_R0 -/sum_f_R0.
       rewrite IH ; try by intuition.
       apply f_equal.
-      by rewrite plus_0_r /=.
+      by rewrite Nat.add_0_r /=.
     apply Rplus_le_compat.
     apply IH ; intuition.
     rewrite -?sum_f_rw_0.
@@ -976,7 +976,7 @@ Proof.
   by apply Rabs_pos_lt.
   rewrite -Rabs_div.
   elim: n => [ | n IH].
-  rewrite plus_0_r /Rdiv Rinv_r.
+  rewrite Nat.add_0_r /Rdiv Rinv_r.
   rewrite Rabs_R1 ; by apply Rle_refl.
   by apply Ha.
   replace (Rabs (a (N + S n)%nat / a N))

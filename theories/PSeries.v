@@ -1134,7 +1134,7 @@ Proof.
   repeat rewrite (scal_distr_l _ l).
   rewrite -plus_assoc; apply f_equal.
   rewrite opp_plus scal_distr_l; apply f_equal.
-  rewrite plus_0_r -scal_opp_l scal_assoc.
+  rewrite Nat.add_0_r -scal_opp_l scal_assoc.
   apply trans_eq with (scal (opp (one : K)) (a (S n))).
   now rewrite scal_opp_l scal_one.
   apply f_equal2; try reflexivity.
@@ -1409,7 +1409,7 @@ Proof.
   rewrite <- even_double; try exact J.
   now apply le_S.
   rewrite <- odd_double; easy.
-  simpl; now rewrite plus_0_r.
+  simpl; now rewrite Nat.add_0_r.
 (* a(2k+1)x^(2k+1) *)
   apply (is_lim_seq_scal_l _ x l2) => //.
   apply filterlim_ext_loc with
@@ -1435,7 +1435,7 @@ Proof.
   rewrite <- odd_double; try exact J.
   case n; simpl; try easy.
   now apply le_S.
-  simpl; now rewrite plus_0_r.
+  simpl; now rewrite Nat.add_0_r.
 Qed.
 Lemma ex_pseries_odd_even (a : nat -> R) (x : R) :
   ex_pseries (fun n => a (2*n)%nat) (x^2) -> ex_pseries (fun n => a (2*n+1)%nat) (x^2)
@@ -2362,7 +2362,7 @@ Proof.
   elim: n a => [ | n IH] /= a.
   apply CV_radius_ext.
   move => k ; rewrite /PS_derive_n /=.
-  rewrite plus_0_r ; field.
+  rewrite Nat.add_0_r ; field.
   by apply INR_fact_neq_0.
   rewrite -(CV_radius_derive a).
   rewrite -(IH (PS_derive a)).

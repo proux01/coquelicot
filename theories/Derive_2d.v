@@ -663,7 +663,7 @@ unfold partial_derive.
 simpl.
 rewrite -Derive_n_comp.
 now apply Derive_n_ext.
-rewrite plus_0_r.
+rewrite Nat.add_0_r.
 unfold partial_derive.
 simpl.
 apply Derive_n_ext.
@@ -1028,7 +1028,7 @@ apply ex_diff_n_m.
 lia.
 apply trans_eq with (partial_derive p (S k) (partial_derive 1 0 f) x y).
 rewrite partial_derive_add_zero.
-now rewrite plus_0_l plus_0_r.
+now rewrite plus_0_l Nat.add_0_r.
 now right.
 rewrite - IHp.
 apply partial_derive_ext_loc.
@@ -1038,7 +1038,7 @@ intros u v H.
 apply trans_eq with
  (partial_derive p 0 (partial_derive 0 k (partial_derive 1 0 f)) u v).
 rewrite (partial_derive_add_zero _ _ 0%nat).
-now rewrite plus_0_l plus_0_r.
+now rewrite plus_0_l Nat.add_0_r.
 now right.
 apply trans_eq with
  (partial_derive p 0 (partial_derive 1 k f) u v).
@@ -1063,9 +1063,9 @@ apply locally_2d_forall.
 intros u'' v''.
 replace (p+ S k)%nat with ((S p+S k)-(1+0))%nat.
 apply ex_diff_n_deriv.
-rewrite plus_0_r.
+rewrite Nat.add_0_r.
 apply le_plus_trans; apply lt_le_S; apply lt_0_Sn.
-rewrite plus_0_r.
+rewrite Nat.add_0_r.
 lia.
 Qed.
 

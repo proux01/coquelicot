@@ -1588,7 +1588,7 @@ rewrite Arith.Plus.plus_comm ; apply le_trans with (1:=Hn).
 apply le_trans with (1:=le_plus_r (phi M) _).
 assert (H:(forall x, M+phi M + x <= M+phi (x+M))%nat).
 induction x as [|x IH].
-rewrite plus_0_l plus_0_r.
+rewrite plus_0_l Nat.add_0_r.
 apply le_refl.
 rewrite <- plus_n_Sm.
 apply lt_le_S.
@@ -1808,11 +1808,11 @@ Lemma is_lim_seq_incr_n (u : nat -> R) (N : nat) (l : Rbar) :
 Proof.
   split.
   elim: N u => [ | N IH] u Hu.
-  move: Hu ; apply is_lim_seq_ext => n ; by rewrite plus_0_r.
+  move: Hu ; apply is_lim_seq_ext => n ; by rewrite Nat.add_0_r.
   apply is_lim_seq_incr_1, IH in Hu.
   move: Hu ; by apply is_lim_seq_ext => n ; by rewrite plus_n_Sm.
   elim: N u => [ | N IH] u Hu.
-  move: Hu ; apply is_lim_seq_ext => n ; by rewrite plus_0_r.
+  move: Hu ; apply is_lim_seq_ext => n ; by rewrite Nat.add_0_r.
   apply is_lim_seq_incr_1, IH.
   move: Hu ; by apply is_lim_seq_ext => n ; by rewrite plus_n_Sm.
 Qed.
@@ -1827,7 +1827,7 @@ Lemma Lim_seq_incr_n (u : nat -> R) (N : nat) :
   Lim_seq (fun n => u (n + N)%nat) = Lim_seq u.
 Proof.
   elim: N u => [ | N IH] u.
-  apply Lim_seq_ext => n ; by rewrite plus_0_r.
+  apply Lim_seq_ext => n ; by rewrite Nat.add_0_r.
   rewrite -(Lim_seq_incr_1 u) -(IH (fun n => u (S n))).
   apply Lim_seq_ext => n ; by rewrite plus_n_Sm.
 Qed.
@@ -2060,7 +2060,7 @@ Proof.
   apply Rplus_le_compat_l.
   apply Ropp_le_contravar.
   elim: (Nu) => [ | m IH].
-  rewrite plus_0_r ; by apply Rle_refl.
+  rewrite Nat.add_0_r ; by apply Rle_refl.
   rewrite -plus_n_Sm.
   apply Rle_trans with (2 := IH).
   by apply H.
@@ -2079,7 +2079,7 @@ Proof.
   apply Rle_trans with (2 := Rle_abs _).
   apply Rplus_le_compat_r.
   elim: (Nu) => [ | m IH].
-  rewrite plus_0_r ; by apply Rle_refl.
+  rewrite Nat.add_0_r ; by apply Rle_refl.
   rewrite -plus_n_Sm.
   apply Rle_trans with (1 := IH).
   by apply H.
@@ -2993,10 +2993,10 @@ Proof.
   rewrite Ropp_minus_distr'.
   apply Rplus_le_compat, Ropp_le_contravar.
   elim: (N) => [ | m IH].
-  rewrite plus_0_r ; apply Rle_refl.
+  rewrite Nat.add_0_r ; apply Rle_refl.
   rewrite -plus_n_Sm ; by apply Rle_trans with (2 := Hu _).
   elim: (N) => [ | m IH].
-  rewrite plus_0_r ; apply Rle_refl.
+  rewrite Nat.add_0_r ; apply Rle_refl.
   rewrite -plus_n_Sm ; by apply Rle_trans with (1 := Hv _).
 Qed.
 

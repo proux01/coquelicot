@@ -559,7 +559,7 @@ Proof.
   apply Rle_trans with (2 := Rle_abs _).
   apply Rplus_le_compat_r.
   elim: N => [ | N IH].
-  rewrite plus_0_r.
+  rewrite Nat.add_0_r.
   apply Req_le.
   elim: (n) => {n H} [ | n /= <-].
   apply Rmult_comm.

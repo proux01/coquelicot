@@ -577,7 +577,7 @@ Proof.
   clear Hnm IHm.
   induction m ; simpl.
   reflexivity.
-  rewrite <- plus_n_Sm, plus_0_r, IHm ; reflexivity.
+  rewrite <- plus_n_Sm, Nat.add_0_r, IHm ; reflexivity.
   rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl ; ring_simplify.
   apply lt_S_n in Hnm.
   rewrite <- (IHm _ _ Hnm).
@@ -593,7 +593,7 @@ Proof.
   rewrite /sum_f -minus_n_O.
   elim: n => [ | n IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 //.
-  by rewrite plus_0_r IH.
+  by rewrite Nat.add_0_r IH.
 Qed.
 
 Lemma sum_f_n_Sm (u : nat -> R) (n m : nat) :
@@ -662,16 +662,16 @@ Proof.
   transitivity (sum_f_R0 (fun x : nat => u (S n - (x + 0) + 0)%nat) (S n - 0)).
     replace (S n - 0)%nat with (S n) by auto.
     elim: {2 4}(S n) => [ | m IH] //.
-    simpl ; by rewrite plus_0_r.
+    simpl ; by rewrite Nat.add_0_r.
     rewrite /sum_f_R0 -/sum_f_R0 -IH.
     apply f_equal.
-    by rewrite ?plus_0_r.
+    by rewrite ?Nat.add_0_r.
   rewrite H.
   replace (S n - 0)%nat with (S n) by auto.
   elim: (S n) => [ | m IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 -IH.
   apply f_equal.
-  by rewrite plus_0_r.
+  by rewrite Nat.add_0_r.
 
   move => {n} n m H.
   elim: m u H => [ | m IH] u H //.
