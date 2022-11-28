@@ -4437,7 +4437,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     apply Rgt_not_eq ; by intuition.
     apply SSR_leq ; rewrite size_mkseq in Hi, Hj ; by intuition.
     apply SSR_leq ; rewrite size_mkseq in Hi, Hj ; by intuition.
-    apply le_antisym ; apply not_lt.
+    apply Nat.le_antisymm ; apply not_lt.
     have Hij : nth 0 (unif_part a b n) j < nth 0 (unif_part a b n) (S i).
       apply Rle_lt_trans with
         (g1 (nth 0 (unif_part a b n) i) (nth 0 (unif_part a b n) (S i))).
@@ -4472,7 +4472,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     apply Rgt_not_eq ; by intuition.
     apply SSR_leq ; by intuition.
     apply SSR_leq ; by intuition.
-    apply le_antisym ; apply not_lt.
+    apply Nat.le_antisymm ; apply not_lt.
     have Hij : nth 0 (unif_part a b n) i < nth 0 (unif_part a b n) (S n).
       apply Rle_lt_trans with
         (g1 (nth 0 (unif_part a b n) i) (nth 0 (unif_part a b n) (S i))).
@@ -4520,7 +4520,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
       case: unif_part_nat => [ [i [Ht Hi]] | Ht] ;
       case: Hp {h g2 ptd2 H2} => [ [j [Ht' Hj]] | Ht'] ; simpl proj1_sig.
       apply (f_equal (fun i => f (a + (INR i + /2) * (b - a) / (INR n + 1)))).
-      apply le_antisym ; apply not_lt.
+      apply Nat.le_antisymm ; apply not_lt.
       move: (Rle_lt_trans _ _ _ (proj1 Ht) (proj2 Ht')) => Hij ;
       contradict Hij.
       apply Rle_not_lt, sorted_incr.

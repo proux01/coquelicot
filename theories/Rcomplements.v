@@ -61,7 +61,7 @@ case: (eq_nat_dec n m) => [-> _ | h h'].
 apply: not_le_minus_0.
 move=> h''.
 apply: h.
-exact: le_antisym.
+exact: Nat.le_antisymm.
 Qed.
 
 Lemma sub_succ_r (n m : nat) : n - S m = pred (n - m).

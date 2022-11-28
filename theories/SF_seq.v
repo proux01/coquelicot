@@ -131,7 +131,7 @@ Proof.
   case: (s1) Hi0 => //= [ | x2 s0] Hi0.
   by apply Nat.nle_succ_0 in Hi0.
   by rewrite Nat.sub_diag.
-  apply sym_eq, le_antisym.
+  apply sym_eq, Nat.le_antisymm.
   apply MyNat.le_pred_le_succ.
   apply not_le in Hi1.
   by apply lt_n_Sm_le.
