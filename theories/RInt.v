@@ -1938,7 +1938,7 @@ Proof.
       split => // ; by apply Hl.
       rewrite size_mkseq in Hi, i |- *.
       apply lt_S_n.
-      eapply lt_le_trans.
+      eapply Nat.lt_le_trans.
       eapply Nat.lt_trans, (proj2_sig Hi).
       by apply Nat.lt_succ_diag_r.
       rewrite /s.
