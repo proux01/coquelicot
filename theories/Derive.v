@@ -3563,7 +3563,7 @@ rewrite sum_eq_R0.
 simpl; field.
 intros; simpl; field.
 exact (INR_fact_neq_0 (S n0)).
-apply lt_0_Sn.
+apply Nat.lt_0_succ.
 exists zeta.
 apply (conj Hzeta1).
 rewrite Rmult_assoc.

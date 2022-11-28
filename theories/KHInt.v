@@ -780,13 +780,13 @@ simpl in H.
 rewrite Rabs_right.
 apply H.
 rewrite SF_size_cons.
-apply lt_0_Sn.
+apply Nat.lt_0_succ.
 destruct H0 as (H0, H1).
 unfold pointed_subdiv in H0.
 apply Rge_minus.
 apply Rle_ge.
 specialize (H0 0%nat).
-apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply lt_0_Sn.
+apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply Nat.lt_0_succ.
 apply IH.
 intros i Hi.
 specialize (H (S i)).
@@ -809,7 +809,7 @@ unfold pointed_subdiv in H0.
 specialize (H0 0%nat).
 change (SF_h (SF_cons h ptd)) with (nth 0 (SF_lx (SF_cons h ptd)) 0).
 change (SF_h ptd) with (nth 0 (SF_lx (SF_cons h ptd)) 1).
-apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply lt_0_Sn.
+apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply Nat.lt_0_succ.
 intros H1 H2.
 apply H0.
 apply H1.

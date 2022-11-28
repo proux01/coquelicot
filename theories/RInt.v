@@ -250,7 +250,7 @@ Proof.
     by apply Hlt.
     by intuition.
     apply SSR_leq ; by intuition.
-    by apply lt_0_Sn.
+    by apply Nat.lt_0_succ.
     rewrite SF_cons_f2 /=.
     rewrite Riemann_sum_cons /=.
     apply f_equal2.
@@ -4270,7 +4270,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   rewrite S_INR ; field ; apply Rgt_not_eq ; by intuition.
   apply SSR_leq ; by intuition.
   apply SSR_leq ; by intuition.
-  by apply lt_0_Sn.
+  by apply Nat.lt_0_succ.
   rewrite -> Rmin_left by now apply Rlt_le.
   apply head_unif_part.
   rewrite -nth_last SF_lx_f2.

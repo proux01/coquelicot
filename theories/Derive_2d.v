@@ -993,7 +993,7 @@ intros u v.
 pattern (S p) at 2; replace (S p) with (S (S p) -(0+1))%nat.
 apply ex_diff_n_deriv.
 rewrite plus_0_l.
-apply lt_le_S; apply lt_0_Sn.
+apply lt_le_S; apply Nat.lt_0_succ.
 rewrite plus_0_l.
 lia.
 Qed.
@@ -1064,7 +1064,7 @@ intros u'' v''.
 replace (p+ S k)%nat with ((S p+S k)-(1+0))%nat.
 apply ex_diff_n_deriv.
 rewrite Nat.add_0_r.
-apply le_plus_trans; apply lt_le_S; apply lt_0_Sn.
+apply le_plus_trans; apply lt_le_S; apply Nat.lt_0_succ.
 rewrite Nat.add_0_r.
 lia.
 Qed.
@@ -1266,7 +1266,7 @@ simpl ; field.
 intros k.
 apply sym_eq.
 rewrite (decomp_sum _ (S (S k))).
-2: apply lt_0_Sn.
+2: apply Nat.lt_0_succ.
 rewrite - pred_Sn.
 rewrite tech5.
 rewrite (sum_eq _ (fun i : nat =>
@@ -1281,7 +1281,7 @@ apply sym_eq.
 rewrite sum_plus.
 rewrite tech5.
 rewrite (tech2 _ 0 (S k)).
-2: apply lt_0_Sn.
+2: apply Nat.lt_0_succ.
 replace
  (sum_f_R0
    (fun l : nat =>

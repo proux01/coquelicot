@@ -175,7 +175,7 @@ Proof.
 intros N.
 rewrite <- S_INR.
 apply lt_0_INR.
-apply lt_0_Sn.
+apply Nat.lt_0_succ.
 Qed.
 
 Lemma Rlt_nat (x : R) : (exists n : nat, x = INR (S n)) -> 0 < x.
@@ -1530,7 +1530,7 @@ Definition belast {T : Type} (s : seq T) :=
 Lemma behead_rev {T : Type} (s : seq T) : behead (rev s) = rev (belast s).
 Proof.
   case: s => // t s ; elim: s t => // t s IHs t0.
-  rewrite rev_cons behead_rcons ?IHs ?size_rev -?rev_cons //= ; by apply lt_0_Sn.
+  rewrite rev_cons behead_rcons ?IHs ?size_rev -?rev_cons //= ; by apply Nat.lt_0_succ.
 Qed.
 
 Lemma pairmap_rcons {T T0 : Type} (f : T -> T -> T0) (s : seq T) h0 h x0 :

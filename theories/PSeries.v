@@ -1226,7 +1226,7 @@ Proof.
   rewrite -IH ; ring.
   assert (V:(pow_n x (S n) <> 0)).
   rewrite pow_n_pow; now apply pow_nonzero.
-  move: (is_pseries_decr_n a (S n) x (/x) (PSeries a x) (Rinv_l x Hx) (lt_0_Sn _) (PSeries_correct _ _ Ha)) => Hb.
+  move: (is_pseries_decr_n a (S n) x (/x) (PSeries a x) (Rinv_l x Hx) (Nat.lt_0_succ _) (PSeries_correct _ _ Ha)) => Hb.
   rewrite (is_pseries_unique _ _ _ Hb).
   rewrite (sum_n_ext _ (fun k : nat => a k * x ^ k)).
   rewrite sum_n_Reals.

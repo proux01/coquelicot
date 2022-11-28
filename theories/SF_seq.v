@@ -94,7 +94,7 @@ Proof.
   case: (IHs t) => {IHs} IHs _ ;
   apply (IHs (proj2 H) i (lt_S_n _ _ Hi) x0).
   split.
-  apply (H O (lt_0_Sn _) t).
+  apply (H O (Nat.lt_0_succ _) t).
   case: (IHs t) => {IHs} _ IHs.
   apply: IHs => i Hi x0 ; apply: (H (S i)) ; simpl ; apply lt_n_S, Hi.
 Qed.
@@ -1415,7 +1415,7 @@ split ; [|split ; [|split]].
     rewrite (H 0%nat).
     now apply Rabs_pos_eq.
     apply lt_n_S.
-    apply lt_0_Sn.
+    apply Nat.lt_0_succ.
     apply IHl.
     intros i Hi.
     apply (H (S i)).
