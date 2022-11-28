@@ -1914,7 +1914,7 @@ assert (locally l' (ball l' (pos_div_2 eps))).
   by apply locally_ball.
 specialize (Hl' (ball l' (pos_div_2 eps)) H0).
 unfold filtermap in Hl, Hl'.
-generalize (filter_and _ _ Hl Hl') => {H H0} H.
+generalize (filter_and _ _ Hl Hl') => {H0} H.
 apply filter_ex in H.
 case: H => x H.
 rewrite (double_var eps).
@@ -1937,7 +1937,7 @@ assert (H': locally l' (ball l' (pos_div_2 eps))).
   by apply locally_ball.
 specialize (Hl' (ball l' (pos_div_2 eps)) H').
 unfold filtermapi in Hl, Hl'.
-generalize (filter_and _ _ Hf (filter_and _ _ Hl Hl')) => {H H' Hl Hl' Hf} H.
+generalize (filter_and _ _ Hf (filter_and _ _ Hl Hl')) => {H' Hl Hl' Hf} H.
 apply filter_ex in H.
 destruct H as [x [Hf [[y [H1 H1']] [y' [H2 H2']]]]].
 rewrite (double_var eps).
@@ -2166,7 +2166,7 @@ intros D E DE CD x Hx.
 apply DE, CD.
 contradict Hx.
 apply: filter_imp Hx.
-move => {x} x Dx Ex.
+move => {} x Dx Ex.
 now apply Dx, DE.
 Qed.
 
@@ -2180,12 +2180,12 @@ split.
 apply CD.
 contradict Hx.
 apply: filter_imp Hx.
-move => {x} x nDx [Dx _].
+move => {} x nDx [Dx _].
 now apply nDx.
 apply CE.
 contradict Hx.
 apply: filter_imp Hx.
-move => {x} x nEx [_ Ex].
+move => {} x nEx [_ Ex].
 now apply nEx.
 Qed.
 
@@ -2394,7 +2394,7 @@ split.
   now exists eps.
   destruct (filter_ex P HP) as [x Hx].
   exists x.
-  move: (fun v => H' x v Hx) => {H H'} H.
+  move: (fun v => H' x v Hx) => {H'} H.
   now apply filter_imp with (1 := H).
 Qed.
 
@@ -2419,7 +2419,7 @@ split.
   case: (H eps) => {H} P [HP H].
   destruct (filter_ex P HP) as [x Hx].
   exists x.
-  move: (fun v => H x v Hx) => {H} H.
+  move: (fun v => H x v Hx) => {} H.
   apply filter_imp with (1 := H).
   by [].
 Qed.
@@ -2551,14 +2551,14 @@ Proof.
 
   move => eps.
 
-  generalize (proj1 cauchy_distance HFc) => {HFc} HFc.
+  generalize (proj1 cauchy_distance HFc) => {} HFc.
 
   case: (HFc (pos_div_2 eps)) => {HFc} P ; simpl ; case => HP H0.
   apply filter_imp with (2 := HP).
   move => g Hg t.
-  move: (fun h => H0 g h Hg) => {H0} H0.
-  move: (H t (pos_div_2 eps)) ; simpl => {H} H.
-  unfold Fr in H ; generalize (filter_and _ _ H HP) => {H} H.
+  move: (fun h => H0 g h Hg) => {} H0.
+  move: (H t (pos_div_2 eps)) ; simpl => {} H.
+  unfold Fr in H ; generalize (filter_and _ _ H HP) => {} H.
   apply filter_ex in H ; case: H => h H.
   rewrite (double_var eps).
   apply ball_triangle with (h t).
@@ -2612,7 +2612,7 @@ Proof.
     by apply FF2.
     simpl ; intros.
     apply H.
-  move: H => {Hfg} Hfg.
+  move: H => {} Hfg.
 
   assert (filter_prod F1 F2 (fun x : T1 * T2 => ball l (eps / 2) (h (fst x)))).
     apply Filter_prod with (fun x : T1 => ball l (eps / 2) (h x)) (fun _ => True).
@@ -2620,7 +2620,7 @@ Proof.
     by [].
     by apply FF2.
     by [].
-  move: H => {Hhl} Hhl.
+  move: H => {} Hhl.
 
   case: (@filter_and _ _ FF _ _ Hhl Hfg) => {Hhl Hfg} /= ; intros.
 
@@ -2659,12 +2659,12 @@ Proof.
     apply: Hp.
     by apply Hy.
 
-  move: H => {Hfg} Hfg.
+  move: H => {} Hfg.
   move: (Hf Hfg (pos_div_2 eps)) => {Hf Hfg} /= Hf.
 
   case: FF2 => HF2 FF2.
   generalize (fun x => proj1 (filterlim_locally (f x) (h x)) (Hfh x) (pos_div_2 (pos_div_2 eps)))
-    => {Hfh} Hfh.
+    => {} Hfh.
 
   case: Hf => P [Hp Hf].
   exists P ; split.
@@ -2672,7 +2672,7 @@ Proof.
   move => u v Hu Hv.
   move: (Hfh u) => /= Hu'.
   move: (Hfh v) => /= Hv'.
-  move: (@filter_and _ F2 FF2 _ _ Hu' Hv') => {Hu' Hv' Hfh} Hfh.
+  move: (@filter_and _ F2 FF2 _ _ Hu' Hv') => {Hu' Hv'} Hfh.
   case: (HF2 _ Hfh) => {Hfh} y Hy.
   replace (pos eps) with (eps / 2 / 2 + (eps / 2 + eps / 2 / 2)) by field.
   apply ball_triangle with (f u y).
@@ -4450,7 +4450,7 @@ Proof.
   apply mk_matrix_ext => /= i j Hi Hj.
   destruct n ; simpl.
   by apply Nat.nlt_0_r in Hj.
-  move: (coeff_mat zero A) => {A} A.
+  move: (coeff_mat zero A) => {} A.
   erewrite sum_n_ext_loc ; last first.
   move => /= k Hk.
   rewrite /Mone coeff_mat_bij //.
@@ -4485,7 +4485,7 @@ Proof.
   apply mk_matrix_ext => /= i j Hi Hj.
   destruct m ; simpl.
   by apply Nat.nlt_0_r in Hi.
-  move: (coeff_mat zero A) => {A} A.
+  move: (coeff_mat zero A) => {} A.
   erewrite sum_n_ext_loc ; last first.
   move => /= k Hk.
   rewrite /Mone coeff_mat_bij //.

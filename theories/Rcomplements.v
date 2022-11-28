@@ -657,7 +657,7 @@ Proof.
     -> sum_f n m (fun k => u ((m - k) + n)%nat) = sum_f n m u.
 
   case: n => [ | n] //.
-  move: (H _ _ (Nat.lt_0_succ n)) => {H} H.
+  move: (H _ _ (Nat.lt_0_succ n)) => {} H.
   rewrite /sum_f in H.
   transitivity (sum_f_R0 (fun x : nat => u (S n - (x + 0) + 0)%nat) (S n - 0)).
     replace (S n - 0)%nat with (S n) by auto.
@@ -673,7 +673,7 @@ Proof.
   apply f_equal.
   by rewrite Nat.add_0_r.
 
-  move => {n} n m H.
+  move => {} n m H.
   elim: m u H => [ | m IH] u H //.
   apply lt_n_Sm_le, le_lt_eq_dec in H ; case: H IH => [H IH | -> _ {n}] //.
   rewrite sum_f_n_Sm ; try by intuition.
@@ -1380,7 +1380,7 @@ Proof.
   replace i with n.
   rewrite nth_mkseq => //.
   move: Hdec ; rewrite /n /nfloor.
-  case: nfloor_ex => {n Hn l Hi H H0 H1} n Hn /= Hdec.
+  case: nfloor_ex => {Hn l Hi H H0 H1} n Hn /= Hdec.
   rewrite Rplus_comm ; apply Rlt_minus_r.
   apply Rlt_div_r.
   by apply eps.
@@ -1410,7 +1410,7 @@ Proof.
   rewrite nth_mkseq => //.
   move: Hdec ;
   rewrite /n /nfloor.
-  case: nfloor_ex => {n Hn l Hi H H0 H1} n Hn /= Hdec.
+  case: nfloor_ex => {Hn l Hi H H0 H1} n Hn /= Hdec.
   rewrite Rplus_assoc Rplus_comm ; apply Rle_minus_l.
   replace (INR n * eps + eps) with ((INR n + 1) * eps) by ring.
   apply Rle_div_l.
@@ -1431,12 +1431,12 @@ Lemma interval_finite_subdiv_between (a b : R) (eps : posreal) (Hab : a <= b) :
 Proof.
   case: interval_finite_subdiv => l Hl /= i Hi.
   case: Hl => <- ; case => <- Hl.
-  move: (fun i Hi => proj1 (Hl i Hi)) => {Hl} Hl.
+  move: (fun i Hi => proj1 (Hl i Hi)) => {} Hl.
   rewrite -nth0 (last_nth 0).
 
   suff : forall n m, (n <= m)%nat -> (m < size l)%nat
     -> nth 0 l n <= nth 0 l m.
-  move => {Hl} Hl ; split.
+  move => {} Hl ; split.
   apply Hl ; by intuition.
   case: l Hi Hl => /= [ | x0 l] Hi Hl.
   by apply Nat.nlt_0_r in Hi.

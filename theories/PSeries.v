@@ -534,7 +534,7 @@ Proof.
   absurd (ex_series (fun n => Rabs (a n * ((cv+/l)/2)^n))).
 
   suff H1 : cv < Rabs ((cv + / l) / 2).
-  move: (Hnot_ex ((cv + / l) / 2) H1) => {Hnot_ex} Hnot_ex.
+  move: (Hnot_ex ((cv + / l) / 2) H1) => {} Hnot_ex.
   contradict Hnot_ex ; by apply ex_series_lim_0, ex_series_Rabs.
   apply Rlt_le_trans with (2 := Rle_abs _), H0.
   apply (CV_disk_DAlembert) with l.
@@ -657,7 +657,7 @@ Proof.
     exists l.
     apply (is_lim_seq_spec _ l).
     intros eps.
-    case: (H eps (cond_pos eps)) => N {H} H.
+    case: (H eps (cond_pos eps)) => N {} H.
     exists N => n Hn.
     set v := sum_n _ _.
     replace v with (sum_n (fun k : nat => Rabs (An k)) n).
@@ -1265,7 +1265,7 @@ Proof.
   assert (Ha' := CV_radius_bounded (PS_incr_1 a)).
   apply Rbar_le_antisym.
   apply Ha' => x [M Hx] ; apply Ha.
-  move: (fun n => Hx (S n)) => {Hx} Hx ; simpl in Hx.
+  move: (fun n => Hx (S n)) => {} Hx ; simpl in Hx.
   case: (Req_dec x 0) => Hx0.
   rewrite Hx0 ; exists (Rabs (a O)) ; case => /= [ | n].
   rewrite Rmult_1_r ; by right.
@@ -1303,7 +1303,7 @@ Proof.
   by apply Rabs_pos.
   by apply Hx.
   apply Ha => x [M Hx] ; apply Ha'.
-  move: (fun n => Hx (S n)) => {Hx} Hx ; simpl in Hx.
+  move: (fun n => Hx (S n)) => {} Hx ; simpl in Hx.
   case: (Req_dec x 0) => Hx0.
   rewrite Hx0 ; exists (Rabs (a 1%nat)) ; case => /= [ | n].
   rewrite Rmult_1_r ; by right.
@@ -1471,14 +1471,14 @@ Proof.
   suff : forall x, Rbar_le (Rabs x) (CV_radius (fun _ : nat => 0)).
   case H : (CV_radius (fun _ : nat => 0)) => [cv | | ] //= H0.
   case: (Rle_lt_dec 0 cv) => Hcv.
-  move: (H0 (cv + 1)) => {H0} H0.
+  move: (H0 (cv + 1)) => {} H0.
   contradict H0 ; apply Rlt_not_le => /=.
   apply Rlt_le_trans with (2 := Rle_abs _).
   apply Rminus_lt_0 ; ring_simplify ; by apply Rlt_0_1.
   contradict Hcv ; apply (Rbar_le_not_lt cv 0).
   rewrite -Rabs_R0.
   by apply H0.
-  move: (H0 0) => {H0} H0.
+  move: (H0 0) => {} H0.
   contradict H0 ; by apply Rbar_lt_not_le.
   move => x ; apply Rbar_not_lt_le => Hx.
   apply CV_disk_outside in Hx.
@@ -2042,7 +2042,7 @@ Proof.
     rewrite /My -/My ; by apply Rmax_r.
     elim: N n Hn {HN} => [ | N IH] n Hn.
     by apply Nat.nlt_0_r in Hn.
-    apply le_S_n in Hn ; case: (le_lt_eq_dec _ _ Hn) => {Hn} Hn.
+    apply le_S_n in Hn ; case: (le_lt_eq_dec _ _ Hn) => {} Hn.
     apply Rle_trans with (2 := Rmax_r _ (My N)) ; by apply IH.
     rewrite Hn ; by apply (Rmax_l _ (My N)).
 Qed.
@@ -2438,7 +2438,7 @@ Proof.
     by [].
     by [].
     rewrite -Hr in Hx Hd.
-    move: (real r) Hx Hd => /= {r Hr} r Hx Hd.
+    move: (real r) Hx Hd => /= {Hr} r Hx Hd.
 
   wlog: x Hx f Hd / (0 < x) => [Hw | Hx'].
     case: (total_order_T 0 x) => Hx'.
@@ -2454,7 +2454,7 @@ Proof.
       ex_derive_n (fun x0 : R => f (- x0)) n x /\
       Rabs (Derive_n (fun x0 : R => f (- x0)) n x) <= M).
 
-   move: (Hw _ Hx (fun x => f (-x)) Hf (Ropp_0_gt_lt_contravar _ Hx')) => {Hw} Hw.
+   move: (Hw _ Hx (fun x => f (-x)) Hf (Ropp_0_gt_lt_contravar _ Hx')) => {} Hw.
    rewrite Ropp_involutive in Hw.
 
    apply is_series_ext with (2:=Hw).

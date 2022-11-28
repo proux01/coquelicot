@@ -1193,7 +1193,7 @@ apply is_derive_ext_loc with (fun t => sum_n (fun m => C k m *
   partial_derive m (k - m) f (x + t * (u - x)) (y + t * (v - y)) * (u - x) ^ m * (v - y) ^ (k - m)) k).
   apply locally_locally in HH.
   generalize (filter_and _ _ HH IHk).
-  apply filter_imp => {z HH IHk} z [Hz HH].
+  apply filter_imp => {HH IHk} z [Hz HH].
   specialize (HH Hz).
   apply sym_eq.
   rewrite sum_n_Reals.

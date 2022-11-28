@@ -91,7 +91,7 @@ Proof.
   move => i Hi ; contradict Hi ; apply Nat.nlt_0_r.
   case => [| i] Hi x0 ; simpl in Hi.
   apply H.
-  case: (IHs t) => {IHs} IHs _ ;
+  case: (IHs t) => {} IHs _ ;
   apply (IHs (proj2 H) i (lt_S_n _ _ Hi) x0).
   split.
   apply (H O (Nat.lt_0_succ _) t).
@@ -312,7 +312,7 @@ Proof.
   destruct l as [ | x2 l] ; simpl.
   by apply Nat.nlt_0_r in Hi.
   simpl in Hi ; apply lt_S_n in Hi.
-  move => {IH} IH.
+  move => {} IH.
   eapply Rle_trans.
   by apply IH.
   by apply Rmax_r.
@@ -378,7 +378,7 @@ Lemma SF_cons_ind (P : SF_seq -> Type) :
 Proof.
   move => Hnil Hcons [sh st] ; elim: st sh => [sh |h sf IHst sh].
   apply Hnil.
-  move: (IHst (fst h)) => {IHst} IHst.
+  move: (IHst (fst h)) => {} IHst.
   move: (Hcons (sh,snd h) (mkSF_seq (fst h) sf) IHst) => {Hcons} ;
   rewrite /SF_cons -surjective_pairing //=.
 Qed.
@@ -820,7 +820,7 @@ Proof.
   case: Rle_dec => //= Hx1.
   move: (H O (Nat.lt_0_succ _)) => /= H0.
   apply ptd_cons in H.
-  move: (IH Hx1 H) => {IH} IH.
+  move: (IH Hx1 H) => {} IH.
   rewrite /pointed_subdiv => i.
   destruct i => /= Hi.
   by apply H0.
@@ -893,7 +893,7 @@ Proof.
   move: {3 4}(SF_h s);
   apply SF_cons_ind with (s := s) => {s} [x1 | [x1 y1] s IH ] /= x0 Hx Hx'.
   by apply Rle_antisym.
-  case: Rle_dec => //= {Hx} Hx.
+  case: Rle_dec => //= {} Hx.
   by apply IH.
 Qed.
 
@@ -1007,7 +1007,7 @@ Proof.
     => {s IH Hs Hx Hi h h0} [| h1 s IH] h h0 Hs.
     apply Rle_refl.
     apply Rle_trans with (1 := proj1 Hs) => //= ; intuition.
-  have : fst h0 <= x <= last (SF_h s) (unzip1 (SF_t s)) => [ | {Hx'} Hx'].
+  have : fst h0 <= x <= last (SF_h s) (unzip1 (SF_t s)) => [ | {} Hx'].
     split ; [by apply Rnot_lt_le | by apply Hx].
   rewrite (IH h0 (proj2 Hs) Hx') => {IH} ;
   case: sorted_dec => [[i [Hxi Hi]]|Hi] ; case: sorted_dec => [[j [Hxj Hj]]|Hj] ;
@@ -1083,7 +1083,7 @@ Proof.
   case: Rlt_dec => //.
   elim: st sh h y0 x => [| h0 st IH] sh h y0 x Hx //=.
   by case: Rle_dec.
-  case: Rlt_dec => // {Hx} Hx.
+  case: Rlt_dec => // {} Hx.
   by apply: (IH (fst h)).
 Qed.
 
@@ -1279,7 +1279,7 @@ Proof.
   move: (sorted_dec (unif_part a b n) 0 x) => Hdec Hx.
   have Hs : sorted Rle (unif_part a b n) ;
     [ apply unif_part_sort, Rle_trans with (r2 := x) ; intuition
-    | move: (Hdec Hs) => {Hdec Hs} Hdec].
+    | move: (Hdec Hs) => {Hs} Hdec].
   have Hx' : (head 0 (unif_part a b n) <= x <= last 0 (unif_part a b n)).
     by rewrite head_unif_part last_unif_part.
   case: (Hdec Hx') => {Hdec Hx'} [[i Hi]|Hi].
@@ -2079,7 +2079,7 @@ Proof.
   rewrite /SF_cut_down' /SF_cut_up' /= ;
   case: (Rle_dec x0 _) (proj1 Hx) => //= Hx0 _.
   case: (Rle_dec (SF_h s) x) => //= Hx1 IH.
-  move: (IH Hx1) => {IH} IH.
+  move: (IH Hx1) => {} IH.
   rewrite (Riemann_sum_cons _ (x0,y0))
     (Riemann_sum_cons _ (x0,y0) (mkSF_seq (SF_h s) (seq_cut_down' (SF_t s) x y0)))
     IH /= => {IH}.
@@ -2635,8 +2635,8 @@ Proof.
   case: (Rle_dec a b) => // Hab ; split => // _.
     by apply (Hw a b).
     apply Rnot_le_lt, Rlt_le in Hab ;
-    case : (Hw b a Hab) => {Hw} Hw _ ;
-    move: (Hw Hab) => {Hw} Hw ;
+    case : (Hw b a Hab) => {} Hw _ ;
+    move: (Hw Hab) => {} Hw ;
     rewrite /adapted_couple in Hw |-* ; rewrite Rmin_comm Rmax_comm ;
     intuition => x Hx ; rewrite SF_sup_fun_bound ; by apply H4.
   split ; case: (Rle_dec a b)=> // _ _.
@@ -2750,8 +2750,8 @@ Proof.
   case: (Rle_dec a b) => // Hab ; split => // _.
     by apply (Hw a b).
     apply Rnot_le_lt, Rlt_le in Hab ;
-    case : (Hw b a Hab) => {Hw} Hw _ ;
-    move: (Hw Hab) => {Hw} Hw ;
+    case : (Hw b a Hab) => {} Hw _ ;
+    move: (Hw Hab) => {} Hw ;
     rewrite /adapted_couple in Hw |-* ; rewrite Rmin_comm Rmax_comm ;
     intuition => x Hx ; rewrite SF_inf_fun_bound ; by apply H4.
   split ; case: (Rle_dec a b)=> // _ _.

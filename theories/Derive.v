@@ -349,7 +349,7 @@ Proof.
     by apply Hy.
     apply Rle_minus_r ; ring_simplify.
     by apply Hm.
-  move: H => {Df} Df.
+  move: H => {} Df.
   assert (Hm': 0 < M + 1).
     apply Rplus_le_lt_0_compat.
     apply Rlt_le, Hm.
@@ -2186,8 +2186,8 @@ Lemma extension_cont_continuous (f g : R -> U) (a : R) :
   -> continuous (extension_cont f g a) a.
 Proof.
   simpl => Cf Cg Heq ; apply filterlim_locally => /= eps.
-  generalize (proj1 (filterlim_locally _ _) Cf eps) => {Cf} Cf.
-  generalize (proj1 (filterlim_locally _ _) Cg eps) => {Cg} Cg.
+  generalize (proj1 (filterlim_locally _ _) Cf eps) => {} Cf.
+  generalize (proj1 (filterlim_locally _ _) Cg eps) => {} Cg.
   generalize (filter_and _ _ Cf Cg).
   apply filter_imp => {Cf Cg} x [Cf Cg].
   rewrite /extension_cont.
@@ -2211,9 +2211,9 @@ Proof.
   split.
   by apply is_linear_scal_l.
   move => x Hx eps.
-  move: (Cf x Hx eps) => {Cf} Cf.
-  move: (Cg x Hx eps) => {Cg} Cg.
-  generalize (is_filter_lim_locally_unique _ _ Hx) => {Hx} Hx.
+  move: (Cf x Hx eps) => {} Cf.
+  move: (Cg x Hx eps) => {} Cg.
+  generalize (is_filter_lim_locally_unique _ _ Hx) => {} Hx.
   rewrite -Hx {x Hx} in Cf, Cg |- *.
   generalize (filter_and _ _ Cf Cg).
   apply filter_imp => {Cf Cg} x [Cf Cg].
@@ -2303,7 +2303,7 @@ Proof.
   apply continuous_const.
 
   destruct b as [b | | ] => //.
-  injection Hbx => {Hbx} Hbx.
+  injection Hbx => {} Hbx.
   rewrite -Hbx {x Hbx} in Hax |- *.
   apply continuous_ext_loc with (extension_cont f (fun _ => f (real b)) b).
   apply locally_interval with a p_infty => //.
@@ -2321,7 +2321,7 @@ Proof.
   by apply continuous_const.
 
   destruct a as [a | | ] => //.
-  injection Hax => {Hax} Hax.
+  injection Hax => {} Hax.
   rewrite -Hax {x Hax}.
   apply continuous_ext_loc with (extension_cont (fun _ => f (real a)) f a).
   apply locally_interval with m_infty b => //.
@@ -2457,7 +2457,7 @@ Proof.
   by apply Rbar_lt_le in Hax.
 
   destruct b as [b | | ] => //.
-  injection Hbx => {Hbx} Hbx.
+  injection Hbx => {} Hbx.
   rewrite -Hbx {x Hbx} in Hax |- *.
   evar_last.
   apply is_derive_ext_loc with (extension_cont f (fun x => plus (f (real b)) (scal (x - real b) (df (real b)))) b).
@@ -2488,7 +2488,7 @@ Proof.
   by apply Rbar_lt_le in Hax.
 
   destruct a as [a | | ] => //.
-  injection Hax => {Hax} Hax.
+  injection Hax => {} Hax.
   rewrite -Hax {x Hax}.
   evar_last.
   apply is_derive_ext_loc with (extension_cont (fun x => plus (f (real a)) (scal (x - real a) (df (real a)))) f a).
@@ -3305,7 +3305,7 @@ Proof.
       apply Rmult_lt_compat_l.
       by apply Rabs_pos_lt.
       by apply Hy.
-      move => {Hy} Hy.
+      move => {} Hy.
     apply Rabs_lt_between' in Hy ; case: Hy => Hy1 Hy2.
     apply Rlt_Rminus in Hy1.
     apply Rlt_Rminus in Hy2.
@@ -3384,7 +3384,7 @@ Proof.
   elim: n x => [ | n IH] x /=.
   by [].
   rewrite (Derive_ext _ _ _ IH) => {IH}.
-  generalize (Derive_n f n) => {f} f.
+  generalize (Derive_n f n) => {} f.
   apply (f_equal real).
   apply Lim_ext => y.
   replace (x + b + y) with (x + y + b) by ring.
@@ -3400,7 +3400,7 @@ Proof.
   apply ex_derive_ext with (fun x => Derive_n f n (x + b)).
   simpl => t.
   apply sym_eq, Derive_n_comp_trans.
-  move: (Derive_n f n) Df => {f} f Df.
+  move: (Derive_n f n) Df => {} f Df.
   apply ex_derive_comp.
   apply Df.
   apply: ex_derive_plus.
@@ -3417,7 +3417,7 @@ Proof.
   apply is_derive_ext with (fun x => Derive_n f n (x + b)).
   simpl => t.
   apply sym_eq, Derive_n_comp_trans.
-  move: (Derive_n f n) Df => {f} f Df.
+  move: (Derive_n f n) Df => {} f Df.
   eapply filterdiff_ext_lin.
   apply @filterdiff_comp'.
   apply @filterdiff_plus_fct ; try by apply locally_filter.

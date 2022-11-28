@@ -964,7 +964,7 @@ Proof.
       by apply -> Rminus_lt_0.
     move => {H} /= Hk1 N H.
     exists N => n Hn.
-    move: (H n Hn) => {H} H.
+    move: (H n Hn) => {} H.
     apply Rabs_lt_between' in H ; case: H => _ H ;
     field_simplify in H ; rewrite ?Rdiv_1 in H ; by apply Rlt_le.
   case => {H} N H.
@@ -1023,7 +1023,7 @@ Proof.
     by apply -> Rminus_lt_0.
     by apply Rlt_R0_R2.
     exists N => n Hn.
-    move: (Hda n Hn) => {Hda} Hda.
+    move: (Hda n Hn) => {} Hda.
     apply Rabs_lt_between' in Hda.
     replace (k) with (l - (l - 1) / 2) by (unfold k ; field).
     by apply Rlt_le, Hda.
@@ -1044,7 +1044,7 @@ Proof.
     by apply Rlt_le, Rlt_trans with (1 := Rlt_0_1).
     by apply H, le_plus_r.
     by apply IH.
-  move => {H} H.
+  move => {} H.
   have : Finite 0 = p_infty.
     rewrite -(Lim_seq_geom_p k Hk1).
     apply sym_equal.

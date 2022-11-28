@@ -313,7 +313,7 @@ Proof.
     (PS_plus (PS_plus (PS_incr_n (PS_derive_n 2 a) 2)
       (PS_incr_1 (PS_derive a))) (PS_plus (PS_incr_n a 2) (PS_scal (- INR n ^ 2) a))) k = 0).
   intros Haux.
-  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {Haux} Haux.
+  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {} Haux.
 (* n = 0 *)
   rewrite /PS_plus /= /PS_incr_1 /PS_derive_n /PS_scal /PS_derive in Haux.
   rewrite /plus /zero /scal /= /mult /= in Haux.
@@ -327,7 +327,7 @@ Proof.
   apply pow_nonzero.
   by apply not_0_INR.
   by left.
-  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {Haux} Haux.
+  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {} Haux.
 (* n = 1 *)
   rewrite /PS_plus /= /PS_incr_1 /PS_derive_n /PS_scal /PS_derive /= in Haux.
   rewrite /plus /zero /scal /= /mult /= in Haux.
@@ -353,7 +353,7 @@ Proof.
   move: (Haux k) ;
   rewrite /PS_plus /= /PS_incr_1 /PS_derive_n /PS_scal /PS_derive -?S_INR.
   replace (k + 2)%nat with (S (S k)) by ring.
-  rewrite /fact -/fact ?mult_INR ?S_INR => {Haux} Haux.
+  rewrite /fact -/fact ?mult_INR ?S_INR => {} Haux.
   rewrite /plus /scal /= /mult /= in Haux.
   field_simplify in Haux.
   field_simplify.

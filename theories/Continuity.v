@@ -860,7 +860,7 @@ Proof.
 
   assert (forall x : R, locally x (fun y : R => Rabs (norm (f y) - norm (f x)) < 1)).
     intro x.
-    generalize (proj1 (filterlim_locally_ball_norm _ _) (Cf x)) => {Cf} Cf.
+    generalize (proj1 (filterlim_locally_ball_norm _ _) (Cf x)) => {} Cf.
     apply: filter_imp (Cf (mkposreal _ Rlt_0_1)) => y Hy.
     apply Rle_lt_trans with (2 := Hy).
     apply norm_triangle_inv.
@@ -882,7 +882,7 @@ Proof.
   unfold delta.
   case: locally_ex_dec => e /= He [Ht [Hxt Hde]].
   contradict H2 ; apply Rlt_not_le.
-  move: (fun (y : R) Hy => He y (norm_compat1 _ _ _ Hy)) => {He} He.
+  move: (fun (y : R) Hy => He y (norm_compat1 _ _ _ Hy)) => {} He.
   apply He in Hxt.
   rewrite -(Rabs_pos_eq (norm _) (norm_ge_0 _)).
   replace (norm (f x)) with ((norm (f x) - norm (f t)) + norm (f t))%R by ring.
@@ -997,7 +997,7 @@ Proof.
     exists a ; split.
     split ; by apply Rle_refl.
     apply Rle_antisym ; by apply Hy.
-  wlog: a b Hab / (a < b) => [Hw | {Hab} Hab].
+  wlog: a b Hab / (a < b) => [Hw | {} Hab].
     case: (Rle_lt_dec a b) => Hab'.
     case: (Rle_lt_or_eq_dec _ _ Hab') => {Hab'} // Hab'.
     by apply Hw.
@@ -1805,7 +1805,7 @@ Lemma unifcont_1d (f : R -> V) a b :
     a <= x <= b -> a <= y <= b -> ball x delta y -> ~~ ball (f x) eps (f y)}.
 Proof.
   intros Cf eps.
-  wlog: f Cf / (forall z : R, continuous f z) => [ Hw | {Cf} Cf ].
+  wlog: f Cf / (forall z : R, continuous f z) => [ Hw | {} Cf ].
     destruct (C0_extension_le f a b) as [g [Cg Hg]].
     by apply Cf.
     destruct (Hw g) as [d Hd].
@@ -1817,7 +1817,7 @@ Proof.
 
   assert (forall (x : R), {delta : posreal | forall y : R,
     ball x delta y -> ~~ ball (f x) (pos_div_2 eps) (f y)}).
-    move: (pos_div_2 eps) => {eps} eps x.
+    move: (pos_div_2 eps) => {} eps x.
     assert (Rbar_lt 0 (Lub.Lub_Rbar (fun d => forall y : R, ball x d y -> ball (f x) eps (f y)))).
       case: (Lub.Lub_Rbar_correct (fun d => forall y : R, ball x d y -> ball (f x) eps (f y))).
       move: (Lub.Lub_Rbar _) => l H1 H2.

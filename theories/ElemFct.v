@@ -553,7 +553,7 @@ Proof.
   case: Alembert_C3 => /= y Hy.
   apply Rnot_lt_le => H.
   apply Rminus_lt_0 in H.
-  case: (Hy _ H) => N {Hy} Hy.
+  case: (Hy _ H) => N {} Hy.
   move: (Hy _ (le_plus_r n N)) => {Hy}.
   apply Rle_not_lt.
   apply Rle_trans with (2 := Rle_abs _).
@@ -567,7 +567,7 @@ Proof.
   apply Rmult_comm.
   apply Rle_trans with (1 := IH).
   rewrite -plus_n_Sm.
-  move: (n + N)%nat => {n H N IH} n.
+  move: (n + N)%nat => {H N IH} n.
   rewrite /sum_f_R0 -/sum_f_R0.
   apply Rminus_le_0 ; ring_simplify.
   apply Rmult_le_pos.
@@ -663,7 +663,7 @@ Proof.
   case: Alembert_C3 => /= x Hx.
   rewrite /Pser /infinite_sum in Hx.
   apply Rnot_lt_le => H.
-  case: (Hx _ (proj1 (Rminus_lt_0 _ _) H)) => N {Hx} Hx.
+  case: (Hx _ (proj1 (Rminus_lt_0 _ _) H)) => N {} Hx.
   move: (Hx _ (le_plus_r 2 N)) => {Hx}.
   apply Rle_not_lt.
   apply Rle_trans with (2 := Rle_abs _).
@@ -671,7 +671,7 @@ Proof.
   elim: N => [ | n IH].
   simpl ; apply Req_le ; field.
   apply Rle_trans with (1 := IH).
-  rewrite -plus_n_Sm ; move: (2 + n)%nat => {n IH} n.
+  rewrite -plus_n_Sm ; move: (2 + n)%nat => {IH} n.
   rewrite /sum_f_R0 -/sum_f_R0.
   rewrite Rplus_comm ; apply Rle_minus_l ; rewrite Rminus_eq_0.
   apply Rmult_le_pos.
