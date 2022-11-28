@@ -1110,7 +1110,7 @@ Proof.
   move => Hx Hn Ha.
   case: n Hn => [ | n] Hn.
   by apply lt_irrefl in Hn.
-  clear Hn ; simpl ; rewrite -minus_n_O /PS_decr_n /=.
+  clear Hn ; simpl ; rewrite Nat.sub_0_r /PS_decr_n /=.
   elim: n => /= [ | n IH].
   rewrite sum_O scal_one mult_one_r.
   now apply is_pseries_decr_1.

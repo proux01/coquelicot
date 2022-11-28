@@ -749,12 +749,12 @@ Proof.
     rewrite /sum_f.
     replace (S n + S n - S (S n))%nat with n.
     elim: {1 5 8}n (le_refl n) => [ | m IH] Hm ; rewrite /sum_f_R0 -/sum_f_R0.
-    rewrite -minus_n_O plus_0_l ; simpl pred.
+    rewrite Nat.sub_0_r plus_0_l ; simpl pred.
     rewrite -?sum_f_rw_0.
     replace (sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat))
       with ((sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat) -
         (fun p : nat => a p * b (S (S n) - p)%nat) 0%nat)
-        + a O * b (S (S n))) by (rewrite -minus_n_O ; ring).
+        + a O * b (S (S n))) by (rewrite Nat.sub_0_r ; ring).
     rewrite -(sum_f_Sn_m _ O (S (S n))) ; [ | by apply Nat.lt_0_succ].
     rewrite sum_f_u_Sk ; [ | by apply le_O_n].
     rewrite sum_f_n_Sm ; [ | by apply le_O_n].
@@ -813,11 +813,11 @@ Proof.
     apply Rplus_le_le_0_compat => // ; by apply Rmult_le_pos.
     by apply le_n_S, le_O_n.
     by apply Rmult_le_pos.
-    rewrite sum_f_Sn_m -?minus_n_O ; try by intuition.
+    rewrite sum_f_Sn_m ?Nat.sub_0_r ; try by intuition.
     ring.
     replace (S (S n)) with (S n + 1)%nat.
     rewrite -minus_plus_simpl_l_reverse.
-    simpl; apply minus_n_O.
+    simpl; apply eq_sym, Nat.sub_0_r.
     now rewrite Nat.add_comm.
     elim: n => [ | n IH] //.
     rewrite -plus_n_Sm plus_Sn_m.

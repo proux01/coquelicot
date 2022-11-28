@@ -222,7 +222,7 @@ Qed.
 Lemma C_n_0: forall n, C n 0 = 1.
 Proof.
 intros n; unfold C.
-rewrite - minus_n_O.
+rewrite Nat.sub_0_r.
 simpl.
 field.
 apply INR_fact_neq_0.
@@ -573,7 +573,7 @@ Proof.
   rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl.
   revert Hnm ;
   destruct n ; intro Hnm.
-  rewrite <- minus_n_O ; simpl ; ring_simplify.
+  rewrite Nat.sub_0_r ; simpl ; ring_simplify.
   clear Hnm IHm.
   induction m ; simpl.
   reflexivity.
@@ -590,7 +590,7 @@ Qed.
 Lemma sum_f_rw_0 (u : nat -> R) (n : nat) :
   sum_f O n u = sum_f_R0 u n.
 Proof.
-  rewrite /sum_f -minus_n_O.
+  rewrite /sum_f Nat.sub_0_r.
   elim: n => [ | n IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 //.
   by rewrite Nat.add_0_r IH.

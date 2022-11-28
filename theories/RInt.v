@@ -1987,7 +1987,7 @@ Proof.
       simpl (S (Peano.pred (S (S (n e)))) - 2)%nat.
       simpl (S (Peano.pred (S (S (n e)))) - 1)%nat.
       simpl (Peano.pred (S (S (n e))) - 1)%nat.
-      rewrite -minus_n_O.
+      rewrite Nat.sub_0_r.
       intros Hsort Ht Hi.
       rewrite SF_map_ly (nth_map 0).
       apply (proj2_sig (H e)).

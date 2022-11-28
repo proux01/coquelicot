@@ -4840,7 +4840,7 @@ Qed.
 Lemma sum_n_const (n : nat) (a : R) :
   sum_n (fun _ => a) n = INR (S n) * a.
 Proof.
-  by rewrite /sum_n sum_n_m_const -minus_n_O.
+  by rewrite /sum_n sum_n_m_const Nat.sub_0_r.
 Qed.
 
 Lemma norm_sum_n_m {K : AbsRing} {V : NormedModule K} (a : nat -> V) (n m : nat) :

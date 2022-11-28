@@ -779,7 +779,7 @@ induction q.
 intros H f x y H1.
 unfold partial_derive.
 simpl.
-rewrite - minus_n_O.
+rewrite Nat.sub_0_r.
 apply: (ex_diff_n_ext_loc _ _ _ _ _ _ H1).
 now apply locally_2d_forall.
 intros H f x y H1.

@@ -447,7 +447,7 @@ Lemma is_derive_n_pow_smalli: forall i p x, (i <= p)%nat ->
     (INR (fact p) / INR (fact (p - i)%nat) * x ^ (p - i)%nat).
 Proof.
   elim => /= [ | i IH] p x Hip.
-  rewrite -minus_n_O ; field.
+  rewrite Nat.sub_0_r ; field.
   by apply INR_fact_neq_0.
   eapply is_derive_ext.
   intros t.

@@ -150,7 +150,7 @@ Proof.
   rewrite size_cat in Hi.
   apply not_le in Hi0.
   elim: (size s1) i Hi Hi0 => [ | n IH] /= i Hi Hi0.
-  rewrite -minus_n_O.
+  rewrite Nat.sub_0_r.
   unfold ssrnat.addn, ssrnat.addn_rec in Hi.
   by rewrite plus_0_l in Hi.
   case: i Hi Hi0 => [ | i] /= Hi Hi0.
@@ -206,9 +206,9 @@ Lemma sorted_dec (s : seq R) x0 (x : R) :
     {i : nat | nth x0 s i <= x < nth x0 s (S i) /\ (S (S i) < size s)%nat}
     + {nth x0 s (size s - 2)%nat <= x <= nth x0 s (size s - 1)%nat}.
 Proof.
-  case: s => [/= _ Hx| h s] ; simpl minus ; rewrite -?minus_n_O.
+  case: s => [/= _ Hx| h s] ; simpl minus ; rewrite -?Nat.sub_0_r.
     by right.
-  case: s => [/= _ Hx| h0 s] ; simpl minus ; rewrite -?minus_n_O.
+  case: s => [/= _ Hx| h0 s] ; simpl minus ; rewrite -?Nat.sub_0_r.
     by right.
   elim: s h h0 => [/= | h1 s IH] h h0 Hs Hx.
     by right.
@@ -219,7 +219,7 @@ Proof.
   split ; [apply Hx'|apply Hx].
   left ; exists (S i) => /= ; intuition.
   right => /= ; simpl in Hi.
-  by rewrite -minus_n_O in Hi.
+  by rewrite Nat.sub_0_r in Hi.
 Qed.
 
 Lemma sorted_compat (s : seq R) :
@@ -1011,7 +1011,7 @@ Proof.
     split ; [by apply Rnot_lt_le | by apply Hx].
   rewrite (IH h0 (proj2 Hs) Hx') => {IH} ;
   case: sorted_dec => [[i [Hxi Hi]]|Hi] ; case: sorted_dec => [[j [Hxj Hj]]|Hj] ;
-  rewrite -?minus_n_O //=.
+  rewrite ?Nat.sub_0_r //=.
 (* i,j < size s - 2 *)
   move : h h0 i j Hs {Hx Hx'} Hxi Hi Hxj Hj ; apply SF_cons_ind with (s := s)
     => {s} [x1 | h1 s IH] h h0 i j Hs //= Hxi Hi Hxj Hj.
@@ -1057,7 +1057,7 @@ Proof.
   simpl in Hxj, Hi ; case: Hxj => _ Hxj ; contradict Hxj ;
   apply Rle_not_lt, Rle_trans with (2 := proj1 Hi).
   move: Hj Hs ; rewrite ?SF_lx_cons /SF_lx.
-  rewrite -minus_n_O ;
+  rewrite Nat.sub_0_r ;
   elim: j (fst h) (fst h0) (SF_h s) (unzip1 (SF_t s))
     => {s Hx Hx' Hi h y0 h0} [ | j IH] h h0 h1 s Hj Hs /=.
     elim: s h h0 h1 {Hj} Hs => [| h2 s IH] h h0 h1 Hs /=.
@@ -1285,7 +1285,7 @@ Proof.
   case: (Hdec Hx') => {Hdec Hx'} [[i Hi]|Hi].
   left ; by exists i.
   right ; rewrite size_mkseq /= in Hi ; intuition.
-  by rewrite -minus_n_O in H1.
+  by rewrite Nat.sub_0_r in H1.
 Qed.
 
 Lemma seq_step_unif_part (a b : R) (n : nat) :
@@ -2287,7 +2287,7 @@ Proof.
   rewrite /SF_fun /= ; case: Rlt_dec => [Hx0 | _].
   contradict Hx0 ; apply Rle_not_lt, Hx.
   case: Rle_dec => [| Hx0] // ; contradict Hx0 ; apply Hx.
-  rewrite -minus_n_O in IH.
+  rewrite Nat.sub_0_r in IH.
   rewrite -(IH h0 h1 (proj2 Hs) x Hx ).
   rewrite /SF_fun /= ; case: Rlt_dec => [ Hx0 | _ ] //.
   contradict Hx0 ; apply Rle_not_lt, Rle_trans with (1 := proj1 Hs),
@@ -2550,7 +2550,7 @@ Proof.
   by apply lt_n_O in Hi.
   case: s h Hs Hi => [| h0 s] h Hs /= Hi.
   by apply lt_irrefl in Hi.
-  rewrite -minus_n_O ; elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
+  rewrite Nat.sub_0_r ; elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
   rewrite /SF_fun /= ; case: Rlt_dec => [Hx0 | _].
   contradict Hx0 ; apply Rle_not_lt, Hx.
   case: Rle_dec => [| Hx0] // ; contradict Hx0 ; apply Hx.
@@ -2606,7 +2606,7 @@ Proof.
   by apply lt_n_O in Hi.
   case: s h Hs Hi => [| h0 s] h Hs /= Hi.
   by apply lt_irrefl in Hi.
-  rewrite -minus_n_O ; elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
+  rewrite Nat.sub_0_r ; elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
   rewrite /SF_fun /= ; case: Rlt_dec => [Hx0 | _].
   contradict Hx0 ; apply Rle_not_lt, Hx.
   case: Rle_dec => [| Hx0] // ; contradict Hx0 ; apply Hx.
