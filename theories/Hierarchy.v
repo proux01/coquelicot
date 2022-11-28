@@ -1176,7 +1176,7 @@ Proof.
   intros a u n m.
   case: (le_dec n m) => Hnm.
   elim: m n u Hnm => [ | m IH] n u Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
   rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
@@ -1198,7 +1198,7 @@ Proof.
   intros a u n m.
   case: (le_dec n m) => Hnm.
   elim: m n u Hnm => [ | m IH] n u Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
   rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
@@ -2879,7 +2879,7 @@ Proof.
   intros a u n m.
   case: (le_dec n m) => Hnm.
   elim: m n u Hnm => [ | m IH] n u Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
   rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
@@ -4818,8 +4818,8 @@ Qed.
 Lemma sum_n_m_Reals a n m : (n <= m)%nat -> sum_n_m a n m = sum_f n m a.
 Proof.
   induction m => //= Hnm.
-  apply le_n_O_eq in Hnm.
-  by rewrite -Hnm sum_n_n /=.
+  apply Nat.le_0_r in Hnm.
+  by rewrite Hnm sum_n_n /=.
   case: (le_dec n m) => H.
   rewrite sum_n_Sm // IHm //.
   rewrite sum_f_n_Sm //.
@@ -4848,7 +4848,7 @@ Lemma norm_sum_n_m {K : AbsRing} {V : NormedModule K} (a : nat -> V) (n m : nat)
 Proof.
   case: (le_dec n m) => Hnm.
   elim: m n a Hnm => /= [ | m IH] n a Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   rewrite -Hnm !sum_n_n.
   by apply Rle_refl.
   destruct n.
@@ -4871,7 +4871,7 @@ Proof.
   intros H.
   case: (le_dec n m) => Hnm.
   elim: m n a b Hnm H => /= [ | m IH] n a b Hnm H.
-  apply le_n_O_eq in Hnm ; rewrite -Hnm.
+  apply Nat.le_0_r in Hnm ; rewrite -Hnm.
   rewrite !sum_n_n ; by apply H.
   destruct n.
   rewrite !sum_n_Sm ; try by apply Nat.le_0_l.

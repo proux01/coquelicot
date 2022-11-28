@@ -2099,7 +2099,8 @@ Proof.
   by apply Hl1.
   apply Rle_lt_trans with (2 := Hl2).
   elim: n N {Hl2} Hn => [ | n IH] N Hn.
-  rewrite (le_n_O_eq _ Hn).
+  apply Nat.le_0_r in Hn.
+  rewrite Hn.
   apply Rle_refl.
   apply le_lt_eq_dec in Hn.
   case: Hn => [Hn | ->].
@@ -2159,7 +2160,8 @@ Proof.
   by apply Hl1.
   apply Rle_lt_trans with (2 := Hl2).
   elim: n N {Hl2} Hn => [ | n IH] N Hn.
-  rewrite (le_n_O_eq _ Hn).
+  apply Nat.le_0_r in Hn.
+  rewrite Hn.
   apply Rle_refl.
   apply le_lt_eq_dec in Hn.
   case: Hn => [Hn | ->].

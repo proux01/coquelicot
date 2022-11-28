@@ -166,7 +166,7 @@ Proof.
   case: s => [| h s].
    move => _ Hi ; by apply Nat.nlt_0_r in Hi.
   elim: s h i => [| h0 s IH] h i Hs Hi x0.
-    apply lt_n_Sm_le, le_n_O_eq in Hi ; rewrite -Hi ; apply Rle_refl.
+    apply lt_n_Sm_le, Nat.le_0_r in Hi ; rewrite Hi ; apply Rle_refl.
   case: i Hi => [| i] Hi.
   apply Rle_refl.
   apply Rle_trans with (r2 := head x0 (h0::s)).
@@ -813,8 +813,8 @@ Proof.
   apply SF_cons_ind with (s := s) => {s} [x0 | [x1 y1] s IH] /= Hx0 H.
   move => i /= Hi.
   unfold SF_size in Hi ; simpl in Hi.
-  apply lt_n_Sm_le, le_n_O_eq in Hi.
-  rewrite -Hi ; simpl ; split.
+  apply lt_n_Sm_le, Nat.le_0_r in Hi.
+  rewrite Hi ; simpl ; split.
   by [].
   by apply Rle_refl.
   case: Rle_dec => //= Hx1.
@@ -828,8 +828,8 @@ Proof.
   apply lt_S_n, Hi.
   move => i /= Hi.
   unfold SF_size in Hi ; simpl in Hi.
-  apply lt_n_Sm_le, le_n_O_eq in Hi.
-  rewrite -Hi ; simpl ; split.
+  apply lt_n_Sm_le, Nat.le_0_r in Hi.
+  rewrite Hi ; simpl ; split.
   apply Rmin_case.
   apply (H O).
   by apply Nat.lt_0_succ.
