@@ -3475,7 +3475,7 @@ by apply Rmult_comm.
 apply Derive_correct.
 apply (Df t Ht 1%nat).
 apply le_n_S.
-apply le_0_n.
+apply Nat.le_0_l.
 simpl => z.
 rewrite /minus /plus /opp /zero /scal /= /mult /=.
 field.

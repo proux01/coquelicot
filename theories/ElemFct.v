@@ -373,7 +373,7 @@ Proof.
   rewrite sum_n_n sum_n_m_zero //.
   by rewrite plus_zero_l.
   rewrite sum_n_Sm //.
-  by apply le_n_S, le_O_n.
+  by apply le_n_S, Nat.le_0_l.
 Qed.
 
 End nat_to_ring.

@@ -82,7 +82,7 @@ Qed.
 Lemma le_pred_le_succ (n m : nat) : pred n <= m <-> n <= S m.
 Proof.
 case: n m => /= [ | n m].
-  split=> _; exact: le_0_n.
+  split=> _; exact: Nat.le_0_l.
 split.
   exact: le_n_S.
 exact: le_S_n.

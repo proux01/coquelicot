@@ -898,7 +898,7 @@ Lemma sum_Sn (a : nat -> G) (n : nat) :
   sum_n a (S n) = plus (sum_n a n) (a (S n)).
 Proof.
   apply sum_n_Sm.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
 Qed.
 
 Lemma sum_n_m_zero (a : nat -> G) (n m : nat) :
@@ -966,13 +966,13 @@ Proof.
   case => [ | n] u v Hnm.
   by rewrite !sum_n_n.
   by apply le_Sn_O in Hnm.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   rewrite -2!plus_assoc.
   apply f_equal.
   rewrite plus_comm -plus_assoc.
   apply f_equal, plus_comm.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite /sum_n_m -!iter_nat_S -!/(sum_n_m _ n m).
   apply IH.
   by apply le_S_n.
@@ -1005,8 +1005,8 @@ Proof.
   rewrite -sum_n_m_plus.
   apply sum_n_m_ext_loc => k Hk.
   rewrite sum_n_Sm //.
-  by apply le_O_n.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
+  by apply Nat.le_0_l.
 Qed.
 
 Lemma sum_n_m_sum_n (a:nat -> G) (n m : nat) :
@@ -1017,7 +1017,7 @@ Proof.
   rewrite (plus_comm _ (minus _ _)) /minus -plus_assoc plus_opp_l plus_zero_r.
   rewrite /sum_n /sum_n_m.
   apply sym_eq, sum_n_m_Chasles.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   by [].
 Qed.
 
@@ -1179,10 +1179,10 @@ Proof.
   apply le_n_O_eq in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   by apply sym_eq, mult_distr_r.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -1201,10 +1201,10 @@ Proof.
   apply le_n_O_eq in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   by apply sym_eq, mult_distr_l.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -2882,10 +2882,10 @@ Proof.
   apply le_n_O_eq in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   by apply sym_eq, scal_distr_l.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -4456,7 +4456,7 @@ Proof.
   rewrite /Mone coeff_mat_bij //.
   by apply le_lt_n_Sm.
   rewrite /sum_n (sum_n_m_Chasles _ _ j) //.
-  2: by apply le_O_n.
+  2: by apply Nat.le_0_l.
   2: by apply lt_n_Sm_le.
   rewrite (sum_n_m_ext_loc _ (fun _ => zero) (S j)).
   rewrite sum_n_m_const_zero plus_zero_r.
@@ -4491,7 +4491,7 @@ Proof.
   rewrite /Mone coeff_mat_bij //.
   by apply le_lt_n_Sm.
   rewrite /sum_n (sum_n_m_Chasles _ _ i) //.
-  2: by apply le_O_n.
+  2: by apply Nat.le_0_l.
   2: by apply lt_n_Sm_le.
   rewrite (sum_n_m_ext_loc _ (fun _ => zero) (S i)).
   rewrite sum_n_m_const_zero plus_zero_r.
@@ -4852,10 +4852,10 @@ Proof.
   rewrite -Hnm !sum_n_n.
   by apply Rle_refl.
   destruct n.
-  rewrite /sum_n !sum_n_Sm ; try by apply le_O_n.
+  rewrite /sum_n !sum_n_Sm ; try by apply Nat.le_0_l.
   eapply Rle_trans.
   apply norm_triangle.
-  apply Rplus_le_compat_r, IH, le_O_n.
+  apply Rplus_le_compat_r, IH, Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -4874,9 +4874,9 @@ Proof.
   apply le_n_O_eq in Hnm ; rewrite -Hnm.
   rewrite !sum_n_n ; by apply H.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   apply Rplus_le_compat.
-  apply IH => // ; by apply le_O_n.
+  apply IH => // ; by apply Nat.le_0_l.
   by apply H.
   rewrite -!sum_n_m_S.
   apply IH => //.
@@ -4953,7 +4953,7 @@ Proof.
   eapply Rle_trans, (norm_triangle_inv (norm (a n)) l).
   apply Req_le, f_equal, f_equal2 => //.
   apply sym_eq, Rabs_pos_eq, norm_ge_0.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   case: n => [ | n].
   apply Rmax_l.
   eapply Rle_trans, Rmax_r.

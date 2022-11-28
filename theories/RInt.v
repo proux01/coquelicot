@@ -3024,7 +3024,7 @@ Proof.
   case: Rle_dec => //= Hx0 ; lra.
   contradict Hi ; apply le_not_lt.
   case: Rle_dec => //= Hx0 ; rewrite /SF_size /= ;
-  apply le_n_S, le_O_n.
+  apply le_n_S, Nat.le_0_l.
 
   move: (IH (ptd_cons _ _ Hptd)) => {IH} IH.
   case => [ _ | i Hi].
@@ -3125,7 +3125,7 @@ Proof.
   by intuition.
   rewrite SF_size_cons in Hab1.
   move: (IH (fun i Hi => Hab1 (S i) (le_n_S _ _ Hi)) (ptd_cons _ _ Hptd)) => {IH}.
-  move: Hptd (Hab1 O (le_O_n _)) (Hab1 1%nat (le_n_S _ _ (le_0_n _))) => {Hab1}.
+  move: Hptd (Hab1 O (Nat.le_0_l _)) (Hab1 1%nat (le_n_S _ _ (Nat.le_0_l _))) => {Hab1}.
   apply SF_cons_dec with (s := s) => {s Hab0} /= [ x1 | [x1 y1] s] //= Hptd Hx0 Hx1.
   rewrite /SF_cut_down' /SF_last /= -?(last_map (@snd R R)) -?unzip2_snd.
   case: (Rle_dec x0 lx1) => //= Hx0'.
@@ -3153,11 +3153,11 @@ Proof.
   revert ptd_r_belast ptd_r Hab1 Hptd.
   apply SF_cons_ind with (s := ptd) => /= [ x0 | [x0 y0] s IH] // Hab1 Hptd.
   rewrite /SF_cut_down' /= ; case: Rle_dec => //= Hx0.
-  by apply (Hab1 O (le_O_n _)).
+  by apply (Hab1 O (Nat.le_0_l _)).
   by apply Hab0.
   rewrite SF_size_cons in Hab1.
   move: (IH (fun i Hi => Hab1 (S i) (le_n_S _ _ Hi)) (ptd_cons _ _ Hptd)) => {IH}.
-  move: Hptd (Hab1 O (le_O_n _)) (Hab1 1%nat (le_n_S _ _ (le_0_n _))) => {Hab1}.
+  move: Hptd (Hab1 O (Nat.le_0_l _)) (Hab1 1%nat (le_n_S _ _ (Nat.le_0_l _))) => {Hab1}.
   apply SF_cons_dec with (s := s) => {s} /= [ x1 | [x1 y1] s] //= Hptd Hx0 Hx1.
   rewrite /SF_cut_down' /SF_last /= -?(last_map (@fst R R)) -?unzip1_fst.
   case: (Rle_dec x0 lx1) => //= Hx0'.
@@ -3176,11 +3176,11 @@ Proof.
   revert ptd_r_belast ptd_r Hab1 Hptd.
   apply SF_cons_ind with (s := ptd) => /= [ x0 | [x0 y0] s IH] // Hab1 Hptd.
   rewrite /SF_cut_down' /= ; case: Rle_dec => //= Hx0.
-  by apply (Hab1 O (le_O_n _)).
+  by apply (Hab1 O (Nat.le_0_l _)).
   by apply Hab0.
   rewrite SF_size_cons in Hab1.
   move: (IH (fun i Hi => Hab1 (S i) (le_n_S _ _ Hi)) (ptd_cons _ _ Hptd)) => {IH}.
-  move: Hptd (Hab1 O (le_O_n _)) (Hab1 1%nat (le_n_S _ _ (le_0_n _))) => {Hab1}.
+  move: Hptd (Hab1 O (Nat.le_0_l _)) (Hab1 1%nat (le_n_S _ _ (Nat.le_0_l _))) => {Hab1}.
   apply SF_cons_dec with (s := s) => {s} /= [ x1 | [x1 y1] s] //= Hptd Hx0 Hx1.
   rewrite /SF_cut_down' /SF_last /= -?(last_map (@fst R R)) -?unzip1_fst.
   case: (Rle_dec x0 lx1) => //= Hx0'.
@@ -3406,7 +3406,7 @@ Proof.
   by intuition.
   rewrite SF_size_cons in Hab1.
   move: (IH (fun i Hi => Hab1 (S i) (le_n_S _ _ Hi)) (ptd_cons _ _ Hptd)) => {IH}.
-  move: Hptd (Hab1 O (le_O_n _)) (Hab1 1%nat (le_n_S _ _ (le_0_n _))) => {Hab1}.
+  move: Hptd (Hab1 O (Nat.le_0_l _)) (Hab1 1%nat (le_n_S _ _ (Nat.le_0_l _))) => {Hab1}.
   apply SF_cons_dec with (s := s) => {s Hab0} /= [ x1 | [x1 y1] s] //= Hptd Hx0 Hx1.
   rewrite /SF_cut_up' /SF_head /=.
   case: (Rle_dec x0 lx1) => //= Hx0'.
@@ -3432,10 +3432,10 @@ Proof.
   apply SF_cons_ind with (s := ptd) => /= [ x0 | [x0 y0] s IH] // Hab1 Hptd.
   rewrite /SF_cut_down' /= ; case: Rle_dec => //= Hx0.
   by apply Hab0.
-  by apply (Hab1 O (le_O_n _)).
+  by apply (Hab1 O (Nat.le_0_l _)).
   rewrite SF_size_cons in Hab1.
   move: (IH (fun i Hi => Hab1 (S i) (le_n_S _ _ Hi)) (ptd_cons _ _ Hptd)) => {IH}.
-  move: Hptd (Hab1 O (le_O_n _)) (Hab1 1%nat (le_n_S _ _ (le_0_n _))) => {Hab1}.
+  move: Hptd (Hab1 O (Nat.le_0_l _)) (Hab1 1%nat (le_n_S _ _ (Nat.le_0_l _))) => {Hab1}.
   apply SF_cons_dec with (s := s) => {s} /= [ x1 | [x1 y1] s] //= Hptd Hx0 Hx1.
   rewrite /SF_cut_up' /SF_head /= -?(head_map (@fst R R)) -?unzip1_fst.
   case: (Rle_dec x0 lx1) => //= Hx0'.
@@ -3453,10 +3453,10 @@ Proof.
   apply SF_cons_ind with (s := ptd) => /= [ x0 | [x0 y0] s IH] // Hab1 Hptd.
   case: Rle_dec => //= Hx0.
   by apply Hab0.
-  by apply (Hab1 O (le_O_n _)).
+  by apply (Hab1 O (Nat.le_0_l _)).
   rewrite SF_size_cons in Hab1.
   move: (IH (fun i Hi => Hab1 (S i) (le_n_S _ _ Hi)) (ptd_cons _ _ Hptd)) => {IH}.
-  move: Hptd (Hab1 O (le_O_n _)) (Hab1 1%nat (le_n_S _ _ (le_0_n _))) => {Hab1}.
+  move: Hptd (Hab1 O (Nat.le_0_l _)) (Hab1 1%nat (le_n_S _ _ (Nat.le_0_l _))) => {Hab1}.
   apply SF_cons_dec with (s := s) => {s} /= [ x1 | [x1 y1] s] //= Hptd Hx0 Hx1.
   rewrite -?(head_map (@fst R R)) -?unzip1_fst.
   case: (Rle_dec x0 lx1) => //= Hx0'.

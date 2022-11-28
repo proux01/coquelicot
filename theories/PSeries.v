@@ -1924,7 +1924,7 @@ Proof.
   rewrite -{1}(Rmult_1_r M).
   apply Rmult_le_compat_l.
   by apply Rle_trans with (2 := Ha O), Rabs_pos.
-  by apply Rle_trans with (2 := Rle_abs _), (le_INR 1), le_n_S, le_O_n.
+  by apply Rle_trans with (2 := Rle_abs _), (le_INR 1), le_n_S, Nat.le_0_l.
 
   apply H => x [M Hx].
 
@@ -1985,7 +1985,7 @@ Proof.
     rewrite Rplus_assoc.
     apply Rplus_le_lt_0_compat.
     apply Rmult_le_pos.
-    by apply (le_INR O), le_O_n.
+    by apply (le_INR O), Nat.le_0_l.
     by apply Rlt_le, eps.
     by apply Rle_lt_0_plus_1, Rlt_le, eps.
     apply Rlt_div_l.

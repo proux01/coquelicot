@@ -277,7 +277,7 @@ Proof.
   apply f_equal.
   rewrite sum_n_m_S.
   apply f_equal ; lia.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   replace l with (plus (a 0%nat) (plus l (opp (a 0%nat)))).
   apply filterlim_comp_2 with (3 := filterlim_plus _ _).
   apply filterlim_id.
@@ -311,7 +311,7 @@ Proof.
   rewrite <- plus_assoc.
   apply f_equal.
   now rewrite opp_plus.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
 Qed.
 
 Lemma ex_series_incr_1 (a : nat -> V) :
@@ -381,7 +381,7 @@ Proof.
   apply f_equal, Lim_seq_ext => n.
   rewrite /sum_n sum_n_m_S sum_Sn_m.
   rewrite Ha ; by apply Rplus_0_l.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
 Qed.
 Lemma Series_incr_n_aux (a : nat -> R) (n : nat) :
    (forall k, (k < n)%nat -> a k = 0)
@@ -498,7 +498,7 @@ Proof.
   by apply Hb.
   rewrite sum_n_Sm.
   by apply Rplus_le_le_0_compat.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   case: m => /= [ | m].
   by apply Rle_refl.
   rewrite -sum_n_m_S.
@@ -756,8 +756,8 @@ Proof.
         (fun p : nat => a p * b (S (S n) - p)%nat) 0%nat)
         + a O * b (S (S n))) by (rewrite Nat.sub_0_r ; ring).
     rewrite -(sum_f_Sn_m _ O (S (S n))) ; [ | by apply Nat.lt_0_succ].
-    rewrite sum_f_u_Sk ; [ | by apply le_O_n].
-    rewrite sum_f_n_Sm ; [ | by apply le_O_n].
+    rewrite sum_f_u_Sk ; [ | by apply Nat.le_0_l].
+    rewrite sum_f_n_Sm ; [ | by apply Nat.le_0_l].
     apply Rle_trans with (sum_f 0 n (fun l0 : nat => a (S (l0 + 0)) * b (S n - l0)%nat) +
       a (S (S n)) * b (S (S n) - S (S n))%nat + a 0%nat * b (S (S n))).
       apply Rminus_le_0 ; ring_simplify.
@@ -805,13 +805,13 @@ Proof.
     rewrite IH ; apply f_equal, f_equal2 ; apply f_equal.
     ring.
     rewrite ?(Nat.add_comm _ (S m)) -minus_plus_simpl_l_reverse //=.
-    apply le_O_n.
+    apply Nat.le_0_l.
     rewrite /sum_f.
     elim: (S (S n) - S (S (n - S m)))%nat => {IH} [ | k IH] ;
     rewrite /sum_f_R0 -/sum_f_R0 //.
     by apply Rmult_le_pos.
     apply Rplus_le_le_0_compat => // ; by apply Rmult_le_pos.
-    by apply le_n_S, le_O_n.
+    by apply le_n_S, Nat.le_0_l.
     by apply Rmult_le_pos.
     rewrite sum_f_Sn_m ?Nat.sub_0_r ; try by intuition.
     ring.
@@ -855,7 +855,7 @@ Proof.
     apply le_S_n.
     apply le_trans with (1 := Hn).
     apply (Div2.ind_0_1_SS (fun n => (n <= S (2 * Div2.div2 n))%nat)).
-    by apply le_O_n.
+    by apply Nat.le_0_l.
     by apply le_refl.
     move => k Hk.
     replace (Div2.div2 (S (S k))) with (S (Div2.div2 k)) by auto.
