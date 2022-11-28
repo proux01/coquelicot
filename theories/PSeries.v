@@ -1403,8 +1403,8 @@ Proof.
   apply le_double.
   apply plus_le_reg_l with 1%nat.
   rewrite Nat.add_comm.
-  apply le_trans with (1:=Hn).
-  apply le_trans with (1+double (div2 n))%nat.
+  apply Nat.le_trans with (1:=Hn).
+  apply Nat.le_trans with (1+double (div2 n))%nat.
   case (even_or_odd n); intros J.
   rewrite <- even_double; try exact J.
   now apply le_S.
@@ -1425,8 +1425,8 @@ Proof.
   apply le_double.
   apply plus_le_reg_l with 2%nat.
   rewrite Nat.add_comm.
-  apply le_trans with (1:=Hn).
-  apply le_trans with (1+(1+double (div2 (pred n))))%nat.
+  apply Nat.le_trans with (1:=Hn).
+  apply Nat.le_trans with (1+(1+double (div2 (pred n))))%nat.
   case (even_or_odd (pred n)); intros J.
   rewrite <- even_double; try exact J.
   case n.
@@ -1803,7 +1803,7 @@ Proof.
   rewrite /minus opp_zero plus_zero_r.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
-  apply le_trans with (1 := Nat.le_succ_diag_r _).
+  apply Nat.le_trans with (1 := Nat.le_succ_diag_r _).
   apply le_plus_l.
   apply @ex_series_scal.
   apply ex_series_geom.
@@ -1821,7 +1821,7 @@ Proof.
   rewrite /minus opp_zero plus_zero_r.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
-  apply le_trans with (1 := Nat.le_succ_diag_r _).
+  apply Nat.le_trans with (1 := Nat.le_succ_diag_r _).
   apply le_plus_l.
   apply @ex_series_scal.
   apply ex_series_geom.

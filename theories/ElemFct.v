@@ -452,7 +452,7 @@ Proof.
   eapply is_derive_ext.
   intros t.
   apply sym_equal, is_derive_n_unique, IH.
-  eapply le_trans, Hip ; by apply Nat.le_succ_diag_r.
+  eapply Nat.le_trans, Hip ; by apply Nat.le_succ_diag_r.
   evar_last.
   apply is_derive_scal, is_derive_pow, is_derive_id.
   rewrite MyNat.sub_succ_r.

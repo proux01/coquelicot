@@ -885,7 +885,7 @@ Proof.
   apply Rplus_lt_reg_l in Hy.
   by rewrite Rminus_0_r.
 
-  apply Rle_lt_trans with (2 := H2 (S n) (le_trans _ _ _ (Nat.le_succ_diag_r _) (le_n_S _ _ Hn))).
+  apply Rle_lt_trans with (2 := H2 (S n) (Nat.le_trans _ _ _ (Nat.le_succ_diag_r _) (le_n_S _ _ Hn))).
   rewrite Rminus_0_r /SP.
   rewrite (Series_incr_n (fun k : nat => fn k y) (S n)) /=.
   ring_simplify (sum_f_R0 (fun k : nat => fn k y) n +

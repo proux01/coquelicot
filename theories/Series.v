@@ -853,7 +853,7 @@ Proof.
     apply H.
     apply le_double.
     apply le_S_n.
-    apply le_trans with (1 := Hn).
+    apply Nat.le_trans with (1 := Hn).
     apply (Div2.ind_0_1_SS (fun n => (n <= S (2 * Div2.div2 n))%nat)).
     by apply Nat.le_0_l.
     by apply Nat.le_refl.
