@@ -1804,7 +1804,7 @@ Proof.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
   apply Nat.le_trans with (1 := Nat.le_succ_diag_r _).
-  apply le_plus_l.
+  apply Nat.le_add_r.
   apply @ex_series_scal.
   apply ex_series_geom.
   by rewrite Rabs_Rabsolu.
@@ -1822,7 +1822,7 @@ Proof.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
   apply Nat.le_trans with (1 := Nat.le_succ_diag_r _).
-  apply le_plus_l.
+  apply Nat.le_add_r.
   apply @ex_series_scal.
   apply ex_series_geom.
   by rewrite Rabs_Rabsolu.

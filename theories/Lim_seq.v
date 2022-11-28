@@ -1006,7 +1006,7 @@ Proof.
   apply Rminus_lt_0 in Hl.
   case: (Hlv (pos_div_2 (mkposreal _ Hl))) => {Hlv} /= _ [n Hlv].
   case: (proj1 (Hlu (pos_div_2 (mkposreal _ Hl))) (N + n)%nat) => {Hlu} m /= [Hm Hlu].
-  move: (H _ (Nat.le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
   eapply Rlt_le_trans.
@@ -1016,7 +1016,7 @@ Proof.
 
   case: (Hlv (lu - 1)) => {Hlv} n Hlv.
   case: (proj1 (Hlu (mkposreal _ Rlt_0_1)) (N + n)%nat) => {Hlu} m /= [Hm Hlu].
-  move: (H _ (Nat.le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
   eapply Hlv, Nat.le_trans, Hm.
@@ -1024,7 +1024,7 @@ Proof.
 
   case: (Hlv (mkposreal _ Rlt_0_1)) => {Hlv} /= _ [n Hlv].
   case: (Hlu (lv + 1) (N + n)%nat) => {Hlu} /= m [Hm Hlu].
-  move: (H _ (Nat.le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
   eapply Hlv, Nat.le_trans, Hm.
@@ -1032,7 +1032,7 @@ Proof.
 
   case: (Hlv 0) => {Hlv} n Hlv.
   case: (Hlu 0 (N + n)%nat) => {Hlu} m [Hm Hlu].
-  move: (H _ (Nat.le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
   eapply Hlv, Nat.le_trans, Hm.
@@ -1286,14 +1286,14 @@ Proof.
   move => N0.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Rabs_lt_between', Hu, le_plus_l.
+  by apply Rabs_lt_between', Hu, Nat.le_add_r.
   exists N => n Hn.
   by apply Rabs_lt_between', Hu.
   move => M N0.
   case: (Hu M) => {Hu} N Hu.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Hu, le_plus_l.
+  by apply Hu, Nat.le_add_r.
   by [].
 Qed.
 Lemma is_lim_LimInf_seq (u : nat -> R) (l : Rbar) :
@@ -1305,7 +1305,7 @@ Proof.
   move => N0.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Rabs_lt_between', Hu, le_plus_l.
+  by apply Rabs_lt_between', Hu, Nat.le_add_r.
   exists N => n Hn.
   by apply Rabs_lt_between', Hu.
   by [].
@@ -1313,7 +1313,7 @@ Proof.
   case: (Hu M) => {Hu} N Hu.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Hu, le_plus_l.
+  by apply Hu, Nat.le_add_r.
 Qed.
 Lemma is_LimSup_LimInf_lim_seq (u : nat -> R) (l : Rbar) :
   is_LimSup_seq u l -> is_LimInf_seq u l -> is_lim_seq u l.
@@ -1517,7 +1517,7 @@ Proof.
   move: (fun n Hn => proj1 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (Nat.le_refl _))))
   => {Hcv} Hcv.
   case: (Hl (u Ncv - eps / 2)) => {Hl} N Hl.
-  move: (Hcv _ (le_plus_l Ncv N)) => H.
+  move: (Hcv _ (Nat.le_add_r Ncv N)) => H.
   contradict H ; apply Rle_not_lt, Rlt_le, Hl, le_plus_r.
 Qed.
 
@@ -3144,7 +3144,7 @@ Proof.
   apply Ropp_lt_cancel ;
   rewrite Ropp_involutive Ropp_0 ;
   by apply Rlt_0_1.
-  move: (H0 _ (le_plus_l N N0)).
+  move: (H0 _ (Nat.le_add_r N N0)).
   by apply Rle_not_lt, Rge_le, H1, le_plus_r.
 (* ~ is_lim_seq ((-1)^n) l *)
   case: (H (mkposreal _ Rlt_0_1)) => /= {H} N H.

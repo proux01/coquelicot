@@ -276,7 +276,7 @@ Proof.
     case: (Hfn (pos_div_2 (pos_div_2 eps))) => {Hfn} /= n1 Hfn.
     case: (H (pos_div_2 (pos_div_2 eps))) => {H} /= n2 H.
     set n := (n1 + n2)%nat.
-    move: (fun y Hy => Hfn n (le_plus_l _ _) y Hy) => {Hfn} Hfn.
+    move: (fun y Hy => Hfn n (Nat.le_add_r _ _) y Hy) => {Hfn} Hfn.
     move: (H n (le_plus_r _ _)) => {H} H.
     move: (Hex x n Hx) => {Hex} Hex.
     apply Lim_correct' in Hex.

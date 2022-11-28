@@ -984,7 +984,7 @@ Proof.
   simpl ; apply Rmult_le_compat.
   by apply Rabs_pos.
   by apply Rabs_pos.
-  apply H, le_plus_l.
+  apply H, Nat.le_add_r.
   by apply IH.
   rewrite -Rabs_mult ; apply f_equal.
   rewrite plus_n_Sm ; field ; split ; by apply Ha.

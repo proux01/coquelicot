@@ -2848,7 +2848,7 @@ Proof.
 (* RInt (f-phi) < eps/4 *)
   case: (HIf _ (cond_pos eps4)) => {HIf} N HIf.
   case: (nfloor_ex (/eps4) (Rlt_le _ _ (Rinv_0_lt_compat _ (cond_pos eps4)))) => n Hn.
-  move: (HIf (N+n)%nat (le_plus_l _ _)) => {HIf}.
+  move: (HIf (N+n)%nat (Nat.le_add_r _ _)) => {HIf}.
   rewrite /phi_sequence /R_dist ; case: pr => phi [psi pr] ;
   simpl RiemannInt_SF => HIf.
 (* RInt psi < eps/4*)
