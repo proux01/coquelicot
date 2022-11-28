@@ -705,7 +705,7 @@ Proof.
   move => Hnm Hmk.
   rewrite ?sum_f_rw //.
   ring.
-  by apply lt_trans with m.
+  by apply Nat.lt_trans with m.
 Qed.
 
 (** * Rmin and Rmax *)

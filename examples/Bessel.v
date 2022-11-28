@@ -470,8 +470,8 @@ Proof.
     rewrite H.
     rewrite IH /Rdiv.
     ring.
-    eapply lt_trans, Hk.
-    eapply lt_trans ; apply Nat.lt_succ_diag_r.
+    eapply Nat.lt_trans, Hk.
+    eapply Nat.lt_trans ; apply Nat.lt_succ_diag_r.
     by apply MyNat.lt_neq.
   repeat split.
   by [].

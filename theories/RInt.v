@@ -1889,8 +1889,8 @@ Proof.
       apply sorted_head.
       apply unif_part_sort.
       by apply Rlt_le.
-      eapply lt_trans, (proj2_sig Hi).
-      eapply lt_trans ; apply Nat.lt_succ_diag_r.
+      eapply Nat.lt_trans, (proj2_sig Hi).
+      eapply Nat.lt_trans ; apply Nat.lt_succ_diag_r.
       by apply Nat.lt_0_succ.
       by apply unif_part_sort, Rlt_le.
       intros x y Hxy.
@@ -1901,7 +1901,7 @@ Proof.
       case: (size (unif_part a b (n e))) (proj1_sig Hi) => [ | m] /= k Hk.
       by apply Nat.nlt_0_r in Hk.
       apply lt_S_n.
-      eapply lt_trans, Hk.
+      eapply Nat.lt_trans, Hk.
       by apply Nat.lt_succ_diag_r.
       apply ptd_f2.
       by apply unif_part_sort, Rlt_le.
@@ -1913,7 +1913,7 @@ Proof.
       case: (size (unif_part a b (n e))) (proj1_sig Hi) => [ | m] /= k Hk.
       by apply Nat.nlt_0_r in Hk.
       apply lt_S_n.
-      eapply lt_trans, Hk.
+      eapply Nat.lt_trans, Hk.
       by apply Nat.lt_succ_diag_r.
       rewrite SF_lx_f2 ; try by apply Nat.lt_0_succ.
       rewrite {2}(Hb e).
@@ -1939,7 +1939,7 @@ Proof.
       rewrite size_mkseq in Hi, i |- *.
       apply lt_S_n.
       eapply lt_le_trans.
-      eapply lt_trans, (proj2_sig Hi).
+      eapply Nat.lt_trans, (proj2_sig Hi).
       by apply Nat.lt_succ_diag_r.
       rewrite /s.
       elim: (n e) (a) (b) => [ | m IH] // a' b'.
@@ -1965,11 +1965,11 @@ Proof.
       case: (size (unif_part a b (n e))) (proj1_sig Hi) => [ | m] j /= Hm.
       by apply Nat.nlt_0_r in Hm.
       apply lt_S_n.
-      eapply lt_trans, Hm.
+      eapply Nat.lt_trans, Hm.
       by apply Nat.lt_succ_diag_r.
       eapply Rle_lt_trans.
       apply nth_le_seq_step.
-      eapply lt_trans, (proj2_sig Hi).
+      eapply Nat.lt_trans, (proj2_sig Hi).
       by apply lt_n_S.
       apply (proj2_sig (seq_step_unif_part_ex a b (proj1_sig (H e)))).
       rewrite SSR_leq.
@@ -1999,7 +1999,7 @@ Proof.
       apply unif_part_sort.
       by apply Rlt_le.
       rewrite size_mkseq.
-      eapply lt_trans ; apply Nat.lt_succ_diag_r.
+      eapply Nat.lt_trans ; apply Nat.lt_succ_diag_r.
       by apply Nat.lt_0_succ.
       by apply unif_part_sort, Rlt_le.
       intros x y Hxy.
