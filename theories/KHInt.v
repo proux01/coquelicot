@@ -253,7 +253,7 @@ apply le_S_n in Hcase2.
 unfold lt in Hsi.
 assert (S i <= i)%nat as Hcase4.
 now apply Nat.le_trans with (SF_size s).
-apply le_Sn_n in Hcase4 ; destruct Hcase4.
+apply Nat.nle_succ_diag_l in Hcase4 ; destruct Hcase4.
 move :Hcase => /ssrnat.leP Hcase.
 rewrite SF_size_lx in Hcase.
 apply le_n_S in Hi.
