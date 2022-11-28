@@ -1,6 +1,6 @@
 # If you modify this file, make sure to update the BUILD_IMAGE variable in .gitlab-ci.yml.
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 USER root
 
@@ -8,11 +8,8 @@ USER root
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -yq && \
     apt-get upgrade -yq --with-new-pkgs --auto-remove && \
-    apt-get install -yq --no-install-recommends autoconf build-essential ca-certificates git graphviz g++ libgmp-dev ocaml-nox unzip wget && \
+    apt-get install -yq --no-install-recommends autoconf build-essential ca-certificates git graphviz g++ libgmp-dev ocaml-nox opam && \
     apt-get clean
-
-RUN wget --quiet https://github.com/ocaml/opam/releases/download/2.0.7/opam-2.0.7-x86_64-linux -O /usr/local/bin/opam && \
-    chmod a+x /usr/local/bin/opam
 
 # create user
 RUN adduser --disabled-password --gecos '' user
@@ -26,6 +23,6 @@ RUN opam init -y --no-setup -j4 --bare --disable-sandboxing && \
     opam switch create minimal ocaml-system && \
     opam switch create latest  ocaml-system && \
     opam repository add coq-released https://coq.inria.fr/opam/released --all-switches && \
-    opam install -y --switch=minimal $OPAM_PACKAGES coq.8.8.2  coq-mathcomp-ssreflect.1.7.0  && \
-    opam install -y --switch=latest  $OPAM_PACKAGES coq.8.15.1 coq-mathcomp-ssreflect.1.14.0 && \
+    opam install -y --switch=minimal $OPAM_PACKAGES coq.8.12.2  coq-mathcomp-ssreflect.1.11.0  && \
+    opam install -y --switch=latest  $OPAM_PACKAGES coq.8.16.1 coq-mathcomp-ssreflect.1.15.0 && \
     opam clean -a -c -r -s --logs
