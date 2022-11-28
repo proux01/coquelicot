@@ -1109,7 +1109,7 @@ Lemma is_pseries_decr_n (a : nat -> V) (n : nat) (x y:K) (l : V) :
 Proof.
   move => Hx Hn Ha.
   case: n Hn => [ | n] Hn.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn ; simpl ; rewrite Nat.sub_0_r /PS_decr_n /=.
   elim: n => /= [ | n IH].
   rewrite sum_O scal_one mult_one_r.
@@ -2113,7 +2113,7 @@ Proof.
       sum_f_R0 (fun k : nat => a k * y ^ k) n) x
       (sum_f_R0 (fun k : nat => (PS_derive a) k * x ^ k) (pred n))).
     case => [ y Hn | n y _ ].
-    by apply lt_irrefl in Hn.
+    by apply Nat.lt_irrefl in Hn.
     elim: n => [ | n] ; simpl pred ; rewrite /sum_f_R0 -/sum_f_R0.
     replace (PS_derive a 0 * y ^ 0)
       with (0 + a 1%nat * (1 * 1))

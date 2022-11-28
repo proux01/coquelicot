@@ -251,7 +251,7 @@ Lemma is_series_incr_n (a : nat -> V) (n : nat) (l : V) :
     -> is_series (fun k => a (n + k)%nat) l.
 Proof.
   case: n => /= [ | n] Hn Ha.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn.
   elim: n l Ha => [ | n IH] l Ha.
   rewrite sum_O in Ha.
@@ -297,7 +297,7 @@ Lemma is_series_decr_n (a : nat -> V) (n : nat) (l : V) :
     -> is_series a l.
 Proof.
   case: n => /= [ | n] Hn Ha.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn.
   elim: n a l Ha => [ | n IH] a l Ha.
   rewrite sum_O in Ha.

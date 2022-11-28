@@ -127,7 +127,7 @@ Proof.
   case: (s2) H0 Hi0 Hi => [ | x3 s2'] //= H0 Hi0 Hi.
   rewrite cats0 /= in Hi.
   rewrite Hi' in Hi.
-  by apply lt_irrefl in Hi.
+  by apply Nat.lt_irrefl in Hi.
   case: (s1) Hi0 => //= [ | x2 s0] Hi0.
   by apply le_Sn_O in Hi0.
   by rewrite minus_diag.
@@ -263,9 +263,9 @@ Lemma seq_step_cat (x y : seq R) :
   seq_step (cat x (behead y)) = Rmax (seq_step x) (seq_step y).
 Proof.
   case: x => /= [ H | x0 x _].
-  by apply lt_irrefl in H.
+  by apply Nat.lt_irrefl in H.
   case: y => /= [ H | y0 y _].
-  by apply lt_irrefl in H.
+  by apply Nat.lt_irrefl in H.
   move => <-.
   elim: x y x0 {y0} => /= [ | x1 x IH] y x0.
   rewrite {2}/seq_step /=.
@@ -2282,7 +2282,7 @@ Proof.
   intros _ x Hx Hi.
   by apply Nat.nlt_0_r in Hi.
   case: s h Hs Hi x Hx => [| h0 s] h Hs /= Hi.
-  by apply lt_irrefl in Hi.
+  by apply Nat.lt_irrefl in Hi.
   elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
   rewrite /SF_fun /= ; case: Rlt_dec => [Hx0 | _].
   contradict Hx0 ; apply Rle_not_lt, Hx.
@@ -2549,7 +2549,7 @@ Proof.
   case: (unif_part a b n) (unif_part_sort a b n Hab) => {a b Hab n} [| h s] Hs /= Hi.
   by apply Nat.nlt_0_r in Hi.
   case: s h Hs Hi => [| h0 s] h Hs /= Hi.
-  by apply lt_irrefl in Hi.
+  by apply Nat.lt_irrefl in Hi.
   rewrite Nat.sub_0_r ; elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
   rewrite /SF_fun /= ; case: Rlt_dec => [Hx0 | _].
   contradict Hx0 ; apply Rle_not_lt, Hx.
@@ -2605,7 +2605,7 @@ Proof.
   case: (unif_part a b n) (unif_part_sort a b n Hab) => {a b Hab n} [| h s] Hs /= Hi.
   by apply Nat.nlt_0_r in Hi.
   case: s h Hs Hi => [| h0 s] h Hs /= Hi.
-  by apply lt_irrefl in Hi.
+  by apply Nat.lt_irrefl in Hi.
   rewrite Nat.sub_0_r ; elim: s h h0 Hs {Hi} => [| h1 s IH] h h0 Hs /= x Hx.
   rewrite /SF_fun /= ; case: Rlt_dec => [Hx0 | _].
   contradict Hx0 ; apply Rle_not_lt, Hx.

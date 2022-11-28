@@ -225,7 +225,7 @@ Lemma Bessel1_equality_2 (n : nat) (x : R) : (0 < n)%nat -> x<>0
   -> Bessel1 (S n)%nat x + Bessel1 (pred n)%nat x = (2*INR n)/x * Bessel1 n x.
 Proof.
   case: n => [ | n] Hn Hx.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn ; simpl pred.
   rewrite /Bessel1 S_INR.
   replace ((x / 2) ^ S (S n) * PSeries (Bessel1_seq (S (S n))) ((x / 2) ^ 2) +
@@ -266,7 +266,7 @@ Proof.
   move => Hn.
   rewrite (is_derive_unique _ _ _ (is_derive_Bessel1 _ _)) /Bessel1.
   case: n Hn => [ | n] Hn.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn ; simpl pred.
   replace ((x / 2) ^ S (S n) * PSeries (Bessel1_seq (S (S n))) ((x / 2) ^ 2) -
       (x / 2) ^ n * PSeries (Bessel1_seq n) ((x / 2) ^ 2))

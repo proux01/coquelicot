@@ -4176,7 +4176,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   have : (0 < size (unif_part a b n))%nat.
     rewrite size_mkseq ; exact: Nat.lt_0_succ.
   case: (unif_part a b n) Hi => [ | x0 sx] Hi Hsx Ht_ab Hsort /=.
-  by apply lt_irrefl in Hsx.
+  by apply Nat.lt_irrefl in Hsx.
   clear Hsx.
   case: sx Hsort Hi Ht_ab => [ | x1 sx] Hsort /= Hi [Ht_a Ht_b].
   move: (Rle_antisym _ _ Ht_b Ht_a) => Ht.
@@ -4866,7 +4866,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     apply lt_S_n in Hj ; move: (proj2 Ht) ;
     elim: j x2 s Hj {IH Hle Hlt Hfin Hnth Hpdt F0 Ht g0 Hx2' Hx1' i Hi}
       => [ | i IH] x0 ; case => {x1} [ | x1 s] Hi Ht Hle ; simpl.
-    by apply lt_irrefl in Hi.
+    by apply Nat.lt_irrefl in Hi.
     apply Rlt_not_eq, Rlt_le_trans with (1 := Ht).
     by apply Hle.
     by apply Nat.nlt_0_r in Hi.

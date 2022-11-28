@@ -51,7 +51,7 @@ Proof.  move=> h.  by rewrite minus_Sn_m.  Qed.
 Lemma lt_neq (n m : nat) : n < m -> n <> m.
 Proof.
 intros H ->.
-exact (lt_irrefl m H).
+exact (Nat.lt_irrefl m H).
 Qed.
 
 Lemma minus_0_le (n m : nat) : n <= m -> n - m = 0.
@@ -1331,7 +1331,7 @@ Proof.
   by apply eps.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_irrefl in Hj.
+  by apply Nat.lt_irrefl in Hj.
   by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
