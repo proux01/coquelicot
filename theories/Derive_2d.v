@@ -813,7 +813,7 @@ intros n p; case p; clear p.
 (* . *)
 intros k; case k; clear k.
 case n; clear n.
-intros Hn; contradict Hn; apply lt_n_O.
+intros Hn; contradict Hn; apply Nat.nlt_0_r.
 intros n _ f x y H.
 unfold partial_derive; simpl.
 apply H.
@@ -865,7 +865,7 @@ intros n p; case p; clear p.
 (* . *)
 intros k; case k; clear k.
 case n; clear n.
-intros Hn; contradict Hn; apply lt_n_O.
+intros Hn; contradict Hn; apply Nat.nlt_0_r.
 intros n _ f x y H.
 unfold partial_derive; simpl.
 apply H.

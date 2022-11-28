@@ -331,7 +331,7 @@ Proof.
   by apply Rlt_le.
   apply Rle_trans with (2 := Rmax_l _ _).
   elim: N n Hn {Hx} => [ | N IH] /= n Hn.
-  by apply lt_n_O in Hn.
+  by apply Nat.nlt_0_r in Hn.
   apply lt_n_Sm_le, le_lt_eq_dec in Hn ; case: Hn => Hn.
   apply Rle_trans with (2 := Rmax_l _ _).
   by apply IH.
@@ -393,7 +393,7 @@ Proof.
   by apply Rlt_le.
   apply Rle_trans with (2 := Rmax_l _ _).
   elim: N n Hn {Hx} => [ | N IH] /= n Hn.
-  by apply lt_n_O in Hn.
+  by apply Nat.nlt_0_r in Hn.
   apply lt_n_Sm_le, le_lt_eq_dec in Hn ; case: Hn => Hn.
   apply Rle_trans with (2 := Rmax_l _ _).
   by apply IH.
@@ -982,7 +982,7 @@ Proof.
   move => Ha.
   apply filterlim_ext_loc with  (fun n : nat => scal x (sum_n (fun k => scal (pow_n x k) (a k)) (pred n))).
   exists 1%nat; intros n; case n.
-  intros Hn; contradict Hn ; apply lt_n_O.
+  intros Hn; contradict Hn ; apply Nat.nlt_0_r.
   clear n; intros n _ ;induction n.
   now rewrite /= !sum_Sn !sum_O /= mult_one_r 2!scal_one plus_zero_l.
   apply trans_eq with (plus
@@ -1032,7 +1032,7 @@ Proof.
   by elim: n k H {IH} => /= [ | n IH] k H.
   by apply le_S_n.
   elim: n k H => [ | n IH] k H.
-  by apply lt_n_O in H.
+  by apply Nat.nlt_0_r in H.
   rewrite /PS_incr_n -/PS_incr_n /PS_incr_1.
   case: k H => [ | k] H.
   by [].
@@ -2041,7 +2041,7 @@ Proof.
     apply Rle_trans with (1 := IH H2) ;
     rewrite /My -/My ; by apply Rmax_r.
     elim: N n Hn {HN} => [ | N IH] n Hn.
-    by apply lt_n_O in Hn.
+    by apply Nat.nlt_0_r in Hn.
     apply le_S_n in Hn ; case: (le_lt_eq_dec _ _ Hn) => {Hn} Hn.
     apply Rle_trans with (2 := Rmax_r _ (My N)) ; by apply IH.
     rewrite Hn ; by apply (Rmax_l _ (My N)).

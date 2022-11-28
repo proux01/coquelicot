@@ -569,7 +569,7 @@ Proof.
   intro Hnm ; unfold sum_f.
   revert  a n Hnm.
   induction m ; intros a n Hnm.
-  apply lt_n_O in Hnm ; intuition.
+  apply Nat.nlt_0_r in Hnm ; intuition.
   rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl.
   revert Hnm ;
   destruct n ; intro Hnm.
@@ -630,7 +630,7 @@ Lemma sum_f_Sn_m (u : nat -> R) (n m : nat) :
 Proof.
   move => H.
   elim: m n H => [ | m IH] // n H.
-  by apply lt_n_O in H.
+  by apply Nat.nlt_0_r in H.
   rewrite sum_f_u_Sk ; try by intuition.
   rewrite sum_f_n_Sm ; try by intuition.
   replace (sum_f n m u + u (S m) - u n)
@@ -643,7 +643,7 @@ Proof.
   apply lt_minus_O_lt in H.
   rewrite -{3}(MyNat.sub_add n m) ; try by intuition.
   case: (m-n)%nat H => {IH} [ | k] //= H.
-  by apply lt_n_O in H.
+  by apply Nat.nlt_0_r in H.
   apply (f_equal (fun y => y + _)).
   elim: k {H} => [ | k IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 IH ; repeat apply f_equal ; intuition.
@@ -1332,23 +1332,23 @@ Proof.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
   by apply lt_irrefl in Hj.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   rewrite ?nth_mkseq //.
   rewrite S_INR Rminus_le_0 ; ring_simplify.
   by apply Rle_refl.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_n_O in Hj.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
 
   set l : seq R := rcons (mkseq (fun k => a + INR k * eps) (S n)) b.
@@ -1439,11 +1439,11 @@ Proof.
   move => {Hl} Hl ; split.
   apply Hl ; by intuition.
   case: l Hi Hl => /= [ | x0 l] Hi Hl.
-  by apply lt_n_O in Hi.
+  by apply Nat.nlt_0_r in Hi.
   apply Hl ; by intuition.
 
   elim: l Hl {i Hi} => [ | x0 l IH] Hl n m Hnm Hm.
-  by apply lt_n_O in Hm.
+  by apply Nat.nlt_0_r in Hm.
   case: n m Hnm Hm => [ | n] m //= Hnm Hm.
   clear Hnm ; elim: m Hm => {IH} /= [ | m IH] Hm.
   by apply Rle_refl.
@@ -1520,7 +1520,7 @@ Qed.
 Lemma behead_rcons {T : Type} (s : seq T) (t : T) :
   (0 < size s)%nat ->  behead (rcons s t) = rcons (behead s) t.
 Proof.
-  case: s t => // t Hi ; contradict Hi ; apply lt_n_O.
+  case: s t => // t Hi ; contradict Hi ; apply Nat.nlt_0_r.
 Qed.
 Definition belast {T : Type} (s : seq T) :=
   match s with

@@ -706,7 +706,7 @@ Proof.
     exists N => n i Hn Hi.
     case: i Hi => /= [ | i] Hi.
     by apply Hcvs.
-    by apply lt_S_n, lt_n_O in Hi.
+    by apply lt_S_n, Nat.nlt_0_r in Hi.
     case: (IH x1).
     move => i Hi.
     by apply (Hl (S i)), lt_n_S.

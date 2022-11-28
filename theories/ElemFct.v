@@ -477,7 +477,7 @@ Lemma is_derive_n_pow_bigi: forall i p x,  (p < i) %nat ->
                          is_derive_n (fun x : R => x ^ p) i x 0.
 Proof.
   elim => /=  [ | i IH] p x Hip.
-  by apply lt_n_O in Hip.
+  by apply Nat.nlt_0_r in Hip.
   apply lt_n_Sm_le, le_lt_eq_dec in Hip.
   case: Hip => [Hip | ->] ;
   eapply is_derive_ext.

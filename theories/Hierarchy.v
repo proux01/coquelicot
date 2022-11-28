@@ -907,7 +907,7 @@ Proof.
   intros Hnm.
   rewrite /sum_n_m.
   elim: n m a Hnm => [ | n IH] m a Hnm.
-  by apply lt_n_O in Hnm.
+  by apply Nat.nlt_0_r in Hnm.
   case: m Hnm => [|m] Hnm //.
   rewrite -iter_nat_S.
   apply IH.
@@ -4115,7 +4115,7 @@ Lemma coeff_Tn_bij {T} {n : nat} (x0 : T) (u : nat -> T) :
   forall i, (i < n)%nat -> coeff_Tn x0 (mk_Tn n u) i = u i.
 Proof.
   revert u ; induction n => /= u i Hi.
-  by apply lt_n_O in Hi.
+  by apply Nat.nlt_0_r in Hi.
   destruct i.
   by [].
   now apply (IHn (fun n => u (S n))), lt_S_n.
@@ -4126,7 +4126,7 @@ Proof.
   split.
   + move => -> {v1}.
     induction n => i Hi.
-    by apply lt_n_O in Hi.
+    by apply Nat.nlt_0_r in Hi.
     destruct i ; simpl.
     by [].
     by apply IHn, lt_S_n.
@@ -4143,7 +4143,7 @@ Lemma mk_Tn_ext {T} (n : nat) (u1 u2 : nat -> T) :
 Proof.
   move: u1 u2 ; induction n ; simpl ; split ; intros.
   by [].
-  by apply lt_n_O in H0.
+  by apply Nat.nlt_0_r in H0.
   apply f_equal2.
   by apply H, Nat.lt_0_succ.
   apply IHn => i Hi.
@@ -4449,7 +4449,7 @@ Proof.
   rewrite -{2}(mk_matrix_bij zero A).
   apply mk_matrix_ext => /= i j Hi Hj.
   destruct n ; simpl.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
   move: (coeff_mat zero A) => {A} A.
   erewrite sum_n_ext_loc ; last first.
   move => /= k Hk.
@@ -4484,7 +4484,7 @@ Proof.
   rewrite -{2}(mk_matrix_bij zero A).
   apply mk_matrix_ext => /= i j Hi Hj.
   destruct m ; simpl.
-  by apply lt_n_O in Hi.
+  by apply Nat.nlt_0_r in Hi.
   move: (coeff_mat zero A) => {A} A.
   erewrite sum_n_ext_loc ; last first.
   move => /= k Hk.

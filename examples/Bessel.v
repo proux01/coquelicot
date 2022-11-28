@@ -459,11 +459,11 @@ Proof.
     rewrite Ha ; ring.
   assert (forall k : nat, (k < n)%nat -> a k = 0).
     destruct n => k Hk.
-    by apply lt_n_O in Hk.
+    by apply Nat.nlt_0_r in Hk.
     case: Ha0 => // Ha0.
     destruct n.
     destruct k => //.
-    by apply lt_S_n, lt_n_O in Hk.
+    by apply lt_S_n, Nat.nlt_0_r in Hk.
     case: Ha1 => // Ha1.
     move: k Hk.
     apply (Div2.ind_0_1_SS (fun k => (k < S (S n))%nat -> a k = 0)) => // k IH Hk.
