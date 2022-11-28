@@ -1123,7 +1123,7 @@ Proof.
   case: (H1 (S N)) => {H1} n [Hn H1].
   exists (pred n).
   case: (n) Hn H1 => /= [ | m] Hm H1.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   split.
   by apply le_S_n.
   by apply H1.
@@ -1138,14 +1138,14 @@ Proof.
   case: H2 => N H2.
   exists (S N) => n Hn.
   case: (n) Hn => /= [ | m] Hm.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   apply H2 ; intuition.
 (* l = p_infty *)
   move => M N.
   case: (Hu M (S N)) => {Hu} n [Hn Hu].
   exists (pred n).
   case: (n) Hn Hu => /= [ | m] Hm Hu.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   split.
   by apply le_S_n.
   by apply Hu.
@@ -1161,7 +1161,7 @@ Proof.
   case: (Hu M) => {Hu} N Hu.
   exists (S N) => n Hn.
   case: (n) Hn => /= [ | m] Hm.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   apply Hu ; intuition.
 Qed.
 Lemma is_LimInf_seq_ind_1 (u : nat -> R) (l : Rbar) :
@@ -1700,7 +1700,7 @@ Proof.
   case: (proj2 (H2 (pos_div_2 eps))) => /= {H2} N H2.
   case: (proj1 (H1 (pos_div_2 eps)) (S N)) => /= {H1} .
   case => [ | n] [Hn H1].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   apply Rlt_trans with (u (S n) + e/2).
   replace l2 with ((l2-e/2)+e/2) by ring.
   apply Rplus_lt_compat_r.
@@ -1712,7 +1712,7 @@ Proof.
   case: (H2 (l1+1)) => {H2} N /= H2.
   case: (proj1 (H1 (mkposreal _ Rlt_0_1)) (S N)) ;
   case => /= {H1} [ | n] [Hn].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   apply Rle_not_lt, Rlt_le, H2.
   by apply le_S_n.
   have : False => //.
@@ -1735,13 +1735,13 @@ Proof.
   case: (proj2 (H2 (mkposreal _ Rlt_0_1))) => /= {H2} N H2.
   case: (H1 (l2-1) (S N)) ;
   case => [ | n] [Hn].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   have : False => //.
   case: (H2 0) => {H2} N H2.
   case: (H1 0 (S N)) ;
   case => [ | n] [Hn].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   by [].
 (* LimSup *)
@@ -1756,7 +1756,7 @@ Proof.
   case: (proj2 (H2 (pos_div_2 eps))) => /= {H2} N H2.
   case: ((proj1 (H1 (pos_div_2 eps))) (S N)) ;
   case => /= {H1} [ | n] [Hn H1].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   replace l1 with ((l1-e/2)+e/2) by ring.
   replace (l2+e) with ((l2+e/2)+e/2) by field.
   apply Rplus_lt_compat_r.
@@ -1777,20 +1777,20 @@ Proof.
   case: (H2 (l1-1)) => {H2} N H2.
   case: (proj1 (H1 (mkposreal _ Rlt_0_1)) (S N)) ;
   case => [ | n] [Hn] /= .
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   have : False => //.
   case: (proj2 (H2 (mkposreal _ Rlt_0_1))) => {H2} /= N H2.
   case: (H1 (l2+1) (S N)) ;
   case => [ | n] [Hn] /= .
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   by [].
   have : False => //.
   case: (H2 0) => {H2} N H2.
   case: (H1 0 (S N)) ;
   case => [ | n] [Hn] /= .
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   have : False => //.
   case: (H1 (l2-1)) => {H1} N H1.

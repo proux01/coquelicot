@@ -149,7 +149,7 @@ move /filterlim_closely_norm.
 case /(_ eps) => [P [[N HN] HP]].
 exists (S N).
 intros [|u] v Hu Hv.
-elim le_Sn_O with (1 := Hu).
+elim Nat.nle_succ_0 with (1 := Hu).
 destruct (le_or_lt u v) as [Huv|Huv].
 rewrite -> sum_n_m_sum_n with (1 := Huv).
 apply HP ; apply HN.
@@ -420,7 +420,7 @@ Proof.
   apply (Cauchy_ex_series (V := R_CompleteNormedModule)) in Hs.
   case: (Hs eps) => {Hs} N Hs.
   exists (S N) ; case => [ | n] Hn.
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   apply le_S_n in Hn.
   replace (a (S n) - 0)
     with (sum_n_m a (S n) (S n)).

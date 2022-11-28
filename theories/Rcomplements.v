@@ -40,7 +40,7 @@ From Coq Require Import Reals Psatz ssreflect.
 Module MyNat.
 
 Lemma neq_succ_0 (n : nat) : S n <> 0.
-Proof.  move=> contrad.  exact: (le_Sn_0 n).  Qed.
+Proof.  move=> contrad.  exact: (Nat.nle_succ_0 n).  Qed.
 
 Lemma sub_succ (n m : nat) : S n - S m = n - m.
 Proof.  done.  Qed.
@@ -1366,7 +1366,7 @@ Proof.
     apply le_n_S in Hi ;
     elim: (S i) (S n) Hi => //= j IH ;
     case => //= [ | m] Hi.
-    by apply le_Sn_O in Hi.
+    by apply Nat.nle_succ_0 in Hi.
     apply IH ; by apply le_S_n.
   case: (ssrnat.leq (S i) (S n)) (H) => // _.
   case H0 : (ssrnat.leq (S (S i)) (S n)) => //.
@@ -1395,7 +1395,7 @@ Proof.
     apply le_n_S in Hi ;
     elim: (S i) (S n) Hi => //= j IH ;
     case => //= [ | m] Hi.
-    by apply le_Sn_O in Hi.
+    by apply Nat.nle_succ_0 in Hi.
     apply IH ; by apply le_S_n.
   case: (ssrnat.leq (S i) (S n)) (H) => // _.
   case H0 : (ssrnat.leq (S (S i)) (S n)) => //.
@@ -1451,7 +1451,7 @@ Proof.
   apply IH ; intuition.
   by apply Rlt_le, Hl.
   case: m Hnm Hm => /= [ | m] Hnm Hm.
-  by apply le_Sn_O in Hnm.
+  by apply Nat.nle_succ_0 in Hnm.
   apply IH ; try by intuition.
   move => i Hi.
   apply (Hl (S i)).

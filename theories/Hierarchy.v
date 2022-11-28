@@ -965,7 +965,7 @@ Proof.
   elim: m n u v Hnm => [ | m IH] ;
   case => [ | n] u v Hnm.
   by rewrite !sum_n_n.
-  by apply le_Sn_O in Hnm.
+  by apply Nat.nle_succ_0 in Hnm.
   rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   rewrite -2!plus_assoc.

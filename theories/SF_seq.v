@@ -123,13 +123,13 @@ Proof.
   rewrite nth0.
   apply not_le in Hi1.
   case: (s1) H0 Hi Hi' Hi0 Hi1 => [ | x2 s1'] //= H0 Hi Hi' Hi0 Hi1.
-  by apply le_Sn_O in Hi0.
+  by apply Nat.nle_succ_0 in Hi0.
   case: (s2) H0 Hi0 Hi => [ | x3 s2'] //= H0 Hi0 Hi.
   rewrite cats0 /= in Hi.
   rewrite Hi' in Hi.
   by apply Nat.lt_irrefl in Hi.
   case: (s1) Hi0 => //= [ | x2 s0] Hi0.
-  by apply le_Sn_O in Hi0.
+  by apply Nat.nle_succ_0 in Hi0.
   by rewrite Nat.sub_diag.
   apply sym_eq, le_antisym.
   apply MyNat.le_pred_le_succ.
@@ -182,7 +182,7 @@ Proof.
   elim: i j s => [| i IH] j s Hs Hij Hj x0.
   rewrite nth0 ; by apply sorted_head.
   case: j Hij Hj => [| j] Hij Hj.
-  by apply le_Sn_O in Hij.
+  by apply Nat.nle_succ_0 in Hij.
   case: s Hs Hj => [| h s] Hs Hj.
   by apply Nat.nlt_0_r in Hj.
   apply (IH j s) with (x0 := x0) => //.

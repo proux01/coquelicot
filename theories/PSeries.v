@@ -1025,7 +1025,7 @@ Proof.
   elim: n k H => [ | n IH] k H.
   rewrite /PS_incr_n ; by case: k H.
   case: k H => [ | k] H.
-  by apply le_Sn_0 in H.
+  by apply Nat.nle_succ_0 in H.
   rewrite /PS_incr_n -/PS_incr_n /PS_incr_1.
   rewrite IH.
   apply f_equal.
@@ -2183,10 +2183,10 @@ Proof.
     case: (Hr1 eps) => {Hr1} N Hr1.
     exists (S N) => n m y Hy Hn Hm.
     case: n Hn => [ | n] Hn.
-    by apply le_Sn_O in Hn.
+    by apply Nat.nle_succ_0 in Hn.
     apply le_S_n in Hn.
     case: m Hm => [ | m] Hm.
-    by apply le_Sn_O in Hm.
+    by apply Nat.nle_succ_0 in Hm.
     apply le_S_n in Hm.
     rewrite (is_derive_unique _ _ _ (Idn (S n) y (Nat.lt_0_succ _))).
     rewrite (is_derive_unique _ _ _ (Idn (S m) y (Nat.lt_0_succ _))).
