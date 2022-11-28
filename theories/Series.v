@@ -181,7 +181,7 @@ now apply H.
 intros Hu Hv.
 apply ball_sym.
 apply H => //.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 intros Hu Hv.
 apply: norm_compat1.
 rewrite <- sum_n_m_sum_n with (1 := Huv).

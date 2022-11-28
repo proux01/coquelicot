@@ -3491,7 +3491,7 @@ intros; ring.
 eapply filterdiff_ext_lin.
 apply @filterdiff_plus_fct ; try by apply locally_filter.
 apply IHn.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 apply @filterdiff_opp_fct ; try by apply locally_filter.
 generalize (filterdiff_mult_fct (fun x0 => ((y - x0) ^ S n / INR (fact (S n))))
   (fun x0 => Derive_n f (S n) x0)) => /= H.

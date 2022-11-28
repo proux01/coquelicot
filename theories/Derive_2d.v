@@ -790,7 +790,7 @@ reflexivity.
 apply ex_diff_n_deriv_aux2.
 replace ((S (n - S q))) with (n-q)%nat by lia.
 apply IHq.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 exact H1.
 (* . *)
 intros q H f x y H1.
@@ -801,7 +801,7 @@ reflexivity.
 apply ex_diff_n_deriv_aux1.
 replace ((S (n - (S p +q)))) with (n-(p+q))%nat by lia.
 apply IHp.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 exact H1.
 Qed.
 
@@ -1086,7 +1086,7 @@ Proof.
 intros n p k Hn f x y Hf.
 assert (ex_diff_n (partial_derive p k f) (n -(p+k)) x y).
 apply ex_diff_n_deriv.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 exact Hf.
 revert H; case_eq (n-(p+k))%nat.
 intros H; contradict Hn.

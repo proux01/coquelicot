@@ -1296,7 +1296,7 @@ Proof.
     rewrite size_mkseq => i Hi.
     rewrite !nth_mkseq.
     rewrite S_INR /Rdiv /= ; ring.
-    by apply SSR_leq, lt_le_weak.
+    by apply SSR_leq, Nat.lt_le_incl.
     by apply SSR_leq.
   move: (eq_refl (size (unif_part a b n))).
   rewrite {2}size_mkseq.
@@ -1427,7 +1427,7 @@ split ; [|split ; [|split]].
     unfold Rdiv.
     ring.
     apply SSR_leq.
-    now apply lt_le_weak.
+    now apply Nat.lt_le_incl.
     now apply SSR_leq.
 - unfold pointed_subdiv.
   rewrite SF_size_f2.

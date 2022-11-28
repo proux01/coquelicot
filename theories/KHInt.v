@@ -485,7 +485,7 @@ rewrite SF_size_lx.
 rewrite ssrnat.ltnS.
 move /ssrnat.ltP :(Hi3) => ->.
 rewrite ssrnat.ltnS.
-apply lt_le_weak in Hi3.
+apply Nat.lt_le_incl in Hi3.
 by move /ssrnat.leP :Hi3 => ->.
 intro Hi3.
 rewrite Hi3.
@@ -532,7 +532,7 @@ move /ssrnat.ltP :(Hi3) => ->.
 rewrite size_rcons.
 rewrite ssrnat.ltnS.
 rewrite SF_size_ly.
-apply lt_le_weak in Hi3.
+apply Nat.lt_le_incl in Hi3.
 by move /ssrnat.leP :Hi3 => ->.
 intro Hi3 ; rewrite Hi3.
 replace (nth 0 (rcons (SF_ly s) (snd (b', b'))) (SF_size s)) with b'.
@@ -555,7 +555,7 @@ rewrite SF_size_lx.
 rewrite ssrnat.ltnS.
 move /ssrnat.ltP :(Hi2) => ->.
 rewrite ssrnat.ltnS.
-apply lt_le_weak in Hi2.
+apply Nat.lt_le_incl in Hi2.
 by move /ssrnat.leP :Hi2 => ->.
 intro Hi2 ; rewrite Hi2.
 unfold ith_step.

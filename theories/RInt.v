@@ -153,7 +153,7 @@ Proof.
   rewrite size_mkseq => i Hi.
   rewrite ?nth_mkseq ?S_INR ; try apply SSR_leq.
   field ; apply Rgt_not_eq ; by intuition.
-  exact: lt_le_weak.
+  exact: Nat.lt_le_incl.
   exact: Hi.
   by apply Nat.lt_0_succ.
   apply Rlt_div_l.
@@ -1956,7 +1956,7 @@ Proof.
         lra.
       rewrite SF_ly_f2 nth_behead (nth_pairmap 0).
       move: {-2 4}(S i) H2 => Si /= ; clear -H1 H3 ; lra.
-      now apply SSR_leq, lt_le_weak.
+      now apply SSR_leq, Nat.lt_le_incl.
       apply -> Rminus_le_0.
       apply (sorted_nth Rle (unif_part a b (n e))).
       by apply unif_part_sort, Rlt_le.
@@ -1976,7 +1976,7 @@ Proof.
       rewrite SF_size_ly.
       apply le_S_n ; rewrite -SF_size_lx.
       rewrite SF_lx_f2.
-      by apply lt_le_weak, (proj2_sig Hi).
+      by apply Nat.lt_le_incl, (proj2_sig Hi).
       by apply Nat.lt_0_succ.
       by apply Nat.lt_0_succ.
     + intros Hi.
