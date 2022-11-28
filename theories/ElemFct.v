@@ -484,7 +484,7 @@ Proof.
   intros t ; by apply sym_equal, is_derive_n_unique, IH.
   apply @is_derive_const.
   intros t ; rewrite Derive_n_pow_smalli.
-  by rewrite minus_diag /=.
+  by rewrite Nat.sub_diag /=.
   by apply Nat.le_refl.
   by apply @is_derive_const.
 Qed.

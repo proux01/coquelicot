@@ -57,7 +57,7 @@ Qed.
 Lemma minus_0_le (n m : nat) : n <= m -> n - m = 0.
 Proof.
 case: (eq_nat_dec n m) => [-> _ | h h'].
-  by rewrite minus_diag.
+  by rewrite Nat.sub_diag.
 apply: not_le_minus_0.
 move=> h''.
 apply: h.
@@ -213,7 +213,7 @@ Qed.
 Lemma C_n_n: forall n, C n n = 1.
 Proof.
 intros n; unfold C.
-rewrite minus_diag.
+rewrite Nat.sub_diag.
 simpl.
 field.
 apply INR_fact_neq_0.
@@ -647,7 +647,7 @@ Proof.
   apply (f_equal (fun y => y + _)).
   elim: k {H} => [ | k IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 IH ; repeat apply f_equal ; intuition.
-  rewrite /sum_f minus_diag /= ; ring.
+  rewrite /sum_f Nat.sub_diag /= ; ring.
 Qed.
 
 Lemma sum_f_R0_skip (u : nat -> R) (n : nat) :
@@ -688,14 +688,14 @@ Proof.
   apply f_equal.
   rewrite Nat.add_0_l MyNat.sub_add ; intuition.
   rewrite IH ; try by intuition.
-  by rewrite minus_diag Nat.add_0_l.
+  by rewrite Nat.sub_diag Nat.add_0_l.
 
   rewrite /sum_f.
   rewrite -minus_Sn_m ; try by intuition.
-  rewrite minus_diag.
+  rewrite Nat.sub_diag.
   rewrite /sum_f_R0 -/sum_f_R0.
   replace (1+m)%nat with (S m) by ring.
-  rewrite Nat.add_0_l minus_diag MyNat.sub_add ; intuition.
+  rewrite Nat.add_0_l Nat.sub_diag MyNat.sub_add ; intuition.
 Qed.
 
 Lemma sum_f_chasles (u : nat -> R) (n m k : nat) :

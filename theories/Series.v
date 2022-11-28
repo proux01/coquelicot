@@ -833,7 +833,7 @@ Proof.
       rewrite div2_S_double.
       apply Rle_trans with (1 := H1 _).
       apply Rminus_le_0 ; rewrite -sum_f_rw ; try by intuition.
-      rewrite /sum_f minus_diag /sum_f_R0 -/sum_f_R0.
+      rewrite /sum_f Nat.sub_diag /sum_f_R0 -/sum_f_R0.
       apply cond_pos_sum => l ; by apply Rmult_le_pos.
 
     change (is_lim_seq (sum_n (fun n : nat => sum_f_R0 (fun k : nat => a k * b (n - k)%nat) n)) (Finite (la * lb))).

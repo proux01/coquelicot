@@ -130,7 +130,7 @@ Proof.
   by apply Nat.lt_irrefl in Hi.
   case: (s1) Hi0 => //= [ | x2 s0] Hi0.
   by apply le_Sn_O in Hi0.
-  by rewrite minus_diag.
+  by rewrite Nat.sub_diag.
   apply sym_eq, le_antisym.
   apply MyNat.le_pred_le_succ.
   apply not_le in Hi1.

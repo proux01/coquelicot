@@ -4825,7 +4825,7 @@ Proof.
   rewrite sum_f_n_Sm //.
   replace n with (S m).
   rewrite sum_n_n.
-  by rewrite /sum_f minus_diag /=.
+  by rewrite /sum_f Nat.sub_diag /=.
   apply le_antisym => //.
   apply not_le in H.
   by apply lt_le_S.

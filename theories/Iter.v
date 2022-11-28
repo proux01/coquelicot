@@ -172,7 +172,7 @@ Lemma iter_nat_point a n :
   iter_nat a n n = a n.
 Proof.
   unfold iter_nat.
-  rewrite -minus_Sn_m // minus_diag /=.
+  rewrite -minus_Sn_m // Nat.sub_diag /=.
   by apply neutral_r.
 Qed.
 

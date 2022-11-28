@@ -1117,7 +1117,7 @@ intros p Hp.
 assert (continuity_2d_pt (partial_derive p (S n - p) f) x y).
 apply locally_2d_singleton in Df.
 refine (proj1 (_: ex_diff_n (partial_derive p (S n - p) f) 0 x y)).
-replace O with (S n - (p + (S n - p)))%nat by rewrite le_plus_minus_r // minus_diag //.
+replace O with (S n - (p + (S n - p)))%nat by rewrite le_plus_minus_r // Nat.sub_diag //.
 cut (p + (S n - p) <= S n)%nat.
 2: now rewrite le_plus_minus_r.
 generalize (S n - p)%nat.
@@ -1326,7 +1326,7 @@ apply sum_eq.
 intros i Hi.
 replace (S k - i)%nat with (S (S k) - S i)%nat by reflexivity.
 ring.
-rewrite 2!C_n_n 2!minus_diag.
+rewrite 2!C_n_n 2!Nat.sub_diag.
 ring.
 simpl.
 rewrite 2!C_n_0.
