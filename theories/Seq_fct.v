@@ -699,7 +699,7 @@ Proof.
     rewrite -(proj1 Ha_) -(proj1 (proj2 Ha_)).
     by apply Rlt_irrefl.
     elim: (a_) (a0) Ha_0 => /= [ | x1 l IH] x0 Hl.
-    move: (Hcvs x0 (Hl O (lt_n_Sn _))) ;
+    move: (Hcvs x0 (Hl O (Nat.lt_succ_diag_r _))) ;
     move/Lim_seq_correct' => {Hcvs} Hcvs.
     apply is_lim_seq_spec in Hcvs.
     case: (Hcvs eps) => {Hcvs} N Hcvs.
@@ -736,7 +736,7 @@ Proof.
     revert AB Hx ;
     elim: (a_) (a0) (a1) => /= [ | x2 l IH] x0 x1 Hx.
     exists O ; split => /=.
-    by apply lt_n_Sn.
+    by apply Nat.lt_succ_diag_r.
     by apply Hx.
     case: (Rlt_le_dec x x1) => Hx'.
     exists O ; split => /=.

@@ -1020,7 +1020,7 @@ Proof.
   case: Hxj => _ Hxj ; contradict Hxj ; apply Rle_not_lt, Rle_trans with (2 := proj1 Hxi).
   elim: (i) Hi => {i Hxi IH} //= [| i IH] Hi.
   apply Rle_refl.
-  apply Rle_trans with (1 := IH (lt_trans _ _ _ (lt_n_Sn _) Hi)), (sorted_nth Rle) ;
+  apply Rle_trans with (1 := IH (lt_trans _ _ _ (Nat.lt_succ_diag_r _) Hi)), (sorted_nth Rle) ;
   [apply Hs | simpl ; intuition].
   case: i Hxi Hi => [/= | i] Hxi Hi.
   case: j Hxj Hj => [//= | j] Hxj Hj.
@@ -1028,7 +1028,7 @@ Proof.
   apply Rle_not_lt, Rle_trans with (2 := proj1 Hxj) ;
   elim: (j) Hj => {j Hxj IH} //= [| j IH] Hj.
   apply Rle_refl.
-  apply Rle_trans with (1 := IH (lt_trans _ _ _ (lt_n_Sn _) Hj)), (sorted_nth Rle) ;
+  apply Rle_trans with (1 := IH (lt_trans _ _ _ (Nat.lt_succ_diag_r _) Hj)), (sorted_nth Rle) ;
   [apply Hs | simpl ; intuition].
   apply (IH h0 h1 i j) => //.
   apply Hs.
@@ -1954,7 +1954,7 @@ Proof.
     replace (nth (SF_h l) (SF_lx l) (S n)) with (nth 0 (SF_lx l) (S n)).
     apply (H0 n).
     rewrite SF_size_f2 size_mkseq /=.
-    by apply lt_n_Sn.
+    by apply Nat.lt_succ_diag_r.
     rewrite SF_lx_f2.
     assert (size (unif_part a b n) = S (S n)).
       by apply size_mkseq.
@@ -2141,7 +2141,7 @@ Proof.
   now case: Rlt_dec => Hx'' //.
   now contradict Hx' ; apply Rle_not_lt, Rlt_le, Rle_lt_trans with (2 := Hx0) ;
   have Hi' : (S i < size (SF_lx (SF_cons h (SF_cons h0 s))))%nat ;
-  [ rewrite ?SF_lx_cons /= in Hi |-* ; apply lt_trans with (1 := Hi), lt_n_Sn | ] ;
+  [ rewrite ?SF_lx_cons /= in Hi |-* ; apply lt_trans with (1 := Hi), Nat.lt_succ_diag_r | ] ;
   apply (sorted_head (SF_lx (SF_cons h (SF_cons h0 s))) (S i) Hs Hi' 0).
   rewrite -(IH h0 i x (snd h)) //=.
   apply Hs.
@@ -2694,7 +2694,7 @@ Proof.
   by apply Hl.
   by apply Hl.
   eapply lt_trans, Hi.
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   eapply (IH (proj2 Hl) (Sup_fct f x0 x1) (Sup_fct f x0 x1)).
   2: apply Hx.
   simpl ; by apply lt_S_n.
@@ -2809,7 +2809,7 @@ Proof.
   by apply Hl.
   by apply Hl.
   eapply lt_trans, Hi.
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   eapply (IH (proj2 Hl) (Inf_fct f x0 x1) (Inf_fct f x0 x1)).
   2: apply Hx.
   simpl ; by apply lt_S_n.

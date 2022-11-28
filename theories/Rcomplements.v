@@ -163,7 +163,7 @@ Proof.
   contradict H.
   rewrite <- e ; simpl ; apply Rlt_irrefl.
   exists n ; rewrite <- e ; split.
-  apply lt_INR, lt_n_Sn.
+  apply lt_INR, Nat.lt_succ_diag_r.
   rewrite <- (S_INR) ; apply Rle_refl.
 Qed.
 Definition nfloor1 x pr := proj1_sig (nfloor1_ex x pr).

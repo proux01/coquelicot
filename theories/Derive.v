@@ -3244,7 +3244,7 @@ Proof.
   rewrite Rmult_comm ; apply Rle_div_r.
   by apply Rabs_pos_lt.
   rewrite /r1 ; by apply Rmin_l.
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   apply ex_derive_scal.
   by apply ex_derive_id.
   rewrite /ball /= /AbsRing_ball /= in Hy.

@@ -471,7 +471,7 @@ Proof.
     rewrite IH /Rdiv.
     ring.
     eapply lt_trans, Hk.
-    eapply lt_trans ; apply lt_n_Sn.
+    eapply lt_trans ; apply Nat.lt_succ_diag_r.
     by apply MyNat.lt_neq.
   repeat split.
   by [].
@@ -483,7 +483,7 @@ Proof.
   rewrite H ; try by intuition.
   rewrite H0 /Rdiv.
   ring.
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   replace (n + 2 * S p + 1)%nat with (S (S (n + 2 * p + 1)%nat)) by ring.
   rewrite H ; try by intuition.
   rewrite IH /Rdiv.

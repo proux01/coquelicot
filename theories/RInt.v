@@ -759,7 +759,7 @@ replace (Riemann_sum (fun x => f (-x)) ptd) with (Riemann_sum f (SF_rev ptd')).
   rewrite SF_size_rev -H.
   intuition.
   have : ~ is_true (ssrnat.leq (S (SF_size s)) (SF_size s)).
-    have H0 := lt_n_Sn (SF_size s).
+    have H0 := Nat.lt_succ_diag_r (SF_size s).
     contradict H0.
     apply SSR_leq in H0.
     by apply le_not_lt.
@@ -767,7 +767,7 @@ replace (Riemann_sum (fun x => f (-x)) ptd) with (Riemann_sum f (SF_rev ptd')).
   move: (@eqtype.eq_refl ssrnat.nat_eqType (SF_size s)) ;
   case: (@eqtype.eq_op ssrnat.nat_eqType (SF_size s) (SF_size s)) => // _.
   have : ~ is_true (ssrnat.leq (S (S (SF_size s))) (S (SF_size s))).
-    have H0 := lt_n_Sn (SF_size s).
+    have H0 := Nat.lt_succ_diag_r (SF_size s).
     contradict H0.
     apply SSR_leq in H0.
     by apply le_not_lt, le_S_n.
@@ -1890,7 +1890,7 @@ Proof.
       apply unif_part_sort.
       by apply Rlt_le.
       eapply lt_trans, (proj2_sig Hi).
-      eapply lt_trans ; apply lt_n_Sn.
+      eapply lt_trans ; apply Nat.lt_succ_diag_r.
       by apply Nat.lt_0_succ.
       by apply unif_part_sort, Rlt_le.
       intros x y Hxy.
@@ -1902,7 +1902,7 @@ Proof.
       by apply Nat.nlt_0_r in Hk.
       apply lt_S_n.
       eapply lt_trans, Hk.
-      by apply lt_n_Sn.
+      by apply Nat.lt_succ_diag_r.
       apply ptd_f2.
       by apply unif_part_sort, Rlt_le.
       intros x y Hxy.
@@ -1914,7 +1914,7 @@ Proof.
       by apply Nat.nlt_0_r in Hk.
       apply lt_S_n.
       eapply lt_trans, Hk.
-      by apply lt_n_Sn.
+      by apply Nat.lt_succ_diag_r.
       rewrite SF_lx_f2 ; try by apply Nat.lt_0_succ.
       rewrite {2}(Hb e).
       eapply Rle_trans, (sorted_last _ i).
@@ -1940,7 +1940,7 @@ Proof.
       apply lt_S_n.
       eapply lt_le_trans.
       eapply lt_trans, (proj2_sig Hi).
-      by apply lt_n_Sn.
+      by apply Nat.lt_succ_diag_r.
       rewrite /s.
       elim: (n e) (a) (b) => [ | m IH] // a' b'.
       apply le_n_S ; rewrite unif_part_S ; by apply IH.
@@ -1966,7 +1966,7 @@ Proof.
       by apply Nat.nlt_0_r in Hm.
       apply lt_S_n.
       eapply lt_trans, Hm.
-      by apply lt_n_Sn.
+      by apply Nat.lt_succ_diag_r.
       eapply Rle_lt_trans.
       apply nth_le_seq_step.
       eapply lt_trans, (proj2_sig Hi).
@@ -1999,21 +1999,21 @@ Proof.
       apply unif_part_sort.
       by apply Rlt_le.
       rewrite size_mkseq.
-      eapply lt_trans ; apply lt_n_Sn.
+      eapply lt_trans ; apply Nat.lt_succ_diag_r.
       by apply Nat.lt_0_succ.
       by apply unif_part_sort, Rlt_le.
       intros x y Hxy.
       lra.
       rewrite SF_size_f2.
       rewrite size_mkseq.
-      by apply lt_n_Sn.
+      by apply Nat.lt_succ_diag_r.
       apply ptd_f2.
       by apply unif_part_sort, Rlt_le.
       intros x y Hxy.
       lra.
       rewrite SF_size_f2.
       rewrite size_mkseq.
-      by apply lt_n_Sn.
+      by apply Nat.lt_succ_diag_r.
       rewrite SF_lx_f2 ; try by apply Nat.lt_0_succ.
       rewrite {2}(Hb e).
       apply Req_le.
@@ -2036,10 +2036,10 @@ Proof.
       apply -> Rminus_le_0.
       apply (sorted_nth Rle (unif_part a b (n e))).
       by apply unif_part_sort, Rlt_le.
-      rewrite size_mkseq ; by apply lt_n_Sn.
+      rewrite size_mkseq ; by apply Nat.lt_succ_diag_r.
       eapply Rle_lt_trans.
       apply nth_le_seq_step.
-      rewrite size_mkseq ; by apply lt_n_Sn.
+      rewrite size_mkseq ; by apply Nat.lt_succ_diag_r.
       apply (proj2_sig (seq_step_unif_part_ex a b (proj1_sig (H e)))).
       rewrite SSR_leq.
       rewrite SF_size_ly.
@@ -4180,7 +4180,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   clear Hsx.
   case: sx Hsort Hi Ht_ab => [ | x1 sx] Hsort /= Hi [Ht_a Ht_b].
   move: (Rle_antisym _ _ Ht_b Ht_a) => Ht.
-  contradict Ht ; apply (Hi O (lt_n_Sn _)).
+  contradict Ht ; apply (Hi O (Nat.lt_succ_diag_r _)).
   apply Rle_not_lt in Ht_a.
   case: Rlt_dec => // _.
   elim: sx x0 x1 Hsort Ht_a Ht_b Hi => [ | x2 sx IH] x0 x1 Hsort /= Ht_a Ht_b Hi.
@@ -4195,7 +4195,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
     case: Ht_b => Ht_b.
     by [].
     contradict Ht_b ; apply (Hi 1%nat).
-    by apply lt_n_Sn.
+    by apply Nat.lt_succ_diag_r.
   move: (Rlt_not_eq _ _ H) ;
   case: Req_EM_T => // H0 _.
   case: ex_lub_Rbar => l lub /=.
@@ -4210,7 +4210,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
   case: Ht_b => Ht_b.
   by [].
   contradict Ht_b ; apply (Hi 1%nat).
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   case: Rlt_dec => Hx1.
    rewrite /Sup_fct /Lub_Rbar.
   have H : x0 < x1.
@@ -4481,7 +4481,7 @@ have Hfin' : forall t, is_finite (SF_sup_fun (fun t : R => Rabs (f t - phi t)) a
       exact: Ht.
       contradict Ht ; apply Hg1.
       rewrite size_mkseq ; by apply lt_n_S.
-      rewrite size_mkseq ; by apply lt_n_Sn.
+      rewrite size_mkseq ; by apply Nat.lt_succ_diag_r.
     contradict Hij.
     apply Rle_not_lt, sorted_incr.
     apply unif_part_sort, Rlt_le , Hab.

@@ -113,7 +113,7 @@ apply IHk.
 intros n Hn.
 apply Hg.
 now apply lt_S.
-apply lt_n_Sn.
+apply Nat.lt_succ_diag_r.
 Qed.
 
 Definition Derive_Rn n (f : Rn n R) p g :=
