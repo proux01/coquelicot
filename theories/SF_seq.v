@@ -152,7 +152,7 @@ Proof.
   elim: (size s1) i Hi Hi0 => [ | n IH] /= i Hi Hi0.
   rewrite Nat.sub_0_r.
   unfold ssrnat.addn, ssrnat.addn_rec in Hi.
-  by rewrite plus_0_l in Hi.
+  by rewrite Nat.add_0_l in Hi.
   case: i Hi Hi0 => [ | i] /= Hi Hi0.
   by apply lt_S_n, Nat.nlt_0_r in Hi0.
   apply IH ; by intuition.

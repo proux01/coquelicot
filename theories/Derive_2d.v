@@ -658,7 +658,7 @@ Lemma partial_derive_add_zero: forall f p q r s x y,
    = partial_derive (p+r) (q+s) f x y.
 intros f p q r s x y H.
 destruct H; rewrite H.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
 unfold partial_derive.
 simpl.
 rewrite -Derive_n_comp.
@@ -774,7 +774,7 @@ Lemma ex_diff_n_deriv: forall n p q, (p+q <= n)%nat -> forall f x y,
     ex_diff_n f n x y-> ex_diff_n (partial_derive p q f) (n -(p+q)) x y.
 induction p.
 (* . *)
-intros q; rewrite plus_0_l.
+intros q; rewrite Nat.add_0_l.
 induction q.
 intros H f x y H1.
 unfold partial_derive.
@@ -822,7 +822,7 @@ assert (ex_diff_n (partial_derive 0 n0 f) (n -(0+n0)) x y).
 apply ex_diff_n_deriv.
 auto with zarith.
 exact Hf.
-revert H0; rewrite plus_0_l.
+revert H0; rewrite Nat.add_0_l.
 case_eq (n-n0)%nat.
 intros H1; contradict H; auto with zarith.
 intros n1 H1 H2.
@@ -874,7 +874,7 @@ assert (ex_diff_n (partial_derive 0 n0 f) (n -(0+n0)) x y).
 apply ex_diff_n_deriv.
 auto with zarith.
 exact Hf.
-revert H0; rewrite plus_0_l.
+revert H0; rewrite Nat.add_0_l.
 case_eq (n-n0)%nat.
 intros H1; contradict H; auto with zarith.
 intros n1 H1 H2.
@@ -992,9 +992,9 @@ apply locally_2d_forall.
 intros u v.
 pattern (S p) at 2; replace (S p) with (S (S p) -(0+1))%nat.
 apply ex_diff_n_deriv.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
 apply lt_le_S; apply Nat.lt_0_succ.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
 lia.
 Qed.
 
@@ -1010,7 +1010,7 @@ apply sym_eq.
 apply trans_eq with
   (partial_derive p 0 (partial_derive 1 (S k) f) x y).
 rewrite partial_derive_add_zero.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
 replace (S p) with (p+1)%nat by apply Nat.add_comm.
 easy.
 now left.
@@ -1028,7 +1028,7 @@ apply ex_diff_n_m.
 lia.
 apply trans_eq with (partial_derive p (S k) (partial_derive 1 0 f) x y).
 rewrite partial_derive_add_zero.
-now rewrite plus_0_l Nat.add_0_r.
+now rewrite Nat.add_0_l Nat.add_0_r.
 now right.
 rewrite - IHp.
 apply partial_derive_ext_loc.
@@ -1038,7 +1038,7 @@ intros u v H.
 apply trans_eq with
  (partial_derive p 0 (partial_derive 0 k (partial_derive 1 0 f)) u v).
 rewrite (partial_derive_add_zero _ _ 0%nat).
-now rewrite plus_0_l Nat.add_0_r.
+now rewrite Nat.add_0_l Nat.add_0_r.
 now right.
 apply trans_eq with
  (partial_derive p 0 (partial_derive 1 k f) u v).
@@ -1054,7 +1054,7 @@ intros u'' v''.
 apply ex_diff_n_m.
 apply le_plus_r.
 rewrite partial_derive_add_zero.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
 replace (S p) with (p+1)%nat by apply Nat.add_comm.
 easy.
 now left.

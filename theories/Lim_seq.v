@@ -1588,7 +1588,7 @@ rewrite Nat.add_comm ; apply le_trans with (1:=Hn).
 apply le_trans with (1:=le_plus_r (phi M) _).
 assert (H:(forall x, M+phi M + x <= M+phi (x+M))%nat).
 induction x as [|x IH].
-rewrite plus_0_l Nat.add_0_r.
+rewrite Nat.add_0_l Nat.add_0_r.
 apply le_refl.
 rewrite <- plus_n_Sm.
 apply lt_le_S.

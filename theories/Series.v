@@ -749,7 +749,7 @@ Proof.
     rewrite /sum_f.
     replace (S n + S n - S (S n))%nat with n.
     elim: {1 5 8}n (le_refl n) => [ | m IH] Hm ; rewrite /sum_f_R0 -/sum_f_R0.
-    rewrite Nat.sub_0_r plus_0_l ; simpl pred.
+    rewrite Nat.sub_0_r Nat.add_0_l ; simpl pred.
     rewrite -?sum_f_rw_0.
     replace (sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat))
       with ((sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat) -

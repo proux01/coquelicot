@@ -686,16 +686,16 @@ Proof.
   elim: {1 3 4}(m - n)%nat (le_refl (m-n)%nat) => [ | k IH] // Hk ;
   rewrite /sum_f_R0 -/sum_f_R0.
   apply f_equal.
-  rewrite plus_0_l MyNat.sub_add ; intuition.
+  rewrite Nat.add_0_l MyNat.sub_add ; intuition.
   rewrite IH ; try by intuition.
-  by rewrite minus_diag plus_0_l.
+  by rewrite minus_diag Nat.add_0_l.
 
   rewrite /sum_f.
   rewrite -minus_Sn_m ; try by intuition.
   rewrite minus_diag.
   rewrite /sum_f_R0 -/sum_f_R0.
   replace (1+m)%nat with (S m) by ring.
-  rewrite plus_0_l minus_diag MyNat.sub_add ; intuition.
+  rewrite Nat.add_0_l minus_diag MyNat.sub_add ; intuition.
 Qed.
 
 Lemma sum_f_chasles (u : nat -> R) (n m k : nat) :

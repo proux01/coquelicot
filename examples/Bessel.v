@@ -198,7 +198,7 @@ Proof.
   apply f_equal.
   rewrite -PSeries_scal.
   apply PSeries_ext => k.
-  rewrite /Bessel1_seq /PS_scal /PS_derive plus_0_l.
+  rewrite /Bessel1_seq /PS_scal /PS_derive Nat.add_0_l.
   replace (1+k)%nat with (S k) by ring.
   rewrite /fact -/fact mult_INR /pow -/pow.
   change scal with Rmult.
