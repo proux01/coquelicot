@@ -334,11 +334,11 @@ Proof.
   split ; move => [la Ha].
   exists (plus la (opp (sum_n a (pred (S n))))).
   apply is_series_incr_n.
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   now rewrite <- plus_assoc, plus_opp_l, plus_zero_r.
   exists (plus la (sum_n a (pred (S n)))).
   apply is_series_decr_n with (S n).
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   now rewrite <- plus_assoc, plus_opp_r, plus_zero_r.
 Qed.
 
@@ -732,7 +732,7 @@ Proof.
       <= sum_f_R0 a n * sum_f_R0 b n.
     case => [ | n].
     simpl ; apply Rle_refl.
-    rewrite (cauchy_finite a b (S n) (lt_O_Sn n)).
+    rewrite (cauchy_finite a b (S n) (Nat.lt_0_succ n)).
     apply Rminus_le_0 ; ring_simplify.
     apply cond_pos_sum => m.
     apply cond_pos_sum => k.
@@ -741,7 +741,7 @@ Proof.
     <= sum_f_R0 (fun k : nat => sum_f_R0 (fun p : nat => a p * b (k - p)%nat) k) ((2*n)%nat).
     case => [ /= | n].
     by apply Rle_refl.
-    rewrite (cauchy_finite a b (S n) (lt_O_Sn n)).
+    rewrite (cauchy_finite a b (S n) (Nat.lt_0_succ n)).
     rewrite Rplus_comm ; apply Rle_minus_r.
     replace (pred (S n)) with n by auto.
     replace (2 * S n)%nat with (S n + S n)%nat by ring.
@@ -755,7 +755,7 @@ Proof.
       with ((sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat) -
         (fun p : nat => a p * b (S (S n) - p)%nat) 0%nat)
         + a O * b (S (S n))) by (rewrite -minus_n_O ; ring).
-    rewrite -(sum_f_Sn_m _ O (S (S n))) ; [ | by apply lt_O_Sn].
+    rewrite -(sum_f_Sn_m _ O (S (S n))) ; [ | by apply Nat.lt_0_succ].
     rewrite sum_f_u_Sk ; [ | by apply le_O_n].
     rewrite sum_f_n_Sm ; [ | by apply le_O_n].
     apply Rle_trans with (sum_f 0 n (fun l0 : nat => a (S (l0 + 0)) * b (S n - l0)%nat) +

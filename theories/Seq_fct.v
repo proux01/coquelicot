@@ -711,7 +711,7 @@ Proof.
     move => i Hi.
     by apply (Hl (S i)), lt_n_S.
     move => N0 HN0.
-    move: (Hcvs x0 (Hl O (lt_O_Sn _))) ;
+    move: (Hcvs x0 (Hl O (Nat.lt_0_succ _))) ;
     move/Lim_seq_correct' => {Hcvs} Hcvs.
     apply is_lim_seq_spec in Hcvs.
     case: (Hcvs eps) => {Hcvs} N Hcvs.
@@ -740,7 +740,7 @@ Proof.
     by apply Hx.
     case: (Rlt_le_dec x x1) => Hx'.
     exists O ; split => /=.
-    by apply lt_n_S, lt_O_Sn.
+    by apply lt_n_S, Nat.lt_0_succ.
     split ; intuition.
     case: (IH x1 x2).
     by intuition.
@@ -845,7 +845,7 @@ Proof.
     apply is_lim_seq_ext with (fun n => Series An - sum_f_R0 An n).
     move => n ; rewrite (Series_incr_n An (S n)) /=.
     ring.
-    by apply lt_O_Sn.
+    by apply Nat.lt_0_succ.
     by apply H1.
     replace (Finite 0) with (Rbar_plus (Series An) (- Series An))
       by (simpl ; apply Rbar_finite_eq ; ring).
@@ -906,7 +906,7 @@ Proof.
   apply ex_series_ext with (fun k : nat => An (S n + k)%nat).
   move => k ; by rewrite plus_Sn_m.
   by apply ex_series_incr_n.
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   apply ex_series_Rabs.
   by apply H3.
 Qed.

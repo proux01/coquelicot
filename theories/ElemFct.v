@@ -977,10 +977,10 @@ Proof.
   rewrite -plus_n_Sm plus_Sn_m !S_INR plus_INR.
   assert (0 < INR n + INR n + 1).
     rewrite -plus_INR -S_INR.
-    by apply (lt_INR O), lt_O_Sn.
+    by apply (lt_INR O), Nat.lt_0_succ.
   assert (0 < INR n + INR n + 1 + 1 + 1).
     rewrite -plus_INR -!S_INR.
-    by apply (lt_INR O), lt_O_Sn.
+    by apply (lt_INR O), Nat.lt_0_succ.
   rewrite !Rabs_div ; try by apply Rgt_not_eq.
   rewrite -!RPow_abs Rabs_m1 !pow1 !Rabs_pos_eq ; try by left.
   field.
@@ -1035,7 +1035,7 @@ Proof.
   rewrite pow_add -pow_mult.
   simpl ; field.
   rewrite -plus_INR -S_INR.
-  apply Rgt_not_eq, (lt_INR 0), lt_O_Sn.
+  apply Rgt_not_eq, (lt_INR 0), Nat.lt_0_succ.
   contradict H ; split.
   apply Rle_trans with 0.
   apply Rminus_le_0 ; ring_simplify ; by apply Rle_0_1.

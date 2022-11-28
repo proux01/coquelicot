@@ -55,12 +55,12 @@ Proof.
   by [].
   apply Rmult_le_pos ; apply pos_INR.
   apply Rgt_not_eq, Rmult_lt_0_compat ;
-  apply lt_0_INR, lt_O_Sn.
+  apply lt_0_INR, Nat.lt_0_succ.
   repeat split.
   by apply INR_fact_neq_0.
   by apply INR_fact_neq_0.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
   by apply pow_nonzero, Rlt_not_eq, (IZR_lt (-1) 0).
   replace (Finite 0) with (Rbar_inv p_infty) by auto.
   apply is_lim_seq_inv.
@@ -151,16 +151,16 @@ Proof.
   field.
   split ; rewrite -?S_INR ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  by apply (lt_INR 0), lt_O_Sn.
+  by apply (lt_INR 0), Nat.lt_0_succ.
   rewrite /plus /scal /= /mult /=.
   field.
   repeat split ; rewrite -?plus_INR -?S_INR ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  by apply (lt_INR 0), lt_O_Sn.
+  by apply (lt_INR 0), Nat.lt_0_succ.
   by apply INR_fact_lt_0.
-  by apply (lt_INR 0), lt_O_Sn.
-  by apply (lt_INR 0), lt_O_Sn.
-  by apply (lt_INR 0), lt_O_Sn.
+  by apply (lt_INR 0), Nat.lt_0_succ.
+  by apply (lt_INR 0), Nat.lt_0_succ.
+  by apply (lt_INR 0), Nat.lt_0_succ.
 
   apply CV_radius_inside.
   apply Rbar_lt_le_trans with (2 := CV_radius_plus _ _).
@@ -595,13 +595,13 @@ Proof.
   by apply pow2_ge_0.
   change 4 with (INR 2 * INR 2).
   apply Rgt_not_eq ; repeat apply Rmult_lt_0_compat ;
-  apply lt_0_INR, lt_O_Sn.
+  apply lt_0_INR, Nat.lt_0_succ.
   repeat split.
   apply pow_nonzero, Rgt_not_eq ; repeat apply Rmult_lt_0_compat ; apply Rlt_0_2.
   by apply INR_fact_neq_0.
   by apply INR_fact_neq_0.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
   by apply pow_nonzero, Rlt_not_eq, (IZR_lt (-1) 0).
   rewrite -pow_mult ; by apply pow_nonzero.
   evar_last.

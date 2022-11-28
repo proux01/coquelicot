@@ -4133,7 +4133,7 @@ Proof.
   + induction n => H.
     apply unit_ind ; move: (v1) ; now apply unit_ind.
     apply injective_projections.
-    by apply (H O), lt_O_Sn.
+    by apply (H O), Nat.lt_0_succ.
     apply IHn => i Hi.
     by apply (H (S i)), lt_n_S.
 Qed.
@@ -4145,7 +4145,7 @@ Proof.
   by [].
   by apply lt_n_O in H0.
   apply f_equal2.
-  by apply H, lt_O_Sn.
+  by apply H, Nat.lt_0_succ.
   apply IHn => i Hi.
   by apply H, lt_n_S.
   destruct i.

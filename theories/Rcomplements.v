@@ -570,7 +570,7 @@ Proof.
   revert  a n Hnm.
   induction m ; intros a n Hnm.
   apply lt_n_O in Hnm ; intuition.
-  rewrite (decomp_sum _ _ (lt_O_Sn _)) ; simpl.
+  rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl.
   revert Hnm ;
   destruct n ; intro Hnm.
   rewrite <- minus_n_O ; simpl ; ring_simplify.
@@ -578,7 +578,7 @@ Proof.
   induction m ; simpl.
   reflexivity.
   rewrite <- plus_n_Sm, plus_0_r, IHm ; reflexivity.
-  rewrite (decomp_sum _ _ (lt_O_Sn _)) ; simpl ; ring_simplify.
+  rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl ; ring_simplify.
   apply lt_S_n in Hnm.
   rewrite <- (IHm _ _ Hnm).
   clear IHm.
@@ -657,7 +657,7 @@ Proof.
     -> sum_f n m (fun k => u ((m - k) + n)%nat) = sum_f n m u.
 
   case: n => [ | n] //.
-  move: (H _ _ (lt_O_Sn n)) => {H} H.
+  move: (H _ _ (Nat.lt_0_succ n)) => {H} H.
   rewrite /sum_f in H.
   transitivity (sum_f_R0 (fun x : nat => u (S n - (x + 0) + 0)%nat) (S n - 0)).
     replace (S n - 0)%nat with (S n) by auto.
@@ -1496,7 +1496,7 @@ Proof.
 Qed.
 Lemma size_rcons_pos {T : Type} (s : seq T) (t : T) : (0 < size (rcons s t))%nat.
 Proof.
-  rewrite size_rcons /= ; apply lt_O_Sn.
+  rewrite size_rcons /= ; apply Nat.lt_0_succ.
 Qed.
 
 Lemma foldr_rcons {T T0 : Type} : forall (f : T0 -> T -> T) x0 s t,

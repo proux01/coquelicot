@@ -1965,7 +1965,7 @@ Proof.
     apply CV_disk_DAlembert with 1.
     move => n.
     apply Rgt_not_eq, Rdiv_lt_0_compat.
-    by apply lt_0_INR, lt_O_Sn.
+    by apply lt_0_INR, Nat.lt_0_succ.
     apply Rlt_trans with y ; by apply Hy.
     apply is_lim_seq_spec.
     move => eps.
@@ -1976,11 +1976,11 @@ Proof.
     replace (INR (S (S n)) / x / (INR (S n) / x))
       with (INR (S (S n)) / (INR (S n)))
       by (field ; split ; [apply Rgt_not_eq, Rlt_trans with y ; by apply Hy |
-       by apply Rgt_not_eq, lt_0_INR, lt_O_Sn]).
+       by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ]).
     rewrite Rabs_pos_eq.
     split.
     apply Rlt_div_r.
-    by apply lt_0_INR, lt_O_Sn.
+    by apply lt_0_INR, Nat.lt_0_succ.
     rewrite ?S_INR Rminus_lt_0 ; ring_simplify.
     rewrite Rplus_assoc.
     apply Rplus_le_lt_0_compat.
@@ -1989,7 +1989,7 @@ Proof.
     by apply Rlt_le, eps.
     by apply Rle_lt_0_plus_1, Rlt_le, eps.
     apply Rlt_div_l.
-    by apply lt_0_INR, lt_O_Sn.
+    by apply lt_0_INR, Nat.lt_0_succ.
     rewrite ?S_INR Rminus_lt_0 ; ring_simplify.
     rewrite /Rminus Rplus_assoc -/(Rminus eps 1).
     rewrite -(Ropp_involutive (eps-1)) -Rminus_lt_0 Ropp_minus_distr'.
@@ -2000,7 +2000,7 @@ Proof.
     by apply eps.
     apply Rlt_le_trans with (1 := proj2 HN).
     rewrite -S_INR ; by apply le_INR.
-    apply Rlt_le, Rdiv_lt_0_compat ; by apply lt_0_INR, lt_O_Sn.
+    apply Rlt_le, Rdiv_lt_0_compat ; by apply lt_0_INR, Nat.lt_0_succ.
     right ; split.
     by apply Rgt_not_eq, Rlt_0_1.
     rewrite Rinv_1 Rabs_pos_eq.
@@ -2141,7 +2141,7 @@ Proof.
     apply: ex_derive_const.
     exists (sum_f_R0 (fun k : nat => PS_derive a k * y ^ k) (pred (S n))).
     apply (Idn (S n) y).
-    by apply lt_O_Sn.
+    by apply Nat.lt_0_succ.
 
   have Cdn : (forall (n : nat) (x : R), D x ->
     continuity_pt
@@ -2165,8 +2165,8 @@ Proof.
     exists (mkposreal _ Hd1) ; split.
     exact: Hd1.
     move => z Hz ; simpl in Hz.
-    rewrite (is_derive_unique _ _ _ (Idn (S n) z (lt_O_Sn _))).
-    rewrite (is_derive_unique _ _ _ (Idn (S n) y (lt_O_Sn _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S n) z (Nat.lt_0_succ _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S n) y (Nat.lt_0_succ _))).
     apply (Cdn z) ; split.
     by apply Hz.
     apply Rlt_le_trans with (1 := proj2 Hz), Rmin_l.
@@ -2188,8 +2188,8 @@ Proof.
     case: m Hm => [ | m] Hm.
     by apply le_Sn_O in Hm.
     apply le_S_n in Hm.
-    rewrite (is_derive_unique _ _ _ (Idn (S n) y (lt_O_Sn _))).
-    rewrite (is_derive_unique _ _ _ (Idn (S m) y (lt_O_Sn _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S n) y (Nat.lt_0_succ _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S m) y (Nat.lt_0_succ _))).
     by apply Hr1.
 
   have Hx' : D x.
@@ -2207,7 +2207,7 @@ Proof.
   apply (f_equal real), Lim_seq_ext => n.
   rewrite sum_n_Reals.
   apply is_derive_unique, Idn.
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   move => y Hy.
   apply sym_eq.
   apply is_lim_seq_unique.
@@ -2326,7 +2326,7 @@ Proof.
   field.
   rewrite -S_INR ; split ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  apply (lt_INR O), lt_O_Sn.
+  apply (lt_INR O), Nat.lt_0_succ.
   rewrite /l {l}.
   apply PSeries_ext.
   move => k ; rewrite /PS_derive.
@@ -2334,7 +2334,7 @@ Proof.
   field.
   rewrite -S_INR ; split ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  apply (lt_INR O), lt_O_Sn.
+  apply (lt_INR O), Nat.lt_0_succ.
 Qed.
 Lemma ex_derive_n_PSeries (n : nat) (a : nat -> R) (x : R) :
   Rbar_lt (Finite (Rabs x)) (CV_radius a)
@@ -2539,7 +2539,7 @@ Proof.
     rewrite /fact -/fact /pow -/pow ?mult_INR ; field.
     repeat split ; apply Rgt_not_eq, Rlt_gt.
     exact: INR_fact_lt_0.
-    by apply (lt_INR O), lt_O_Sn.
+    by apply (lt_INR O), Nat.lt_0_succ.
     exact: H.
     apply pow_lt, Rle_lt_trans with (Rabs x), Hx ; by apply Rabs_pos.
     apply Rlt_le, Rdiv_lt_0_compat ; by apply H0.
