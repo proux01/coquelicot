@@ -941,7 +941,7 @@ intros t.
 apply trans_eq with (Derive_n (Derive_n (fun z : R => f t z) p) 1 y).
 reflexivity.
 rewrite Derive_n_comp.
-rewrite Arith.Plus.plus_comm.
+rewrite Nat.add_comm.
 rewrite -Derive_n_comp.
 reflexivity.
 rewrite IHp.
@@ -983,7 +983,7 @@ unfold partial_derive.
 simpl.
 apply trans_eq with (Derive_n (Derive_n (fun z => Derive (fun x0 => f x0 z) x) p) 1 y).
 rewrite Derive_n_comp.
-rewrite Arith.Plus.plus_comm.
+rewrite Nat.add_comm.
 rewrite -Derive_n_comp.
 reflexivity.
 reflexivity.
@@ -1011,7 +1011,7 @@ apply trans_eq with
   (partial_derive p 0 (partial_derive 1 (S k) f) x y).
 rewrite partial_derive_add_zero.
 rewrite plus_0_l.
-replace (S p) with (p+1)%nat by apply Arith.Plus.plus_comm.
+replace (S p) with (p+1)%nat by apply Nat.add_comm.
 easy.
 now left.
 apply trans_eq with
@@ -1055,7 +1055,7 @@ apply ex_diff_n_m.
 apply le_plus_r.
 rewrite partial_derive_add_zero.
 rewrite plus_0_l.
-replace (S p) with (p+1)%nat by apply Arith.Plus.plus_comm.
+replace (S p) with (p+1)%nat by apply Nat.add_comm.
 easy.
 now left.
 apply locally_2d_impl with (2:=Y).

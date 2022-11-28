@@ -1402,7 +1402,7 @@ Proof.
   intros n Hn; apply HN.
   apply le_double.
   apply plus_le_reg_l with 1%nat.
-  rewrite Plus.plus_comm.
+  rewrite Nat.add_comm.
   apply le_trans with (1:=Hn).
   apply le_trans with (1+double (div2 n))%nat.
   case (even_or_odd n); intros J.
@@ -1424,7 +1424,7 @@ Proof.
   intros n Hn; apply HN.
   apply le_double.
   apply plus_le_reg_l with 2%nat.
-  rewrite Plus.plus_comm.
+  rewrite Nat.add_comm.
   apply le_trans with (1:=Hn).
   apply le_trans with (1+(1+double (div2 (pred n))))%nat.
   case (even_or_odd (pred n)); intros J.

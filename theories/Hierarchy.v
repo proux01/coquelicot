@@ -1258,7 +1258,7 @@ Lemma pow_n_comm :
 Proof.
   intros x n m.
   rewrite -2!pow_n_plus.
-  by apply f_equal, Plus.plus_comm.
+  by apply f_equal, Nat.add_comm.
 Qed.
 
 End Ring1.

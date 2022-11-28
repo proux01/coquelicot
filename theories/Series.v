@@ -804,7 +804,7 @@ Proof.
     apply f_equal2 ; apply f_equal ; intuition.
     rewrite IH ; apply f_equal, f_equal2 ; apply f_equal.
     ring.
-    rewrite ?(Coq.Arith.Plus.plus_comm _ (S m)) -minus_plus_simpl_l_reverse //=.
+    rewrite ?(Nat.add_comm _ (S m)) -minus_plus_simpl_l_reverse //=.
     apply le_O_n.
     rewrite /sum_f.
     elim: (S (S n) - S (S (n - S m)))%nat => {IH} [ | k IH] ;
@@ -818,7 +818,7 @@ Proof.
     replace (S (S n)) with (S n + 1)%nat.
     rewrite -minus_plus_simpl_l_reverse.
     simpl; apply minus_n_O.
-    now rewrite Coq.Arith.Plus.plus_comm.
+    now rewrite Nat.add_comm.
     elim: n => [ | n IH] //.
     rewrite -plus_n_Sm plus_Sn_m.
     apply lt_n_S ; intuition.

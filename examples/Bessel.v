@@ -69,7 +69,7 @@ Proof.
   by apply is_lim_seq_INR.
   apply is_lim_seq_ext with (fun k => INR (k + S n)).
   intros k.
-  by rewrite (Plus.plus_comm n k) plus_n_Sm.
+  by rewrite (Nat.add_comm n k) plus_n_Sm.
   apply is_lim_seq_incr_n.
   by apply is_lim_seq_INR.
   by [].
@@ -612,7 +612,7 @@ Proof.
   by apply is_lim_seq_INR.
   apply is_lim_seq_ext with (fun k => INR (k + S n)).
   intros k.
-  by rewrite (Plus.plus_comm n k) plus_n_Sm.
+  by rewrite (Nat.add_comm n k) plus_n_Sm.
   apply is_lim_seq_incr_n.
   by apply is_lim_seq_INR.
   by [].

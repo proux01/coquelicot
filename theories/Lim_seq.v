@@ -1584,7 +1584,7 @@ exists (N+M)%nat.
 intros n Hn.
 apply HP.
 apply plus_le_reg_l with M.
-rewrite Arith.Plus.plus_comm ; apply le_trans with (1:=Hn).
+rewrite Nat.add_comm ; apply le_trans with (1:=Hn).
 apply le_trans with (1:=le_plus_r (phi M) _).
 assert (H:(forall x, M+phi M + x <= M+phi (x+M))%nat).
 induction x as [|x IH].
@@ -1601,12 +1601,12 @@ apply le_trans with (2:=Hn); apply le_plus_r.
 specialize (H (n-M)%nat).
 replace (n-M+M)%nat with n in H.
 apply le_trans with (2:=H).
-rewrite (Arith.Plus.plus_comm _ (phi M)) -Arith.Plus.plus_assoc.
+rewrite (Nat.add_comm _ (phi M)) -Arith.Plus.plus_assoc.
 apply plus_le_compat_l.
 rewrite le_plus_minus_r.
 apply le_refl.
 exact H0.
-rewrite Arith.Plus.plus_comm.
+rewrite Nat.add_comm.
 now apply sym_eq, le_plus_minus_r.
 Qed.
 Lemma eventually_subseq :
