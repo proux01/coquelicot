@@ -875,7 +875,7 @@ Proof.
   rewrite (sum_n_m_Chasles _ _ m).
   by rewrite sum_n_n.
   by [].
-  by apply le_n_Sn.
+  by apply Nat.le_succ_diag_r.
 Qed.
 
 Lemma sum_Sn_m (a : nat -> G) (n m : nat) :
@@ -884,7 +884,7 @@ Proof.
   intros Hnmk.
   rewrite (sum_n_m_Chasles _ _ n).
   by rewrite sum_n_n.
-  by apply le_n_Sn.
+  by apply Nat.le_succ_diag_r.
   by [].
 Qed.
 

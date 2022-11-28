@@ -1492,7 +1492,7 @@ Proof.
   rewrite sum_Sn.
   apply is_derive_plus.
   apply IH => k Hk.
-  by apply Hf, le_trans with (1 := Hk), le_n_Sn.
+  by apply Hf, le_trans with (1 := Hk), Nat.le_succ_diag_r.
   by apply Hf.
 Qed.
 
@@ -1510,7 +1510,7 @@ Proof.
   intros t ; by rewrite sum_Sn.
   apply ex_derive_plus.
   apply IH => k Hk.
-  by apply Hf, le_trans with (1 := Hk), le_n_Sn.
+  by apply Hf, le_trans with (1 := Hk), Nat.le_succ_diag_r.
   by apply Hf.
 Qed.
 
@@ -2914,7 +2914,7 @@ Proof.
   have Hz := (conj Hz1 Hz2) => {Hz1 Hz2}.
   apply Rabs_lt_between' in Hz.
   apply Rlt_le_trans with (1 := Hz) => /= ; by apply Rmin_l.
-  by apply le_trans with (1 := Hk), le_n_Sn.
+  by apply le_trans with (1 := Hk), Nat.le_succ_diag_r.
   apply Hg.
   rewrite /ball /= /AbsRing_ball /= in Hz.
   apply Rabs_lt_between' in Hz.
@@ -2925,7 +2925,7 @@ Proof.
   have Hz := (conj Hz1 Hz2) => {Hz1 Hz2}.
   apply Rabs_lt_between' in Hz.
   apply Rlt_le_trans with (1 := Hz) => /= ; by apply Rmin_r.
-  by apply le_trans with (1 := Hk), le_n_Sn.
+  by apply le_trans with (1 := Hk), Nat.le_succ_diag_r.
   apply Hf with (k := (S n)).
   by apply ball_center.
   by apply le_refl.
@@ -2998,7 +2998,7 @@ Proof.
   move: Hx ; apply filter_imp.
   move => y Hy j k Hj Hk.
   apply Hy => //.
-  now eapply le_trans, le_n_Sn.
+  now eapply le_trans, Nat.le_succ_diag_r.
   eapply filterdiff_ext_lin.
   apply @filterdiff_iter_plus_fct => //.
   apply locally_filter.

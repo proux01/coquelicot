@@ -130,9 +130,9 @@ Proof.
   intro H2.
   rewrite not_le_minus_0 in H1 => //.
   contradict H2.
-  by eapply le_trans, le_n_Sn.
+  by eapply le_trans, Nat.le_succ_diag_r.
   contradict H2.
-  by eapply le_trans, le_n_Sn.
+  by eapply le_trans, Nat.le_succ_diag_r.
   change ssrnat.addn with Peano.plus in H0.
   split => // H1.
   case: H1 => /= H1 H2.

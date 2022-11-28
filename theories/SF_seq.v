@@ -2167,7 +2167,7 @@ Proof.
   contradict H ; rewrite -nth_last -nth0 ; move: (le_refl (ssrnat.predn (size (SF_lx (SF_map f s))))) ;
   elim: {1 3}(ssrnat.predn (size (SF_lx (SF_map f s)))) => /= [| i IH] Hi.
   apply Rle_refl.
-  apply Rle_trans with (1 := IH (le_trans _ _ _ (le_n_Sn i) Hi)), (sorted_nth Rle) ;
+  apply Rle_trans with (1 := IH (le_trans _ _ _ (Nat.le_succ_diag_r i) Hi)), (sorted_nth Rle) ;
   intuition.
   by apply SF_map_sort.
 Qed.

@@ -1803,7 +1803,7 @@ Proof.
   rewrite /minus opp_zero plus_zero_r.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
-  apply le_trans with (1 := le_n_Sn _).
+  apply le_trans with (1 := Nat.le_succ_diag_r _).
   apply le_plus_l.
   apply @ex_series_scal.
   apply ex_series_geom.
@@ -1821,7 +1821,7 @@ Proof.
   rewrite /minus opp_zero plus_zero_r.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
-  apply le_trans with (1 := le_n_Sn _).
+  apply le_trans with (1 := Nat.le_succ_diag_r _).
   apply le_plus_l.
   apply @ex_series_scal.
   apply ex_series_geom.

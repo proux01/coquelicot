@@ -1694,7 +1694,7 @@ Proof.
   apply Rplus_lt_compat_r.
   apply H1.
   apply le_trans with (1 := Hn).
-  apply le_n_Sn.
+  apply Nat.le_succ_diag_r.
   replace (l2+e) with ((l2+e/2)+e/2) by field.
   by apply Rplus_lt_compat_r, H2.
   case: (proj2 (H2 (pos_div_2 eps))) => /= {H2} N H2.
@@ -1719,18 +1719,18 @@ Proof.
   case: (proj2 (H1 (mkposreal _ Rlt_0_1))) => {H1} N /= H1.
   case: ((H2 (l1-1)) N) => /= {H2}  n [Hn].
   apply Rle_not_lt, Rlt_le, H1.
-  by apply le_trans with (2 := le_n_Sn _).
+  by apply le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (H1 (l2+1)) => {H1} N /= H1.
   case: (proj1 (H2 (mkposreal _ Rlt_0_1)) N) => /= {H2}  n [Hn].
   apply Rle_not_lt, Rlt_le, H1.
-  by apply le_trans with (2 := le_n_Sn _).
+  by apply le_trans with (2 := Nat.le_succ_diag_r _).
   by [].
   have : False => //.
   case: (H1 0) => {H1} N H1.
   case: (H2 0 N)=> {H2} n [Hn].
   apply Rle_not_lt, Rlt_le, H1.
-  by apply le_trans with (2 := le_n_Sn _).
+  by apply le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (proj2 (H2 (mkposreal _ Rlt_0_1))) => /= {H2} N H2.
   case: (H1 (l2-1) (S N)) ;
@@ -1768,11 +1768,11 @@ Proof.
   replace (l1+e) with ((l1+e/2)+e/2) by field.
   apply Rplus_lt_compat_r.
   apply Rlt_trans with (1 := H2).
-  by apply H1, le_trans with (2 := le_n_Sn _).
+  by apply H1, le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (proj2 (H1 (mkposreal _ Rlt_0_1))) => /= {H1} N H1.
   case: (H2 (l1+1) N) => n [Hn].
-  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := le_n_Sn _).
+  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (H2 (l1-1)) => {H2} N H2.
   case: (proj1 (H1 (mkposreal _ Rlt_0_1)) (S N)) ;
@@ -1795,11 +1795,11 @@ Proof.
   have : False => //.
   case: (H1 (l2-1)) => {H1} N H1.
   case: (proj1 (H2 (mkposreal _ Rlt_0_1)) N) => /= {H2} n [Hn].
-  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := le_n_Sn _).
+  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (H1 0) => {H1} N H1.
   case: (H2 0 N) => {H2} n [Hn].
-  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := le_n_Sn _).
+  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := Nat.le_succ_diag_r _).
   by [].
 Qed.
 
@@ -3151,7 +3151,7 @@ Proof.
   rewrite Hq in H => {q Hq}.
   move: (H _ (le_n_2n _)) ; rewrite pow_1_even ; case/Rabs_lt_between' => _ H1.
   have H2 : (N <= S (2 * N))%nat.
-    by apply le_trans with (1 := le_n_2n _), le_n_Sn.
+    by apply le_trans with (1 := le_n_2n _), Nat.le_succ_diag_r.
   move: (H _ H2) ; rewrite pow_1_odd ; case/Rabs_lt_between' => {H H2} H2 _.
   move: H1 ; apply Rle_not_lt, Rlt_le.
   pattern 1 at 2 ; replace (1) with ((-1)+2) by ring.
@@ -3160,7 +3160,7 @@ Proof.
 (* ~ Rbar_is_lim_seq (q^n) p_infty *)
   case: (H 0) => {H} N H.
   have H0 : (N <= S (2 * N))%nat.
-    by apply le_trans with (1 := le_n_2n _), le_n_Sn.
+    by apply le_trans with (1 := le_n_2n _), Nat.le_succ_diag_r.
   move: (H _ H0) ; apply Rle_not_lt ; rewrite /pow -/pow.
   apply Rmult_le_0_r.
   apply Rle_trans with (1 := Hq), Ropp_le_cancel ;
