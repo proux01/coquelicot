@@ -4936,7 +4936,7 @@ Proof.
 
   destruct (LPO_ub_dec (fun n => norm (a n))) as [[M HM]|HM].
   now exists M.
-  elimtype False.
+  exfalso.
   case: H => l Hl.
   assert (H := proj1 (filterlim_locally (F := eventually) _ l) Hl (mkposreal _ Rlt_0_1)).
   clear Hl ; simpl in H ; rewrite /ball /= /AbsRing_ball in H.

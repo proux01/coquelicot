@@ -118,7 +118,7 @@ assert (H: forall i, (i < N)%nat -> ~ P i).
   apply archimed.
 destruct (HP N) as [PN|PN].
   now split.
-elimtype False.
+exfalso.
 refine (Rle_not_lt _ _ (lub (/ (INR (S N) + 1)) _) _).
   intros x [y [[Py ->]|[_ ->]]].
   destruct (eq_nat_dec y N) as [HyN|HyN].
