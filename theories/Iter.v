@@ -184,7 +184,7 @@ Proof.
   rewrite -iter_cat //.
   pattern (S m) at 2 ;
   replace (S m) with (ssrnat.addn n (S m - n)).
-  rewrite -(iota_add n (S m - n)).
+  rewrite -?(iota_add n (S m - n)) -?(iotaD n (S m - n)).
   apply (f_equal (fun k => iter _ _ (iota n k) _)).
   change ssrnat.addn with Peano.plus.
   lia.
