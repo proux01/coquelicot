@@ -141,10 +141,10 @@ exists (SF_nil (Rmin a b)).
 simpl.
 split.
 intros i Hi.
-apply lt_n_0 in Hi ; destruct Hi.
+apply Nat.nlt_0_r in Hi ; destruct Hi.
 split.
 intros i Hi.
-apply lt_n_0 in Hi ; destruct Hi.
+apply Nat.nlt_0_r in Hi ; destruct Hi.
 split ; easy.
 destruct Hb' as (b', H).
 assert (forall e : posreal, ~ ~ (exists y, M y /\ b' - e < y)) as H1.
