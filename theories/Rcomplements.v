@@ -76,7 +76,7 @@ Qed.
 Lemma sub_add (n m : nat) : n <= m -> m - n + n = m.
 Proof.
 elim: m => [/le_n_0_eq // | m ih h].
-by rewrite plus_comm le_plus_minus_r.
+by rewrite Nat.add_comm le_plus_minus_r.
 Qed.
 
 Lemma le_pred_le_succ (n m : nat) : pred n <= m <-> n <= S m.
@@ -617,9 +617,9 @@ Lemma sum_f_u_add (u : nat -> R) (p n m : nat) :
   (n <= m)%nat -> sum_f (n + p)%nat (m + p)%nat u = sum_f n m (fun k => u (k + p)%nat).
 Proof.
   move => H ; rewrite /sum_f.
-  rewrite ?(plus_comm _ p) -minus_plus_simpl_l_reverse.
+  rewrite ?(Nat.add_comm _ p) -minus_plus_simpl_l_reverse.
   elim: (m - n)%nat => [ | k IH] //=.
-  by rewrite plus_comm.
+  by rewrite Nat.add_comm.
   rewrite IH ; repeat apply f_equal.
   ring.
 Qed.
