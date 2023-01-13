@@ -349,7 +349,7 @@ Proof.
     by apply Hy.
     apply Rle_minus_r ; ring_simplify.
     by apply Hm.
-  move: H => {Df} Df.
+  move: H => {} Df.
   assert (Hm': 0 < M + 1).
     apply Rplus_le_lt_0_compat.
     apply Rlt_le, Hm.
@@ -1492,7 +1492,7 @@ Proof.
   rewrite sum_Sn.
   apply is_derive_plus.
   apply IH => k Hk.
-  by apply Hf, le_trans with (1 := Hk), le_n_Sn.
+  by apply Hf, Nat.le_trans with (1 := Hk), Nat.le_succ_diag_r.
   by apply Hf.
 Qed.
 
@@ -1510,7 +1510,7 @@ Proof.
   intros t ; by rewrite sum_Sn.
   apply ex_derive_plus.
   apply IH => k Hk.
-  by apply Hf, le_trans with (1 := Hk), le_n_Sn.
+  by apply Hf, Nat.le_trans with (1 := Hk), Nat.le_succ_diag_r.
   by apply Hf.
 Qed.
 
@@ -2186,8 +2186,8 @@ Lemma extension_cont_continuous (f g : R -> U) (a : R) :
   -> continuous (extension_cont f g a) a.
 Proof.
   simpl => Cf Cg Heq ; apply filterlim_locally => /= eps.
-  generalize (proj1 (filterlim_locally _ _) Cf eps) => {Cf} Cf.
-  generalize (proj1 (filterlim_locally _ _) Cg eps) => {Cg} Cg.
+  generalize (proj1 (filterlim_locally _ _) Cf eps) => {} Cf.
+  generalize (proj1 (filterlim_locally _ _) Cg eps) => {} Cg.
   generalize (filter_and _ _ Cf Cg).
   apply filter_imp => {Cf Cg} x [Cf Cg].
   rewrite /extension_cont.
@@ -2211,9 +2211,9 @@ Proof.
   split.
   by apply is_linear_scal_l.
   move => x Hx eps.
-  move: (Cf x Hx eps) => {Cf} Cf.
-  move: (Cg x Hx eps) => {Cg} Cg.
-  generalize (is_filter_lim_locally_unique _ _ Hx) => {Hx} Hx.
+  move: (Cf x Hx eps) => {} Cf.
+  move: (Cg x Hx eps) => {} Cg.
+  generalize (is_filter_lim_locally_unique _ _ Hx) => {} Hx.
   rewrite -Hx {x Hx} in Cf, Cg |- *.
   generalize (filter_and _ _ Cf Cg).
   apply filter_imp => {Cf Cg} x [Cf Cg].
@@ -2303,7 +2303,7 @@ Proof.
   apply continuous_const.
 
   destruct b as [b | | ] => //.
-  injection Hbx => {Hbx} Hbx.
+  injection Hbx => {} Hbx.
   rewrite -Hbx {x Hbx} in Hax |- *.
   apply continuous_ext_loc with (extension_cont f (fun _ => f (real b)) b).
   apply locally_interval with a p_infty => //.
@@ -2321,7 +2321,7 @@ Proof.
   by apply continuous_const.
 
   destruct a as [a | | ] => //.
-  injection Hax => {Hax} Hax.
+  injection Hax => {} Hax.
   rewrite -Hax {x Hax}.
   apply continuous_ext_loc with (extension_cont (fun _ => f (real a)) f a).
   apply locally_interval with m_infty b => //.
@@ -2457,7 +2457,7 @@ Proof.
   by apply Rbar_lt_le in Hax.
 
   destruct b as [b | | ] => //.
-  injection Hbx => {Hbx} Hbx.
+  injection Hbx => {} Hbx.
   rewrite -Hbx {x Hbx} in Hax |- *.
   evar_last.
   apply is_derive_ext_loc with (extension_cont f (fun x => plus (f (real b)) (scal (x - real b) (df (real b)))) b).
@@ -2488,7 +2488,7 @@ Proof.
   by apply Rbar_lt_le in Hax.
 
   destruct a as [a | | ] => //.
-  injection Hax => {Hax} Hax.
+  injection Hax => {} Hax.
   rewrite -Hax {x Hax}.
   evar_last.
   apply is_derive_ext_loc with (extension_cont (fun x => plus (f (real a)) (scal (x - real a) (df (real a)))) f a).
@@ -2914,7 +2914,7 @@ Proof.
   have Hz := (conj Hz1 Hz2) => {Hz1 Hz2}.
   apply Rabs_lt_between' in Hz.
   apply Rlt_le_trans with (1 := Hz) => /= ; by apply Rmin_l.
-  by apply le_trans with (1 := Hk), le_n_Sn.
+  by apply Nat.le_trans with (1 := Hk), Nat.le_succ_diag_r.
   apply Hg.
   rewrite /ball /= /AbsRing_ball /= in Hz.
   apply Rabs_lt_between' in Hz.
@@ -2925,13 +2925,13 @@ Proof.
   have Hz := (conj Hz1 Hz2) => {Hz1 Hz2}.
   apply Rabs_lt_between' in Hz.
   apply Rlt_le_trans with (1 := Hz) => /= ; by apply Rmin_r.
-  by apply le_trans with (1 := Hk), le_n_Sn.
+  by apply Nat.le_trans with (1 := Hk), Nat.le_succ_diag_r.
   apply Hf with (k := (S n)).
   by apply ball_center.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Hg with (k := S n).
   by apply ball_center.
-  by apply le_refl.
+  by apply Nat.le_refl.
 Qed.
 
 Lemma ex_derive_n_plus (f g : R -> R) (n : nat) (x : R) :
@@ -2981,7 +2981,7 @@ Lemma is_derive_n_iter_plus {I : Type} (l : list I) (f : I -> R -> R) (n: nat) (
     (iter Rplus 0 l (fun j => Derive_n (f j) n x)).
 Proof.
   intros H.
-  elim: n {-2}n x (le_refl n) H => [ | n IH] m x Hn Hx.
+  elim: n {-2}n x (Nat.le_refl n) H => [ | n IH] m x Hn Hx.
   now replace m with O by intuition.
   apply le_lt_eq_dec in Hn ; case: Hn => Hn.
   apply IH => //.
@@ -2992,19 +2992,19 @@ Proof.
   intros y Hy.
   apply sym_equal, is_derive_n_unique.
   apply IH.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Hy.
   apply locally_locally.
   move: Hx ; apply filter_imp.
   move => y Hy j k Hj Hk.
   apply Hy => //.
-  now eapply le_trans, le_n_Sn.
+  now eapply Nat.le_trans, Nat.le_succ_diag_r.
   eapply filterdiff_ext_lin.
   apply @filterdiff_iter_plus_fct => //.
   apply locally_filter.
   intros.
   apply Derive_correct.
-  apply ((locally_singleton _ _ Hx) j (S n) H (le_refl _)).
+  apply ((locally_singleton _ _ Hx) j (S n) H (Nat.le_refl _)).
   simpl => y.
   clear ; elim: l => /= [ | h l IH].
   by rewrite scal_zero_r.
@@ -3244,7 +3244,7 @@ Proof.
   rewrite Rmult_comm ; apply Rle_div_r.
   by apply Rabs_pos_lt.
   rewrite /r1 ; by apply Rmin_l.
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   apply ex_derive_scal.
   by apply ex_derive_id.
   rewrite /ball /= /AbsRing_ball /= in Hy.
@@ -3305,7 +3305,7 @@ Proof.
       apply Rmult_lt_compat_l.
       by apply Rabs_pos_lt.
       by apply Hy.
-      move => {Hy} Hy.
+      move => {} Hy.
     apply Rabs_lt_between' in Hy ; case: Hy => Hy1 Hy2.
     apply Rlt_Rminus in Hy1.
     apply Rlt_Rminus in Hy2.
@@ -3384,7 +3384,7 @@ Proof.
   elim: n x => [ | n IH] x /=.
   by [].
   rewrite (Derive_ext _ _ _ IH) => {IH}.
-  generalize (Derive_n f n) => {f} f.
+  generalize (Derive_n f n) => {} f.
   apply (f_equal real).
   apply Lim_ext => y.
   replace (x + b + y) with (x + y + b) by ring.
@@ -3400,7 +3400,7 @@ Proof.
   apply ex_derive_ext with (fun x => Derive_n f n (x + b)).
   simpl => t.
   apply sym_eq, Derive_n_comp_trans.
-  move: (Derive_n f n) Df => {f} f Df.
+  move: (Derive_n f n) Df => {} f Df.
   apply ex_derive_comp.
   apply Df.
   apply: ex_derive_plus.
@@ -3417,7 +3417,7 @@ Proof.
   apply is_derive_ext with (fun x => Derive_n f n (x + b)).
   simpl => t.
   apply sym_eq, Derive_n_comp_trans.
-  move: (Derive_n f n) Df => {f} f Df.
+  move: (Derive_n f n) Df => {} f Df.
   eapply filterdiff_ext_lin.
   apply @filterdiff_comp'.
   apply @filterdiff_plus_fct ; try by apply locally_filter.
@@ -3458,7 +3458,7 @@ apply: is_derive_plus.
 (* . *)
 clear c g.
 rename n into N.
-generalize (le_refl N).
+generalize (Nat.le_refl N).
 generalize N at -2.
 intros n Hn.
 move: Hn.
@@ -3475,7 +3475,7 @@ by apply Rmult_comm.
 apply Derive_correct.
 apply (Df t Ht 1%nat).
 apply le_n_S.
-apply le_0_n.
+apply Nat.le_0_l.
 simpl => z.
 rewrite /minus /plus /opp /zero /scal /= /mult /=.
 field.
@@ -3491,7 +3491,7 @@ intros; ring.
 eapply filterdiff_ext_lin.
 apply @filterdiff_plus_fct ; try by apply locally_filter.
 apply IHn.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 apply @filterdiff_opp_fct ; try by apply locally_filter.
 generalize (filterdiff_mult_fct (fun x0 => ((y - x0) ^ S n / INR (fact (S n))))
   (fun x0 => Derive_n f (S n) x0)) => /= H.
@@ -3563,7 +3563,7 @@ rewrite sum_eq_R0.
 simpl; field.
 intros; simpl; field.
 exact (INR_fact_neq_0 (S n0)).
-apply lt_0_Sn.
+apply Nat.lt_0_succ.
 exists zeta.
 apply (conj Hzeta1).
 rewrite Rmult_assoc.

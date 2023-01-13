@@ -658,12 +658,12 @@ Lemma partial_derive_add_zero: forall f p q r s x y,
    = partial_derive (p+r) (q+s) f x y.
 intros f p q r s x y H.
 destruct H; rewrite H.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
 unfold partial_derive.
 simpl.
 rewrite -Derive_n_comp.
 now apply Derive_n_ext.
-rewrite plus_0_r.
+rewrite Nat.add_0_r.
 unfold partial_derive.
 simpl.
 apply Derive_n_ext.
@@ -774,12 +774,12 @@ Lemma ex_diff_n_deriv: forall n p q, (p+q <= n)%nat -> forall f x y,
     ex_diff_n f n x y-> ex_diff_n (partial_derive p q f) (n -(p+q)) x y.
 induction p.
 (* . *)
-intros q; rewrite plus_0_l.
+intros q; rewrite Nat.add_0_l.
 induction q.
 intros H f x y H1.
 unfold partial_derive.
 simpl.
-rewrite - minus_n_O.
+rewrite Nat.sub_0_r.
 apply: (ex_diff_n_ext_loc _ _ _ _ _ _ H1).
 now apply locally_2d_forall.
 intros H f x y H1.
@@ -790,7 +790,7 @@ reflexivity.
 apply ex_diff_n_deriv_aux2.
 replace ((S (n - S q))) with (n-q)%nat by lia.
 apply IHq.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 exact H1.
 (* . *)
 intros q H f x y H1.
@@ -801,7 +801,7 @@ reflexivity.
 apply ex_diff_n_deriv_aux1.
 replace ((S (n - (S p +q)))) with (n-(p+q))%nat by lia.
 apply IHp.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 exact H1.
 Qed.
 
@@ -813,7 +813,7 @@ intros n p; case p; clear p.
 (* . *)
 intros k; case k; clear k.
 case n; clear n.
-intros Hn; contradict Hn; apply lt_n_O.
+intros Hn; contradict Hn; apply Nat.nlt_0_r.
 intros n _ f x y H.
 unfold partial_derive; simpl.
 apply H.
@@ -822,7 +822,7 @@ assert (ex_diff_n (partial_derive 0 n0 f) (n -(0+n0)) x y).
 apply ex_diff_n_deriv.
 auto with zarith.
 exact Hf.
-revert H0; rewrite plus_0_l.
+revert H0; rewrite Nat.add_0_l.
 case_eq (n-n0)%nat.
 intros H1; contradict H; auto with zarith.
 intros n1 H1 H2.
@@ -865,7 +865,7 @@ intros n p; case p; clear p.
 (* . *)
 intros k; case k; clear k.
 case n; clear n.
-intros Hn; contradict Hn; apply lt_n_O.
+intros Hn; contradict Hn; apply Nat.nlt_0_r.
 intros n _ f x y H.
 unfold partial_derive; simpl.
 apply H.
@@ -874,7 +874,7 @@ assert (ex_diff_n (partial_derive 0 n0 f) (n -(0+n0)) x y).
 apply ex_diff_n_deriv.
 auto with zarith.
 exact Hf.
-revert H0; rewrite plus_0_l.
+revert H0; rewrite Nat.add_0_l.
 case_eq (n-n0)%nat.
 intros H1; contradict H; auto with zarith.
 intros n1 H1 H2.
@@ -941,7 +941,7 @@ intros t.
 apply trans_eq with (Derive_n (Derive_n (fun z : R => f t z) p) 1 y).
 reflexivity.
 rewrite Derive_n_comp.
-rewrite Arith.Plus.plus_comm.
+rewrite Nat.add_comm.
 rewrite -Derive_n_comp.
 reflexivity.
 rewrite IHp.
@@ -983,7 +983,7 @@ unfold partial_derive.
 simpl.
 apply trans_eq with (Derive_n (Derive_n (fun z => Derive (fun x0 => f x0 z) x) p) 1 y).
 rewrite Derive_n_comp.
-rewrite Arith.Plus.plus_comm.
+rewrite Nat.add_comm.
 rewrite -Derive_n_comp.
 reflexivity.
 reflexivity.
@@ -992,9 +992,9 @@ apply locally_2d_forall.
 intros u v.
 pattern (S p) at 2; replace (S p) with (S (S p) -(0+1))%nat.
 apply ex_diff_n_deriv.
-rewrite plus_0_l.
-apply lt_le_S; apply lt_0_Sn.
-rewrite plus_0_l.
+rewrite Nat.add_0_l.
+apply lt_le_S; apply Nat.lt_0_succ.
+rewrite Nat.add_0_l.
 lia.
 Qed.
 
@@ -1010,8 +1010,8 @@ apply sym_eq.
 apply trans_eq with
   (partial_derive p 0 (partial_derive 1 (S k) f) x y).
 rewrite partial_derive_add_zero.
-rewrite plus_0_l.
-replace (S p) with (p+1)%nat by apply Arith.Plus.plus_comm.
+rewrite Nat.add_0_l.
+replace (S p) with (p+1)%nat by apply Nat.add_comm.
 easy.
 now left.
 apply trans_eq with
@@ -1028,7 +1028,7 @@ apply ex_diff_n_m.
 lia.
 apply trans_eq with (partial_derive p (S k) (partial_derive 1 0 f) x y).
 rewrite partial_derive_add_zero.
-now rewrite plus_0_l plus_0_r.
+now rewrite Nat.add_0_l Nat.add_0_r.
 now right.
 rewrite - IHp.
 apply partial_derive_ext_loc.
@@ -1038,7 +1038,7 @@ intros u v H.
 apply trans_eq with
  (partial_derive p 0 (partial_derive 0 k (partial_derive 1 0 f)) u v).
 rewrite (partial_derive_add_zero _ _ 0%nat).
-now rewrite plus_0_l plus_0_r.
+now rewrite Nat.add_0_l Nat.add_0_r.
 now right.
 apply trans_eq with
  (partial_derive p 0 (partial_derive 1 k f) u v).
@@ -1054,8 +1054,8 @@ intros u'' v''.
 apply ex_diff_n_m.
 apply le_plus_r.
 rewrite partial_derive_add_zero.
-rewrite plus_0_l.
-replace (S p) with (p+1)%nat by apply Arith.Plus.plus_comm.
+rewrite Nat.add_0_l.
+replace (S p) with (p+1)%nat by apply Nat.add_comm.
 easy.
 now left.
 apply locally_2d_impl with (2:=Y).
@@ -1063,9 +1063,9 @@ apply locally_2d_forall.
 intros u'' v''.
 replace (p+ S k)%nat with ((S p+S k)-(1+0))%nat.
 apply ex_diff_n_deriv.
-rewrite plus_0_r.
-apply le_plus_trans; apply lt_le_S; apply lt_0_Sn.
-rewrite plus_0_r.
+rewrite Nat.add_0_r.
+apply le_plus_trans; apply lt_le_S; apply Nat.lt_0_succ.
+rewrite Nat.add_0_r.
 lia.
 Qed.
 
@@ -1086,7 +1086,7 @@ Proof.
 intros n p k Hn f x y Hf.
 assert (ex_diff_n (partial_derive p k f) (n -(p+k)) x y).
 apply ex_diff_n_deriv.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 exact Hf.
 revert H; case_eq (n-(p+k))%nat.
 intros H; contradict Hn.
@@ -1117,7 +1117,7 @@ intros p Hp.
 assert (continuity_2d_pt (partial_derive p (S n - p) f) x y).
 apply locally_2d_singleton in Df.
 refine (proj1 (_: ex_diff_n (partial_derive p (S n - p) f) 0 x y)).
-replace O with (S n - (p + (S n - p)))%nat by rewrite le_plus_minus_r // minus_diag //.
+replace O with (S n - (p + (S n - p)))%nat by rewrite le_plus_minus_r // Nat.sub_diag //.
 cut (p + (S n - p) <= S n)%nat.
 2: now rewrite le_plus_minus_r.
 generalize (S n - p)%nat.
@@ -1144,7 +1144,7 @@ apply Rplus_le_compat_l.
 now apply Rlt_le.
 (* . *)
 clear -H.
-generalize (le_refl (S n)).
+generalize (Nat.le_refl (S n)).
 generalize (S n) at 1 3.
 intros p Hp.
 induction p.
@@ -1193,7 +1193,7 @@ apply is_derive_ext_loc with (fun t => sum_n (fun m => C k m *
   partial_derive m (k - m) f (x + t * (u - x)) (y + t * (v - y)) * (u - x) ^ m * (v - y) ^ (k - m)) k).
   apply locally_locally in HH.
   generalize (filter_and _ _ HH IHk).
-  apply filter_imp => {z HH IHk} z [Hz HH].
+  apply filter_imp => {HH IHk} z [Hz HH].
   specialize (HH Hz).
   apply sym_eq.
   rewrite sum_n_Reals.
@@ -1266,7 +1266,7 @@ simpl ; field.
 intros k.
 apply sym_eq.
 rewrite (decomp_sum _ (S (S k))).
-2: apply lt_0_Sn.
+2: apply Nat.lt_0_succ.
 rewrite - pred_Sn.
 rewrite tech5.
 rewrite (sum_eq _ (fun i : nat =>
@@ -1281,7 +1281,7 @@ apply sym_eq.
 rewrite sum_plus.
 rewrite tech5.
 rewrite (tech2 _ 0 (S k)).
-2: apply lt_0_Sn.
+2: apply Nat.lt_0_succ.
 replace
  (sum_f_R0
    (fun l : nat =>
@@ -1326,7 +1326,7 @@ apply sum_eq.
 intros i Hi.
 replace (S k - i)%nat with (S (S k) - S i)%nat by reflexivity.
 ring.
-rewrite 2!C_n_n 2!minus_diag.
+rewrite 2!C_n_n 2!Nat.sub_diag.
 ring.
 simpl.
 rewrite 2!C_n_0.
@@ -1398,7 +1398,7 @@ rewrite /Rdiv Rmult_1_l Rabs_right .
 right; ring.
 apply Rle_ge; apply Rlt_le; apply Rinv_0_lt_compat.
 apply INR_fact_lt_0.
-apply le_refl.
+apply Nat.le_refl.
 split; apply Rlt_le, Ht.
 intros n0 hn0.
 rewrite H0.

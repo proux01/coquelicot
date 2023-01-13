@@ -141,10 +141,10 @@ exists (SF_nil (Rmin a b)).
 simpl.
 split.
 intros i Hi.
-apply lt_n_0 in Hi ; destruct Hi.
+apply Nat.nlt_0_r in Hi ; destruct Hi.
 split.
 intros i Hi.
-apply lt_n_0 in Hi ; destruct Hi.
+apply Nat.nlt_0_r in Hi ; destruct Hi.
 split ; easy.
 destruct Hb' as (b', H).
 assert (forall e : posreal, ~ ~ (exists y, M y /\ b' - e < y)) as H1.
@@ -252,8 +252,8 @@ unfold lt in Hcase2.
 apply le_S_n in Hcase2.
 unfold lt in Hsi.
 assert (S i <= i)%nat as Hcase4.
-now apply le_trans with (SF_size s).
-apply le_Sn_n in Hcase4 ; destruct Hcase4.
+now apply Nat.le_trans with (SF_size s).
+apply Nat.nle_succ_diag_l in Hcase4 ; destruct Hcase4.
 move :Hcase => /ssrnat.leP Hcase.
 rewrite SF_size_lx in Hcase.
 apply le_n_S in Hi.
@@ -365,7 +365,7 @@ rewrite SF_size_lx ; simpl ; easy.
 move :Hcase => /ssrnat.leP Hcase.
 absurd (S (SF_size s) <= S (SF_size s))%nat.
 assumption.
-apply le_refl.
+apply Nat.le_refl.
 replace (S (SF_size s)) with (Peano.pred (size (rcons (SF_lx s) (fst (b', b'))))).
 rewrite nth_last ; easy.
 rewrite size_rcons ; rewrite SF_size_lx ; simpl ; easy.
@@ -485,7 +485,7 @@ rewrite SF_size_lx.
 rewrite ssrnat.ltnS.
 move /ssrnat.ltP :(Hi3) => ->.
 rewrite ssrnat.ltnS.
-apply lt_le_weak in Hi3.
+apply Nat.lt_le_incl in Hi3.
 by move /ssrnat.leP :Hi3 => ->.
 intro Hi3.
 rewrite Hi3.
@@ -532,7 +532,7 @@ move /ssrnat.ltP :(Hi3) => ->.
 rewrite size_rcons.
 rewrite ssrnat.ltnS.
 rewrite SF_size_ly.
-apply lt_le_weak in Hi3.
+apply Nat.lt_le_incl in Hi3.
 by move /ssrnat.leP :Hi3 => ->.
 intro Hi3 ; rewrite Hi3.
 replace (nth 0 (rcons (SF_ly s) (snd (b', b'))) (SF_size s)) with b'.
@@ -555,7 +555,7 @@ rewrite SF_size_lx.
 rewrite ssrnat.ltnS.
 move /ssrnat.ltP :(Hi2) => ->.
 rewrite ssrnat.ltnS.
-apply lt_le_weak in Hi2.
+apply Nat.lt_le_incl in Hi2.
 by move /ssrnat.leP :Hi2 => ->.
 intro Hi2 ; rewrite Hi2.
 unfold ith_step.
@@ -780,13 +780,13 @@ simpl in H.
 rewrite Rabs_right.
 apply H.
 rewrite SF_size_cons.
-apply lt_0_Sn.
+apply Nat.lt_0_succ.
 destruct H0 as (H0, H1).
 unfold pointed_subdiv in H0.
 apply Rge_minus.
 apply Rle_ge.
 specialize (H0 0%nat).
-apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply lt_0_Sn.
+apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply Nat.lt_0_succ.
 apply IH.
 intros i Hi.
 specialize (H (S i)).
@@ -809,7 +809,7 @@ unfold pointed_subdiv in H0.
 specialize (H0 0%nat).
 change (SF_h (SF_cons h ptd)) with (nth 0 (SF_lx (SF_cons h ptd)) 0).
 change (SF_h ptd) with (nth 0 (SF_lx (SF_cons h ptd)) 1).
-apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply lt_0_Sn.
+apply Rle_trans with (nth 0 (SF_ly (SF_cons h ptd)) 0) ; apply H0 ; rewrite SF_size_cons ; apply Nat.lt_0_succ.
 intros H1 H2.
 apply H0.
 apply H1.

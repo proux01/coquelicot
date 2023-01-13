@@ -40,7 +40,7 @@ From Coq Require Import Reals Psatz ssreflect.
 Module MyNat.
 
 Lemma neq_succ_0 (n : nat) : S n <> 0.
-Proof.  move=> contrad.  exact: (le_Sn_0 n).  Qed.
+Proof.  move=> contrad.  exact: (Nat.nle_succ_0 n).  Qed.
 
 Lemma sub_succ (n m : nat) : S n - S m = n - m.
 Proof.  done.  Qed.
@@ -51,17 +51,17 @@ Proof.  move=> h.  by rewrite minus_Sn_m.  Qed.
 Lemma lt_neq (n m : nat) : n < m -> n <> m.
 Proof.
 intros H ->.
-exact (lt_irrefl m H).
+exact (Nat.lt_irrefl m H).
 Qed.
 
 Lemma minus_0_le (n m : nat) : n <= m -> n - m = 0.
 Proof.
 case: (eq_nat_dec n m) => [-> _ | h h'].
-  by rewrite minus_diag.
+  by rewrite Nat.sub_diag.
 apply: not_le_minus_0.
 move=> h''.
 apply: h.
-exact: le_antisym.
+exact: Nat.le_antisymm.
 Qed.
 
 Lemma sub_succ_r (n m : nat) : n - S m = pred (n - m).
@@ -76,13 +76,13 @@ Qed.
 Lemma sub_add (n m : nat) : n <= m -> m - n + n = m.
 Proof.
 elim: m => [/le_n_0_eq // | m ih h].
-by rewrite plus_comm le_plus_minus_r.
+by rewrite Nat.add_comm le_plus_minus_r.
 Qed.
 
 Lemma le_pred_le_succ (n m : nat) : pred n <= m <-> n <= S m.
 Proof.
 case: n m => /= [ | n m].
-  split=> _; exact: le_0_n.
+  split=> _; exact: Nat.le_0_l.
 split.
   exact: le_n_S.
 exact: le_S_n.
@@ -163,7 +163,7 @@ Proof.
   contradict H.
   rewrite <- e ; simpl ; apply Rlt_irrefl.
   exists n ; rewrite <- e ; split.
-  apply lt_INR, lt_n_Sn.
+  apply lt_INR, Nat.lt_succ_diag_r.
   rewrite <- (S_INR) ; apply Rle_refl.
 Qed.
 Definition nfloor1 x pr := proj1_sig (nfloor1_ex x pr).
@@ -175,7 +175,7 @@ Proof.
 intros N.
 rewrite <- S_INR.
 apply lt_0_INR.
-apply lt_0_Sn.
+apply Nat.lt_0_succ.
 Qed.
 
 Lemma Rlt_nat (x : R) : (exists n : nat, x = INR (S n)) -> 0 < x.
@@ -213,7 +213,7 @@ Qed.
 Lemma C_n_n: forall n, C n n = 1.
 Proof.
 intros n; unfold C.
-rewrite minus_diag.
+rewrite Nat.sub_diag.
 simpl.
 field.
 apply INR_fact_neq_0.
@@ -222,7 +222,7 @@ Qed.
 Lemma C_n_0: forall n, C n 0 = 1.
 Proof.
 intros n; unfold C.
-rewrite - minus_n_O.
+rewrite Nat.sub_0_r.
 simpl.
 field.
 apply INR_fact_neq_0.
@@ -569,16 +569,16 @@ Proof.
   intro Hnm ; unfold sum_f.
   revert  a n Hnm.
   induction m ; intros a n Hnm.
-  apply lt_n_O in Hnm ; intuition.
-  rewrite (decomp_sum _ _ (lt_O_Sn _)) ; simpl.
+  apply Nat.nlt_0_r in Hnm ; intuition.
+  rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl.
   revert Hnm ;
   destruct n ; intro Hnm.
-  rewrite <- minus_n_O ; simpl ; ring_simplify.
+  rewrite Nat.sub_0_r ; simpl ; ring_simplify.
   clear Hnm IHm.
   induction m ; simpl.
   reflexivity.
-  rewrite <- plus_n_Sm, plus_0_r, IHm ; reflexivity.
-  rewrite (decomp_sum _ _ (lt_O_Sn _)) ; simpl ; ring_simplify.
+  rewrite <- plus_n_Sm, Nat.add_0_r, IHm ; reflexivity.
+  rewrite (decomp_sum _ _ (Nat.lt_0_succ _)) ; simpl ; ring_simplify.
   apply lt_S_n in Hnm.
   rewrite <- (IHm _ _ Hnm).
   clear IHm.
@@ -590,10 +590,10 @@ Qed.
 Lemma sum_f_rw_0 (u : nat -> R) (n : nat) :
   sum_f O n u = sum_f_R0 u n.
 Proof.
-  rewrite /sum_f -minus_n_O.
+  rewrite /sum_f Nat.sub_0_r.
   elim: n => [ | n IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 //.
-  by rewrite plus_0_r IH.
+  by rewrite Nat.add_0_r IH.
 Qed.
 
 Lemma sum_f_n_Sm (u : nat -> R) (n m : nat) :
@@ -617,9 +617,9 @@ Lemma sum_f_u_add (u : nat -> R) (p n m : nat) :
   (n <= m)%nat -> sum_f (n + p)%nat (m + p)%nat u = sum_f n m (fun k => u (k + p)%nat).
 Proof.
   move => H ; rewrite /sum_f.
-  rewrite ?(plus_comm _ p) -minus_plus_simpl_l_reverse.
+  rewrite ?(Nat.add_comm _ p) -minus_plus_simpl_l_reverse.
   elim: (m - n)%nat => [ | k IH] //=.
-  by rewrite plus_comm.
+  by rewrite Nat.add_comm.
   rewrite IH ; repeat apply f_equal.
   ring.
 Qed.
@@ -630,7 +630,7 @@ Lemma sum_f_Sn_m (u : nat -> R) (n m : nat) :
 Proof.
   move => H.
   elim: m n H => [ | m IH] // n H.
-  by apply lt_n_O in H.
+  by apply Nat.nlt_0_r in H.
   rewrite sum_f_u_Sk ; try by intuition.
   rewrite sum_f_n_Sm ; try by intuition.
   replace (sum_f n m u + u (S m) - u n)
@@ -643,11 +643,11 @@ Proof.
   apply lt_minus_O_lt in H.
   rewrite -{3}(MyNat.sub_add n m) ; try by intuition.
   case: (m-n)%nat H => {IH} [ | k] //= H.
-  by apply lt_n_O in H.
+  by apply Nat.nlt_0_r in H.
   apply (f_equal (fun y => y + _)).
   elim: k {H} => [ | k IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 IH ; repeat apply f_equal ; intuition.
-  rewrite /sum_f minus_diag /= ; ring.
+  rewrite /sum_f Nat.sub_diag /= ; ring.
 Qed.
 
 Lemma sum_f_R0_skip (u : nat -> R) (n : nat) :
@@ -657,23 +657,23 @@ Proof.
     -> sum_f n m (fun k => u ((m - k) + n)%nat) = sum_f n m u.
 
   case: n => [ | n] //.
-  move: (H _ _ (lt_O_Sn n)) => {H} H.
+  move: (H _ _ (Nat.lt_0_succ n)) => {} H.
   rewrite /sum_f in H.
   transitivity (sum_f_R0 (fun x : nat => u (S n - (x + 0) + 0)%nat) (S n - 0)).
     replace (S n - 0)%nat with (S n) by auto.
     elim: {2 4}(S n) => [ | m IH] //.
-    simpl ; by rewrite plus_0_r.
+    simpl ; by rewrite Nat.add_0_r.
     rewrite /sum_f_R0 -/sum_f_R0 -IH.
     apply f_equal.
-    by rewrite ?plus_0_r.
+    by rewrite ?Nat.add_0_r.
   rewrite H.
   replace (S n - 0)%nat with (S n) by auto.
   elim: (S n) => [ | m IH] //.
   rewrite /sum_f_R0 -/sum_f_R0 -IH.
   apply f_equal.
-  by rewrite plus_0_r.
+  by rewrite Nat.add_0_r.
 
-  move => {n} n m H.
+  move => {} n m H.
   elim: m u H => [ | m IH] u H //.
   apply lt_n_Sm_le, le_lt_eq_dec in H ; case: H IH => [H IH | -> _ {n}] //.
   rewrite sum_f_n_Sm ; try by intuition.
@@ -683,19 +683,19 @@ Proof.
   rewrite -(IH (fun k => u (S k))) => {IH} ; try by intuition.
   apply f_equal2.
   rewrite /sum_f.
-  elim: {1 3 4}(m - n)%nat (le_refl (m-n)%nat) => [ | k IH] // Hk ;
+  elim: {1 3 4}(m - n)%nat (Nat.le_refl (m-n)%nat) => [ | k IH] // Hk ;
   rewrite /sum_f_R0 -/sum_f_R0.
   apply f_equal.
-  rewrite plus_0_l MyNat.sub_add ; intuition.
+  rewrite Nat.add_0_l MyNat.sub_add ; intuition.
   rewrite IH ; try by intuition.
-  by rewrite minus_diag plus_0_l.
+  by rewrite Nat.sub_diag Nat.add_0_l.
 
   rewrite /sum_f.
   rewrite -minus_Sn_m ; try by intuition.
-  rewrite minus_diag.
+  rewrite Nat.sub_diag.
   rewrite /sum_f_R0 -/sum_f_R0.
   replace (1+m)%nat with (S m) by ring.
-  rewrite plus_0_l minus_diag MyNat.sub_add ; intuition.
+  rewrite Nat.add_0_l Nat.sub_diag MyNat.sub_add ; intuition.
 Qed.
 
 Lemma sum_f_chasles (u : nat -> R) (n m k : nat) :
@@ -705,7 +705,7 @@ Proof.
   move => Hnm Hmk.
   rewrite ?sum_f_rw //.
   ring.
-  by apply lt_trans with m.
+  by apply Nat.lt_trans with m.
 Qed.
 
 (** * Rmin and Rmax *)
@@ -1331,24 +1331,24 @@ Proof.
   by apply eps.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_irrefl in Hj.
-  by apply lt_n_O in Hj.
+  by apply Nat.lt_irrefl in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   rewrite ?nth_mkseq //.
   rewrite S_INR Rminus_le_0 ; ring_simplify.
   by apply Rle_refl.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
   elim: (S n) (S i) Hi => /= [ | m IH] ;
   case => /= [ | j] Hj //.
-  by apply lt_n_O in Hj.
-  by apply lt_n_O in Hj.
+  by apply Nat.nlt_0_r in Hj.
+  by apply Nat.nlt_0_r in Hj.
   by apply IH, lt_S_n.
 
   set l : seq R := rcons (mkseq (fun k => a + INR k * eps) (S n)) b.
@@ -1366,7 +1366,7 @@ Proof.
     apply le_n_S in Hi ;
     elim: (S i) (S n) Hi => //= j IH ;
     case => //= [ | m] Hi.
-    by apply le_Sn_O in Hi.
+    by apply Nat.nle_succ_0 in Hi.
     apply IH ; by apply le_S_n.
   case: (ssrnat.leq (S i) (S n)) (H) => // _.
   case H0 : (ssrnat.leq (S (S i)) (S n)) => //.
@@ -1380,7 +1380,7 @@ Proof.
   replace i with n.
   rewrite nth_mkseq => //.
   move: Hdec ; rewrite /n /nfloor.
-  case: nfloor_ex => {n Hn l Hi H H0 H1} n Hn /= Hdec.
+  case: nfloor_ex => {Hn l Hi H H0 H1} n Hn /= Hdec.
   rewrite Rplus_comm ; apply Rlt_minus_r.
   apply Rlt_div_r.
   by apply eps.
@@ -1395,7 +1395,7 @@ Proof.
     apply le_n_S in Hi ;
     elim: (S i) (S n) Hi => //= j IH ;
     case => //= [ | m] Hi.
-    by apply le_Sn_O in Hi.
+    by apply Nat.nle_succ_0 in Hi.
     apply IH ; by apply le_S_n.
   case: (ssrnat.leq (S i) (S n)) (H) => // _.
   case H0 : (ssrnat.leq (S (S i)) (S n)) => //.
@@ -1410,7 +1410,7 @@ Proof.
   rewrite nth_mkseq => //.
   move: Hdec ;
   rewrite /n /nfloor.
-  case: nfloor_ex => {n Hn l Hi H H0 H1} n Hn /= Hdec.
+  case: nfloor_ex => {Hn l Hi H H0 H1} n Hn /= Hdec.
   rewrite Rplus_assoc Rplus_comm ; apply Rle_minus_l.
   replace (INR n * eps + eps) with ((INR n + 1) * eps) by ring.
   apply Rle_div_l.
@@ -1431,19 +1431,19 @@ Lemma interval_finite_subdiv_between (a b : R) (eps : posreal) (Hab : a <= b) :
 Proof.
   case: interval_finite_subdiv => l Hl /= i Hi.
   case: Hl => <- ; case => <- Hl.
-  move: (fun i Hi => proj1 (Hl i Hi)) => {Hl} Hl.
+  move: (fun i Hi => proj1 (Hl i Hi)) => {} Hl.
   rewrite -nth0 (last_nth 0).
 
   suff : forall n m, (n <= m)%nat -> (m < size l)%nat
     -> nth 0 l n <= nth 0 l m.
-  move => {Hl} Hl ; split.
+  move => {} Hl ; split.
   apply Hl ; by intuition.
   case: l Hi Hl => /= [ | x0 l] Hi Hl.
-  by apply lt_n_O in Hi.
+  by apply Nat.nlt_0_r in Hi.
   apply Hl ; by intuition.
 
   elim: l Hl {i Hi} => [ | x0 l IH] Hl n m Hnm Hm.
-  by apply lt_n_O in Hm.
+  by apply Nat.nlt_0_r in Hm.
   case: n m Hnm Hm => [ | n] m //= Hnm Hm.
   clear Hnm ; elim: m Hm => {IH} /= [ | m IH] Hm.
   by apply Rle_refl.
@@ -1451,7 +1451,7 @@ Proof.
   apply IH ; intuition.
   by apply Rlt_le, Hl.
   case: m Hnm Hm => /= [ | m] Hnm Hm.
-  by apply le_Sn_O in Hnm.
+  by apply Nat.nle_succ_0 in Hnm.
   apply IH ; try by intuition.
   move => i Hi.
   apply (Hl (S i)).
@@ -1496,7 +1496,7 @@ Proof.
 Qed.
 Lemma size_rcons_pos {T : Type} (s : seq T) (t : T) : (0 < size (rcons s t))%nat.
 Proof.
-  rewrite size_rcons /= ; apply lt_O_Sn.
+  rewrite size_rcons /= ; apply Nat.lt_0_succ.
 Qed.
 
 Lemma foldr_rcons {T T0 : Type} : forall (f : T0 -> T -> T) x0 s t,
@@ -1520,7 +1520,7 @@ Qed.
 Lemma behead_rcons {T : Type} (s : seq T) (t : T) :
   (0 < size s)%nat ->  behead (rcons s t) = rcons (behead s) t.
 Proof.
-  case: s t => // t Hi ; contradict Hi ; apply lt_n_O.
+  case: s t => // t Hi ; contradict Hi ; apply Nat.nlt_0_r.
 Qed.
 Definition belast {T : Type} (s : seq T) :=
   match s with
@@ -1530,7 +1530,7 @@ Definition belast {T : Type} (s : seq T) :=
 Lemma behead_rev {T : Type} (s : seq T) : behead (rev s) = rev (belast s).
 Proof.
   case: s => // t s ; elim: s t => // t s IHs t0.
-  rewrite rev_cons behead_rcons ?IHs ?size_rev -?rev_cons //= ; by apply lt_0_Sn.
+  rewrite rev_cons behead_rcons ?IHs ?size_rev -?rev_cons //= ; by apply Nat.lt_0_succ.
 Qed.
 
 Lemma pairmap_rcons {T T0 : Type} (f : T -> T -> T0) (s : seq T) h0 h x0 :

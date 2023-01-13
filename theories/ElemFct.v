@@ -373,7 +373,7 @@ Proof.
   rewrite sum_n_n sum_n_m_zero //.
   by rewrite plus_zero_l.
   rewrite sum_n_Sm //.
-  by apply le_n_S, le_O_n.
+  by apply le_n_S, Nat.le_0_l.
 Qed.
 
 End nat_to_ring.
@@ -447,12 +447,12 @@ Lemma is_derive_n_pow_smalli: forall i p x, (i <= p)%nat ->
     (INR (fact p) / INR (fact (p - i)%nat) * x ^ (p - i)%nat).
 Proof.
   elim => /= [ | i IH] p x Hip.
-  rewrite -minus_n_O ; field.
+  rewrite Nat.sub_0_r ; field.
   by apply INR_fact_neq_0.
   eapply is_derive_ext.
   intros t.
   apply sym_equal, is_derive_n_unique, IH.
-  eapply le_trans, Hip ; by apply le_n_Sn.
+  eapply Nat.le_trans, Hip ; by apply Nat.le_succ_diag_r.
   evar_last.
   apply is_derive_scal, is_derive_pow, is_derive_id.
   rewrite MyNat.sub_succ_r.
@@ -477,15 +477,15 @@ Lemma is_derive_n_pow_bigi: forall i p x,  (p < i) %nat ->
                          is_derive_n (fun x : R => x ^ p) i x 0.
 Proof.
   elim => /=  [ | i IH] p x Hip.
-  by apply lt_n_O in Hip.
+  by apply Nat.nlt_0_r in Hip.
   apply lt_n_Sm_le, le_lt_eq_dec in Hip.
   case: Hip => [Hip | ->] ;
   eapply is_derive_ext.
   intros t ; by apply sym_equal, is_derive_n_unique, IH.
   apply @is_derive_const.
   intros t ; rewrite Derive_n_pow_smalli.
-  by rewrite minus_diag /=.
-  by apply le_refl.
+  by rewrite Nat.sub_diag /=.
+  by apply Nat.le_refl.
   by apply @is_derive_const.
 Qed.
 
@@ -553,13 +553,13 @@ Proof.
   case: Alembert_C3 => /= y Hy.
   apply Rnot_lt_le => H.
   apply Rminus_lt_0 in H.
-  case: (Hy _ H) => N {Hy} Hy.
+  case: (Hy _ H) => N {} Hy.
   move: (Hy _ (le_plus_r n N)) => {Hy}.
   apply Rle_not_lt.
   apply Rle_trans with (2 := Rle_abs _).
   apply Rplus_le_compat_r.
   elim: N => [ | N IH].
-  rewrite plus_0_r.
+  rewrite Nat.add_0_r.
   apply Req_le.
   elim: (n) => {n H} [ | n /= <-].
   apply Rmult_comm.
@@ -567,7 +567,7 @@ Proof.
   apply Rmult_comm.
   apply Rle_trans with (1 := IH).
   rewrite -plus_n_Sm.
-  move: (n + N)%nat => {n H N IH} n.
+  move: (n + N)%nat => {H N IH} n.
   rewrite /sum_f_R0 -/sum_f_R0.
   apply Rminus_le_0 ; ring_simplify.
   apply Rmult_le_pos.
@@ -663,7 +663,7 @@ Proof.
   case: Alembert_C3 => /= x Hx.
   rewrite /Pser /infinite_sum in Hx.
   apply Rnot_lt_le => H.
-  case: (Hx _ (proj1 (Rminus_lt_0 _ _) H)) => N {Hx} Hx.
+  case: (Hx _ (proj1 (Rminus_lt_0 _ _) H)) => N {} Hx.
   move: (Hx _ (le_plus_r 2 N)) => {Hx}.
   apply Rle_not_lt.
   apply Rle_trans with (2 := Rle_abs _).
@@ -671,7 +671,7 @@ Proof.
   elim: N => [ | n IH].
   simpl ; apply Req_le ; field.
   apply Rle_trans with (1 := IH).
-  rewrite -plus_n_Sm ; move: (2 + n)%nat => {n IH} n.
+  rewrite -plus_n_Sm ; move: (2 + n)%nat => {IH} n.
   rewrite /sum_f_R0 -/sum_f_R0.
   rewrite Rplus_comm ; apply Rle_minus_l ; rewrite Rminus_eq_0.
   apply Rmult_le_pos.
@@ -977,10 +977,10 @@ Proof.
   rewrite -plus_n_Sm plus_Sn_m !S_INR plus_INR.
   assert (0 < INR n + INR n + 1).
     rewrite -plus_INR -S_INR.
-    by apply (lt_INR O), lt_O_Sn.
+    by apply (lt_INR O), Nat.lt_0_succ.
   assert (0 < INR n + INR n + 1 + 1 + 1).
     rewrite -plus_INR -!S_INR.
-    by apply (lt_INR O), lt_O_Sn.
+    by apply (lt_INR O), Nat.lt_0_succ.
   rewrite !Rabs_div ; try by apply Rgt_not_eq.
   rewrite -!RPow_abs Rabs_m1 !pow1 !Rabs_pos_eq ; try by left.
   field.
@@ -1035,7 +1035,7 @@ Proof.
   rewrite pow_add -pow_mult.
   simpl ; field.
   rewrite -plus_INR -S_INR.
-  apply Rgt_not_eq, (lt_INR 0), lt_O_Sn.
+  apply Rgt_not_eq, (lt_INR 0), Nat.lt_0_succ.
   contradict H ; split.
   apply Rle_trans with 0.
   apply Rminus_le_0 ; ring_simplify ; by apply Rle_0_1.

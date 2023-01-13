@@ -331,7 +331,7 @@ Proof.
   by apply Rlt_le.
   apply Rle_trans with (2 := Rmax_l _ _).
   elim: N n Hn {Hx} => [ | N IH] /= n Hn.
-  by apply lt_n_O in Hn.
+  by apply Nat.nlt_0_r in Hn.
   apply lt_n_Sm_le, le_lt_eq_dec in Hn ; case: Hn => Hn.
   apply Rle_trans with (2 := Rmax_l _ _).
   by apply IH.
@@ -393,7 +393,7 @@ Proof.
   by apply Rlt_le.
   apply Rle_trans with (2 := Rmax_l _ _).
   elim: N n Hn {Hx} => [ | N IH] /= n Hn.
-  by apply lt_n_O in Hn.
+  by apply Nat.nlt_0_r in Hn.
   apply lt_n_Sm_le, le_lt_eq_dec in Hn ; case: Hn => Hn.
   apply Rle_trans with (2 := Rmax_l _ _).
   by apply IH.
@@ -534,7 +534,7 @@ Proof.
   absurd (ex_series (fun n => Rabs (a n * ((cv+/l)/2)^n))).
 
   suff H1 : cv < Rabs ((cv + / l) / 2).
-  move: (Hnot_ex ((cv + / l) / 2) H1) => {Hnot_ex} Hnot_ex.
+  move: (Hnot_ex ((cv + / l) / 2) H1) => {} Hnot_ex.
   contradict Hnot_ex ; by apply ex_series_lim_0, ex_series_Rabs.
   apply Rlt_le_trans with (2 := Rle_abs _), H0.
   apply (CV_disk_DAlembert) with l.
@@ -657,7 +657,7 @@ Proof.
     exists l.
     apply (is_lim_seq_spec _ l).
     intros eps.
-    case: (H eps (cond_pos eps)) => N {H} H.
+    case: (H eps (cond_pos eps)) => N {} H.
     exists N => n Hn.
     set v := sum_n _ _.
     replace v with (sum_n (fun k : nat => Rabs (An k)) n).
@@ -982,7 +982,7 @@ Proof.
   move => Ha.
   apply filterlim_ext_loc with  (fun n : nat => scal x (sum_n (fun k => scal (pow_n x k) (a k)) (pred n))).
   exists 1%nat; intros n; case n.
-  intros Hn; contradict Hn ; apply lt_n_O.
+  intros Hn; contradict Hn ; apply Nat.nlt_0_r.
   clear n; intros n _ ;induction n.
   now rewrite /= !sum_Sn !sum_O /= mult_one_r 2!scal_one plus_zero_l.
   apply trans_eq with (plus
@@ -1025,14 +1025,14 @@ Proof.
   elim: n k H => [ | n IH] k H.
   rewrite /PS_incr_n ; by case: k H.
   case: k H => [ | k] H.
-  by apply le_Sn_0 in H.
+  by apply Nat.nle_succ_0 in H.
   rewrite /PS_incr_n -/PS_incr_n /PS_incr_1.
   rewrite IH.
   apply f_equal.
   by elim: n k H {IH} => /= [ | n IH] k H.
   by apply le_S_n.
   elim: n k H => [ | n IH] k H.
-  by apply lt_n_O in H.
+  by apply Nat.nlt_0_r in H.
   rewrite /PS_incr_n -/PS_incr_n /PS_incr_1.
   case: k H => [ | k] H.
   by [].
@@ -1109,8 +1109,8 @@ Lemma is_pseries_decr_n (a : nat -> V) (n : nat) (x y:K) (l : V) :
 Proof.
   move => Hx Hn Ha.
   case: n Hn => [ | n] Hn.
-  by apply lt_irrefl in Hn.
-  clear Hn ; simpl ; rewrite -minus_n_O /PS_decr_n /=.
+  by apply Nat.lt_irrefl in Hn.
+  clear Hn ; simpl ; rewrite Nat.sub_0_r /PS_decr_n /=.
   elim: n => /= [ | n IH].
   rewrite sum_O scal_one mult_one_r.
   now apply is_pseries_decr_1.
@@ -1134,7 +1134,7 @@ Proof.
   repeat rewrite (scal_distr_l _ l).
   rewrite -plus_assoc; apply f_equal.
   rewrite opp_plus scal_distr_l; apply f_equal.
-  rewrite plus_0_r -scal_opp_l scal_assoc.
+  rewrite Nat.add_0_r -scal_opp_l scal_assoc.
   apply trans_eq with (scal (opp (one : K)) (a (S n))).
   now rewrite scal_opp_l scal_one.
   apply f_equal2; try reflexivity.
@@ -1226,7 +1226,7 @@ Proof.
   rewrite -IH ; ring.
   assert (V:(pow_n x (S n) <> 0)).
   rewrite pow_n_pow; now apply pow_nonzero.
-  move: (is_pseries_decr_n a (S n) x (/x) (PSeries a x) (Rinv_l x Hx) (lt_0_Sn _) (PSeries_correct _ _ Ha)) => Hb.
+  move: (is_pseries_decr_n a (S n) x (/x) (PSeries a x) (Rinv_l x Hx) (Nat.lt_0_succ _) (PSeries_correct _ _ Ha)) => Hb.
   rewrite (is_pseries_unique _ _ _ Hb).
   rewrite (sum_n_ext _ (fun k : nat => a k * x ^ k)).
   rewrite sum_n_Reals.
@@ -1265,7 +1265,7 @@ Proof.
   assert (Ha' := CV_radius_bounded (PS_incr_1 a)).
   apply Rbar_le_antisym.
   apply Ha' => x [M Hx] ; apply Ha.
-  move: (fun n => Hx (S n)) => {Hx} Hx ; simpl in Hx.
+  move: (fun n => Hx (S n)) => {} Hx ; simpl in Hx.
   case: (Req_dec x 0) => Hx0.
   rewrite Hx0 ; exists (Rabs (a O)) ; case => /= [ | n].
   rewrite Rmult_1_r ; by right.
@@ -1303,7 +1303,7 @@ Proof.
   by apply Rabs_pos.
   by apply Hx.
   apply Ha => x [M Hx] ; apply Ha'.
-  move: (fun n => Hx (S n)) => {Hx} Hx ; simpl in Hx.
+  move: (fun n => Hx (S n)) => {} Hx ; simpl in Hx.
   case: (Req_dec x 0) => Hx0.
   rewrite Hx0 ; exists (Rabs (a 1%nat)) ; case => /= [ | n].
   rewrite Rmult_1_r ; by right.
@@ -1402,14 +1402,14 @@ Proof.
   intros n Hn; apply HN.
   apply le_double.
   apply plus_le_reg_l with 1%nat.
-  rewrite Plus.plus_comm.
-  apply le_trans with (1:=Hn).
-  apply le_trans with (1+double (div2 n))%nat.
+  rewrite Nat.add_comm.
+  apply Nat.le_trans with (1:=Hn).
+  apply Nat.le_trans with (1+double (div2 n))%nat.
   case (even_or_odd n); intros J.
   rewrite <- even_double; try exact J.
   now apply le_S.
   rewrite <- odd_double; easy.
-  simpl; now rewrite plus_0_r.
+  simpl; now rewrite Nat.add_0_r.
 (* a(2k+1)x^(2k+1) *)
   apply (is_lim_seq_scal_l _ x l2) => //.
   apply filterlim_ext_loc with
@@ -1424,9 +1424,9 @@ Proof.
   intros n Hn; apply HN.
   apply le_double.
   apply plus_le_reg_l with 2%nat.
-  rewrite Plus.plus_comm.
-  apply le_trans with (1:=Hn).
-  apply le_trans with (1+(1+double (div2 (pred n))))%nat.
+  rewrite Nat.add_comm.
+  apply Nat.le_trans with (1:=Hn).
+  apply Nat.le_trans with (1+(1+double (div2 (pred n))))%nat.
   case (even_or_odd (pred n)); intros J.
   rewrite <- even_double; try exact J.
   case n.
@@ -1435,7 +1435,7 @@ Proof.
   rewrite <- odd_double; try exact J.
   case n; simpl; try easy.
   now apply le_S.
-  simpl; now rewrite plus_0_r.
+  simpl; now rewrite Nat.add_0_r.
 Qed.
 Lemma ex_pseries_odd_even (a : nat -> R) (x : R) :
   ex_pseries (fun n => a (2*n)%nat) (x^2) -> ex_pseries (fun n => a (2*n+1)%nat) (x^2)
@@ -1471,14 +1471,14 @@ Proof.
   suff : forall x, Rbar_le (Rabs x) (CV_radius (fun _ : nat => 0)).
   case H : (CV_radius (fun _ : nat => 0)) => [cv | | ] //= H0.
   case: (Rle_lt_dec 0 cv) => Hcv.
-  move: (H0 (cv + 1)) => {H0} H0.
+  move: (H0 (cv + 1)) => {} H0.
   contradict H0 ; apply Rlt_not_le => /=.
   apply Rlt_le_trans with (2 := Rle_abs _).
   apply Rminus_lt_0 ; ring_simplify ; by apply Rlt_0_1.
   contradict Hcv ; apply (Rbar_le_not_lt cv 0).
   rewrite -Rabs_R0.
   by apply H0.
-  move: (H0 0) => {H0} H0.
+  move: (H0 0) => {} H0.
   contradict H0 ; by apply Rbar_lt_not_le.
   move => x ; apply Rbar_not_lt_le => Hx.
   apply CV_disk_outside in Hx.
@@ -1803,8 +1803,8 @@ Proof.
   rewrite /minus opp_zero plus_zero_r.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
-  apply le_trans with (1 := le_n_Sn _).
-  apply le_plus_l.
+  apply Nat.le_trans with (1 := Nat.le_succ_diag_r _).
+  apply Nat.le_add_r.
   apply @ex_series_scal.
   apply ex_series_geom.
   by rewrite Rabs_Rabsolu.
@@ -1821,8 +1821,8 @@ Proof.
   rewrite /minus opp_zero plus_zero_r.
   apply sum_n_ext => k.
   by rewrite pow_n_pow pow1 scal_one.
-  apply le_trans with (1 := le_n_Sn _).
-  apply le_plus_l.
+  apply Nat.le_trans with (1 := Nat.le_succ_diag_r _).
+  apply Nat.le_add_r.
   apply @ex_series_scal.
   apply ex_series_geom.
   by rewrite Rabs_Rabsolu.
@@ -1924,7 +1924,7 @@ Proof.
   rewrite -{1}(Rmult_1_r M).
   apply Rmult_le_compat_l.
   by apply Rle_trans with (2 := Ha O), Rabs_pos.
-  by apply Rle_trans with (2 := Rle_abs _), (le_INR 1), le_n_S, le_O_n.
+  by apply Rle_trans with (2 := Rle_abs _), (le_INR 1), le_n_S, Nat.le_0_l.
 
   apply H => x [M Hx].
 
@@ -1965,7 +1965,7 @@ Proof.
     apply CV_disk_DAlembert with 1.
     move => n.
     apply Rgt_not_eq, Rdiv_lt_0_compat.
-    by apply lt_0_INR, lt_O_Sn.
+    by apply lt_0_INR, Nat.lt_0_succ.
     apply Rlt_trans with y ; by apply Hy.
     apply is_lim_seq_spec.
     move => eps.
@@ -1976,20 +1976,20 @@ Proof.
     replace (INR (S (S n)) / x / (INR (S n) / x))
       with (INR (S (S n)) / (INR (S n)))
       by (field ; split ; [apply Rgt_not_eq, Rlt_trans with y ; by apply Hy |
-       by apply Rgt_not_eq, lt_0_INR, lt_O_Sn]).
+       by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ]).
     rewrite Rabs_pos_eq.
     split.
     apply Rlt_div_r.
-    by apply lt_0_INR, lt_O_Sn.
+    by apply lt_0_INR, Nat.lt_0_succ.
     rewrite ?S_INR Rminus_lt_0 ; ring_simplify.
     rewrite Rplus_assoc.
     apply Rplus_le_lt_0_compat.
     apply Rmult_le_pos.
-    by apply (le_INR O), le_O_n.
+    by apply (le_INR O), Nat.le_0_l.
     by apply Rlt_le, eps.
     by apply Rle_lt_0_plus_1, Rlt_le, eps.
     apply Rlt_div_l.
-    by apply lt_0_INR, lt_O_Sn.
+    by apply lt_0_INR, Nat.lt_0_succ.
     rewrite ?S_INR Rminus_lt_0 ; ring_simplify.
     rewrite /Rminus Rplus_assoc -/(Rminus eps 1).
     rewrite -(Ropp_involutive (eps-1)) -Rminus_lt_0 Ropp_minus_distr'.
@@ -2000,7 +2000,7 @@ Proof.
     by apply eps.
     apply Rlt_le_trans with (1 := proj2 HN).
     rewrite -S_INR ; by apply le_INR.
-    apply Rlt_le, Rdiv_lt_0_compat ; by apply lt_0_INR, lt_O_Sn.
+    apply Rlt_le, Rdiv_lt_0_compat ; by apply lt_0_INR, Nat.lt_0_succ.
     right ; split.
     by apply Rgt_not_eq, Rlt_0_1.
     rewrite Rinv_1 Rabs_pos_eq.
@@ -2041,8 +2041,8 @@ Proof.
     apply Rle_trans with (1 := IH H2) ;
     rewrite /My -/My ; by apply Rmax_r.
     elim: N n Hn {HN} => [ | N IH] n Hn.
-    by apply lt_n_O in Hn.
-    apply le_S_n in Hn ; case: (le_lt_eq_dec _ _ Hn) => {Hn} Hn.
+    by apply Nat.nlt_0_r in Hn.
+    apply le_S_n in Hn ; case: (le_lt_eq_dec _ _ Hn) => {} Hn.
     apply Rle_trans with (2 := Rmax_r _ (My N)) ; by apply IH.
     rewrite Hn ; by apply (Rmax_l _ (My N)).
 Qed.
@@ -2113,7 +2113,7 @@ Proof.
       sum_f_R0 (fun k : nat => a k * y ^ k) n) x
       (sum_f_R0 (fun k : nat => (PS_derive a) k * x ^ k) (pred n))).
     case => [ y Hn | n y _ ].
-    by apply lt_irrefl in Hn.
+    by apply Nat.lt_irrefl in Hn.
     elim: n => [ | n] ; simpl pred ; rewrite /sum_f_R0 -/sum_f_R0.
     replace (PS_derive a 0 * y ^ 0)
       with (0 + a 1%nat * (1 * 1))
@@ -2141,7 +2141,7 @@ Proof.
     apply: ex_derive_const.
     exists (sum_f_R0 (fun k : nat => PS_derive a k * y ^ k) (pred (S n))).
     apply (Idn (S n) y).
-    by apply lt_O_Sn.
+    by apply Nat.lt_0_succ.
 
   have Cdn : (forall (n : nat) (x : R), D x ->
     continuity_pt
@@ -2165,8 +2165,8 @@ Proof.
     exists (mkposreal _ Hd1) ; split.
     exact: Hd1.
     move => z Hz ; simpl in Hz.
-    rewrite (is_derive_unique _ _ _ (Idn (S n) z (lt_O_Sn _))).
-    rewrite (is_derive_unique _ _ _ (Idn (S n) y (lt_O_Sn _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S n) z (Nat.lt_0_succ _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S n) y (Nat.lt_0_succ _))).
     apply (Cdn z) ; split.
     by apply Hz.
     apply Rlt_le_trans with (1 := proj2 Hz), Rmin_l.
@@ -2183,13 +2183,13 @@ Proof.
     case: (Hr1 eps) => {Hr1} N Hr1.
     exists (S N) => n m y Hy Hn Hm.
     case: n Hn => [ | n] Hn.
-    by apply le_Sn_O in Hn.
+    by apply Nat.nle_succ_0 in Hn.
     apply le_S_n in Hn.
     case: m Hm => [ | m] Hm.
-    by apply le_Sn_O in Hm.
+    by apply Nat.nle_succ_0 in Hm.
     apply le_S_n in Hm.
-    rewrite (is_derive_unique _ _ _ (Idn (S n) y (lt_O_Sn _))).
-    rewrite (is_derive_unique _ _ _ (Idn (S m) y (lt_O_Sn _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S n) y (Nat.lt_0_succ _))).
+    rewrite (is_derive_unique _ _ _ (Idn (S m) y (Nat.lt_0_succ _))).
     by apply Hr1.
 
   have Hx' : D x.
@@ -2207,7 +2207,7 @@ Proof.
   apply (f_equal real), Lim_seq_ext => n.
   rewrite sum_n_Reals.
   apply is_derive_unique, Idn.
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   move => y Hy.
   apply sym_eq.
   apply is_lim_seq_unique.
@@ -2326,7 +2326,7 @@ Proof.
   field.
   rewrite -S_INR ; split ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  apply (lt_INR O), lt_O_Sn.
+  apply (lt_INR O), Nat.lt_0_succ.
   rewrite /l {l}.
   apply PSeries_ext.
   move => k ; rewrite /PS_derive.
@@ -2334,7 +2334,7 @@ Proof.
   field.
   rewrite -S_INR ; split ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  apply (lt_INR O), lt_O_Sn.
+  apply (lt_INR O), Nat.lt_0_succ.
 Qed.
 Lemma ex_derive_n_PSeries (n : nat) (a : nat -> R) (x : R) :
   Rbar_lt (Finite (Rabs x)) (CV_radius a)
@@ -2362,7 +2362,7 @@ Proof.
   elim: n a => [ | n IH] /= a.
   apply CV_radius_ext.
   move => k ; rewrite /PS_derive_n /=.
-  rewrite plus_0_r ; field.
+  rewrite Nat.add_0_r ; field.
   by apply INR_fact_neq_0.
   rewrite -(CV_radius_derive a).
   rewrite -(IH (PS_derive a)).
@@ -2438,7 +2438,7 @@ Proof.
     by [].
     by [].
     rewrite -Hr in Hx Hd.
-    move: (real r) Hx Hd => /= {r Hr} r Hx Hd.
+    move: (real r) Hx Hd => /= {Hr} r Hx Hd.
 
   wlog: x Hx f Hd / (0 < x) => [Hw | Hx'].
     case: (total_order_T 0 x) => Hx'.
@@ -2454,7 +2454,7 @@ Proof.
       ex_derive_n (fun x0 : R => f (- x0)) n x /\
       Rabs (Derive_n (fun x0 : R => f (- x0)) n x) <= M).
 
-   move: (Hw _ Hx (fun x => f (-x)) Hf (Ropp_0_gt_lt_contravar _ Hx')) => {Hw} Hw.
+   move: (Hw _ Hx (fun x => f (-x)) Hf (Ropp_0_gt_lt_contravar _ Hx')) => {} Hw.
    rewrite Ropp_involutive in Hw.
 
    apply is_series_ext with (2:=Hw).
@@ -2539,7 +2539,7 @@ Proof.
     rewrite /fact -/fact /pow -/pow ?mult_INR ; field.
     repeat split ; apply Rgt_not_eq, Rlt_gt.
     exact: INR_fact_lt_0.
-    by apply (lt_INR O), lt_O_Sn.
+    by apply (lt_INR O), Nat.lt_0_succ.
     exact: H.
     apply pow_lt, Rle_lt_trans with (Rabs x), Hx ; by apply Rabs_pos.
     apply Rlt_le, Rdiv_lt_0_compat ; by apply H0.

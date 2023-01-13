@@ -156,7 +156,7 @@ Proof.
     by field.
   by apply Rplus_lt_compat_r.
   case: (Hli (fn n x + eps / 2)) => {Hls Hli} N0 H0.
-  move: (H0 _ (le_plus_r N N0)) => {H0} H0 ; contradict H0.
+  move: (H0 _ (le_plus_r N N0)) => {} H0 ; contradict H0.
   apply Rle_not_lt, Rlt_le.
   replace (fn (N + N0)%nat x)
     with (fn n x + (fn (N + N0)%nat x - fn n x))
@@ -177,7 +177,7 @@ Proof.
   replace (fn m x) with (fn n x + (fn m x - fn n x)) by ring.
   apply Rplus_lt_compat_l, Rle_lt_trans with (1 := Rle_abs _) ; by apply H.
   case: (Hls (fn n x - eps / 2)) => {Hls} N0 H0.
-  move: (H0 _ (le_plus_r N N0)) => {H0} H0 ; contradict H0.
+  move: (H0 _ (le_plus_r N N0)) => {} H0 ; contradict H0.
   apply Rle_not_lt, Rlt_le.
   replace (fn (N + N0)%nat x)
     with (eps/2 + (fn (N + N0)%nat x - eps/2))
@@ -240,7 +240,7 @@ Proof.
       rewrite (Rabs_pos_eq _ (Rlt_le _ _ Hd)).
       generalize (Rmin_r (Rmin dn dm) d0).
       lra.
-    move : (Ho y Hy) => {Ho Hy} Hy.
+    move : (Ho y Hy) => {Ho} Hy.
     replace (ln - lm)
       with (- (fn n y - ln) + (fn m y - lm) + (fn n y - fn m y))
       by ring.
@@ -276,9 +276,9 @@ Proof.
     case: (Hfn (pos_div_2 (pos_div_2 eps))) => {Hfn} /= n1 Hfn.
     case: (H (pos_div_2 (pos_div_2 eps))) => {H} /= n2 H.
     set n := (n1 + n2)%nat.
-    move: (fun y Hy => Hfn n (le_plus_l _ _) y Hy) => {Hfn} Hfn.
-    move: (H n (le_plus_r _ _)) => {H} H.
-    move: (Hex x n Hx) => {Hex} Hex.
+    move: (fun y Hy => Hfn n (Nat.le_add_r _ _) y Hy) => {} Hfn.
+    move: (H n (le_plus_r _ _)) => {} H.
+    move: (Hex x n Hx) => {} Hex.
     apply Lim_correct' in Hex.
     apply is_lim_spec in Hex.
     case: (Hex (pos_div_2 eps)) => {Hex} /= d1 Hex.
@@ -314,7 +314,7 @@ Lemma CVU_cont_open (fn : nat -> R -> R) (D : R -> Prop) :
 Proof.
   move => Ho Hfn Hc x Hx.
   case: (fun H => CVU_limits_open fn D Ho Hfn H x Hx)
-    => [{x Hx} x n Hx | Hex_s [Hex_f Heq]].
+    => [{Hx} x n Hx | Hex_s [Hex_f Heq]].
   exists (fn n x).
   apply is_lim_spec.
   intros eps.
@@ -389,7 +389,7 @@ Proof.
     case => d H.
     exists d => y Hy Hxy.
     rewrite /rn ; case: Req_EM_T => // _ ; by apply H.
-    move: (Edn n x Hx) => {Edn} Edn.
+    move: (Edn n x Hx) => {} Edn.
     apply Derive_correct in Edn.
     apply is_derive_Reals in Edn.
     case: (Edn eps (cond_pos eps)) => {Edn} delta Edn.
@@ -699,20 +699,20 @@ Proof.
     rewrite -(proj1 Ha_) -(proj1 (proj2 Ha_)).
     by apply Rlt_irrefl.
     elim: (a_) (a0) Ha_0 => /= [ | x1 l IH] x0 Hl.
-    move: (Hcvs x0 (Hl O (lt_n_Sn _))) ;
-    move/Lim_seq_correct' => {Hcvs} Hcvs.
+    move: (Hcvs x0 (Hl O (Nat.lt_succ_diag_r _))) ;
+    move/Lim_seq_correct' => {} Hcvs.
     apply is_lim_seq_spec in Hcvs.
     case: (Hcvs eps) => {Hcvs} N Hcvs.
     exists N => n i Hn Hi.
     case: i Hi => /= [ | i] Hi.
     by apply Hcvs.
-    by apply lt_S_n, lt_n_O in Hi.
+    by apply lt_S_n, Nat.nlt_0_r in Hi.
     case: (IH x1).
     move => i Hi.
     by apply (Hl (S i)), lt_n_S.
     move => N0 HN0.
-    move: (Hcvs x0 (Hl O (lt_O_Sn _))) ;
-    move/Lim_seq_correct' => {Hcvs} Hcvs.
+    move: (Hcvs x0 (Hl O (Nat.lt_0_succ _))) ;
+    move/Lim_seq_correct' => {} Hcvs.
     apply is_lim_seq_spec in Hcvs.
     case: (Hcvs eps) => {Hcvs} N Hcvs.
     exists (N + N0)%nat => n i Hn Hi.
@@ -736,11 +736,11 @@ Proof.
     revert AB Hx ;
     elim: (a_) (a0) (a1) => /= [ | x2 l IH] x0 x1 Hx.
     exists O ; split => /=.
-    by apply lt_n_Sn.
+    by apply Nat.lt_succ_diag_r.
     by apply Hx.
     case: (Rlt_le_dec x x1) => Hx'.
     exists O ; split => /=.
-    by apply lt_n_S, lt_O_Sn.
+    by apply lt_n_S, Nat.lt_0_succ.
     split ; intuition.
     case: (IH x1 x2).
     by intuition.
@@ -845,7 +845,7 @@ Proof.
     apply is_lim_seq_ext with (fun n => Series An - sum_f_R0 An n).
     move => n ; rewrite (Series_incr_n An (S n)) /=.
     ring.
-    by apply lt_O_Sn.
+    by apply Nat.lt_0_succ.
     by apply H1.
     replace (Finite 0) with (Rbar_plus (Series An) (- Series An))
       by (simpl ; apply Rbar_finite_eq ; ring).
@@ -885,7 +885,7 @@ Proof.
   apply Rplus_lt_reg_l in Hy.
   by rewrite Rminus_0_r.
 
-  apply Rle_lt_trans with (2 := H2 (S n) (le_trans _ _ _ (le_n_Sn _) (le_n_S _ _ Hn))).
+  apply Rle_lt_trans with (2 := H2 (S n) (Nat.le_trans _ _ _ (Nat.le_succ_diag_r _) (le_n_S _ _ Hn))).
   rewrite Rminus_0_r /SP.
   rewrite (Series_incr_n (fun k : nat => fn k y) (S n)) /=.
   ring_simplify (sum_f_R0 (fun k : nat => fn k y) n +
@@ -906,7 +906,7 @@ Proof.
   apply ex_series_ext with (fun k : nat => An (S n + k)%nat).
   move => k ; by rewrite plus_Sn_m.
   by apply ex_series_incr_n.
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   apply ex_series_Rabs.
   by apply H3.
 Qed.

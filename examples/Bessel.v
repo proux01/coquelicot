@@ -55,12 +55,12 @@ Proof.
   by [].
   apply Rmult_le_pos ; apply pos_INR.
   apply Rgt_not_eq, Rmult_lt_0_compat ;
-  apply lt_0_INR, lt_O_Sn.
+  apply lt_0_INR, Nat.lt_0_succ.
   repeat split.
   by apply INR_fact_neq_0.
   by apply INR_fact_neq_0.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
   by apply pow_nonzero, Rlt_not_eq, (IZR_lt (-1) 0).
   replace (Finite 0) with (Rbar_inv p_infty) by auto.
   apply is_lim_seq_inv.
@@ -69,7 +69,7 @@ Proof.
   by apply is_lim_seq_INR.
   apply is_lim_seq_ext with (fun k => INR (k + S n)).
   intros k.
-  by rewrite (Plus.plus_comm n k) plus_n_Sm.
+  by rewrite (Nat.add_comm n k) plus_n_Sm.
   apply is_lim_seq_incr_n.
   by apply is_lim_seq_INR.
   by [].
@@ -145,22 +145,22 @@ Proof.
   rewrite -(PSeries_const_0 (y^2)).
   apply PSeries_ext.
   case => [ | p] ; rewrite /Bessel1_seq ;
-  rewrite -?plus_n_Sm ?plus_0_r /fact -/fact ?mult_INR ?S_INR ?plus_INR ; simpl INR ; simpl pow ;
+  rewrite -?plus_n_Sm ?Nat.add_0_r /fact -/fact ?mult_INR ?S_INR ?plus_INR ; simpl INR ; simpl pow ;
   rewrite ?Rplus_0_l ?Rmult_1_l.
   rewrite /plus /zero /scal /= /mult /=.
   field.
   split ; rewrite -?S_INR ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  by apply (lt_INR 0), lt_O_Sn.
+  by apply (lt_INR 0), Nat.lt_0_succ.
   rewrite /plus /scal /= /mult /=.
   field.
   repeat split ; rewrite -?plus_INR -?S_INR ; apply Rgt_not_eq.
   by apply INR_fact_lt_0.
-  by apply (lt_INR 0), lt_O_Sn.
+  by apply (lt_INR 0), Nat.lt_0_succ.
   by apply INR_fact_lt_0.
-  by apply (lt_INR 0), lt_O_Sn.
-  by apply (lt_INR 0), lt_O_Sn.
-  by apply (lt_INR 0), lt_O_Sn.
+  by apply (lt_INR 0), Nat.lt_0_succ.
+  by apply (lt_INR 0), Nat.lt_0_succ.
+  by apply (lt_INR 0), Nat.lt_0_succ.
 
   apply CV_radius_inside.
   apply Rbar_lt_le_trans with (2 := CV_radius_plus _ _).
@@ -198,7 +198,7 @@ Proof.
   apply f_equal.
   rewrite -PSeries_scal.
   apply PSeries_ext => k.
-  rewrite /Bessel1_seq /PS_scal /PS_derive plus_0_l.
+  rewrite /Bessel1_seq /PS_scal /PS_derive Nat.add_0_l.
   replace (1+k)%nat with (S k) by ring.
   rewrite /fact -/fact mult_INR /pow -/pow.
   change scal with Rmult.
@@ -225,7 +225,7 @@ Lemma Bessel1_equality_2 (n : nat) (x : R) : (0 < n)%nat -> x<>0
   -> Bessel1 (S n)%nat x + Bessel1 (pred n)%nat x = (2*INR n)/x * Bessel1 n x.
 Proof.
   case: n => [ | n] Hn Hx.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn ; simpl pred.
   rewrite /Bessel1 S_INR.
   replace ((x / 2) ^ S (S n) * PSeries (Bessel1_seq (S (S n))) ((x / 2) ^ 2) +
@@ -248,7 +248,7 @@ Proof.
 (* egalité *)
   rewrite /PS_plus /PS_scal /PS_incr_1 /Bessel1_seq ;
   case: k => [ | k] ;
-  rewrite ?plus_0_r -?plus_n_Sm ?plus_Sn_m
+  rewrite ?Nat.add_0_r -?plus_n_Sm ?plus_Sn_m
     /fact -/fact ?mult_INR ?S_INR ?plus_INR /=.
   rewrite plus_zero_l /scal /= /mult /=.
   field.
@@ -266,7 +266,7 @@ Proof.
   move => Hn.
   rewrite (is_derive_unique _ _ _ (is_derive_Bessel1 _ _)) /Bessel1.
   case: n Hn => [ | n] Hn.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn ; simpl pred.
   replace ((x / 2) ^ S (S n) * PSeries (Bessel1_seq (S (S n))) ((x / 2) ^ 2) -
       (x / 2) ^ n * PSeries (Bessel1_seq n) ((x / 2) ^ 2))
@@ -313,7 +313,7 @@ Proof.
     (PS_plus (PS_plus (PS_incr_n (PS_derive_n 2 a) 2)
       (PS_incr_1 (PS_derive a))) (PS_plus (PS_incr_n a 2) (PS_scal (- INR n ^ 2) a))) k = 0).
   intros Haux.
-  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {Haux} Haux.
+  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {} Haux.
 (* n = 0 *)
   rewrite /PS_plus /= /PS_incr_1 /PS_derive_n /PS_scal /PS_derive in Haux.
   rewrite /plus /zero /scal /= /mult /= in Haux.
@@ -327,7 +327,7 @@ Proof.
   apply pow_nonzero.
   by apply not_0_INR.
   by left.
-  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {Haux} Haux.
+  split ; [move: (Haux 0%nat) | move: (fun k => Haux (S k))] => {} Haux.
 (* n = 1 *)
   rewrite /PS_plus /= /PS_incr_1 /PS_derive_n /PS_scal /PS_derive /= in Haux.
   rewrite /plus /zero /scal /= /mult /= in Haux.
@@ -353,7 +353,7 @@ Proof.
   move: (Haux k) ;
   rewrite /PS_plus /= /PS_incr_1 /PS_derive_n /PS_scal /PS_derive -?S_INR.
   replace (k + 2)%nat with (S (S k)) by ring.
-  rewrite /fact -/fact ?mult_INR ?S_INR => {Haux} Haux.
+  rewrite /fact -/fact ?mult_INR ?S_INR => {} Haux.
   rewrite /plus /scal /= /mult /= in Haux.
   field_simplify in Haux.
   field_simplify.
@@ -459,19 +459,19 @@ Proof.
     rewrite Ha ; ring.
   assert (forall k : nat, (k < n)%nat -> a k = 0).
     destruct n => k Hk.
-    by apply lt_n_O in Hk.
+    by apply Nat.nlt_0_r in Hk.
     case: Ha0 => // Ha0.
     destruct n.
     destruct k => //.
-    by apply lt_S_n, lt_n_O in Hk.
+    by apply lt_S_n, Nat.nlt_0_r in Hk.
     case: Ha1 => // Ha1.
     move: k Hk.
     apply (Div2.ind_0_1_SS (fun k => (k < S (S n))%nat -> a k = 0)) => // k IH Hk.
     rewrite H.
     rewrite IH /Rdiv.
     ring.
-    eapply lt_trans, Hk.
-    eapply lt_trans ; apply lt_n_Sn.
+    eapply Nat.lt_trans, Hk.
+    eapply Nat.lt_trans ; apply Nat.lt_succ_diag_r.
     by apply MyNat.lt_neq.
   repeat split.
   by [].
@@ -483,7 +483,7 @@ Proof.
   rewrite H ; try by intuition.
   rewrite H0 /Rdiv.
   ring.
-  by apply lt_n_Sn.
+  by apply Nat.lt_succ_diag_r.
   replace (n + 2 * S p + 1)%nat with (S (S (n + 2 * p + 1)%nat)) by ring.
   rewrite H ; try by intuition.
   rewrite IH /Rdiv.
@@ -595,13 +595,13 @@ Proof.
   by apply pow2_ge_0.
   change 4 with (INR 2 * INR 2).
   apply Rgt_not_eq ; repeat apply Rmult_lt_0_compat ;
-  apply lt_0_INR, lt_O_Sn.
+  apply lt_0_INR, Nat.lt_0_succ.
   repeat split.
   apply pow_nonzero, Rgt_not_eq ; repeat apply Rmult_lt_0_compat ; apply Rlt_0_2.
   by apply INR_fact_neq_0.
   by apply INR_fact_neq_0.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
-  by apply Rgt_not_eq, lt_0_INR, lt_O_Sn.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
+  by apply Rgt_not_eq, lt_0_INR, Nat.lt_0_succ.
   by apply pow_nonzero, Rlt_not_eq, (IZR_lt (-1) 0).
   rewrite -pow_mult ; by apply pow_nonzero.
   evar_last.
@@ -612,7 +612,7 @@ Proof.
   by apply is_lim_seq_INR.
   apply is_lim_seq_ext with (fun k => INR (k + S n)).
   intros k.
-  by rewrite (Plus.plus_comm n k) plus_n_Sm.
+  by rewrite (Nat.add_comm n k) plus_n_Sm.
   apply is_lim_seq_incr_n.
   by apply is_lim_seq_INR.
   by [].

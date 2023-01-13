@@ -875,7 +875,7 @@ Proof.
   rewrite (sum_n_m_Chasles _ _ m).
   by rewrite sum_n_n.
   by [].
-  by apply le_n_Sn.
+  by apply Nat.le_succ_diag_r.
 Qed.
 
 Lemma sum_Sn_m (a : nat -> G) (n m : nat) :
@@ -884,7 +884,7 @@ Proof.
   intros Hnmk.
   rewrite (sum_n_m_Chasles _ _ n).
   by rewrite sum_n_n.
-  by apply le_n_Sn.
+  by apply Nat.le_succ_diag_r.
   by [].
 Qed.
 
@@ -898,7 +898,7 @@ Lemma sum_Sn (a : nat -> G) (n : nat) :
   sum_n a (S n) = plus (sum_n a n) (a (S n)).
 Proof.
   apply sum_n_Sm.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
 Qed.
 
 Lemma sum_n_m_zero (a : nat -> G) (n m : nat) :
@@ -907,7 +907,7 @@ Proof.
   intros Hnm.
   rewrite /sum_n_m.
   elim: n m a Hnm => [ | n IH] m a Hnm.
-  by apply lt_n_O in Hnm.
+  by apply Nat.nlt_0_r in Hnm.
   case: m Hnm => [|m] Hnm //.
   rewrite -iter_nat_S.
   apply IH.
@@ -965,14 +965,14 @@ Proof.
   elim: m n u v Hnm => [ | m IH] ;
   case => [ | n] u v Hnm.
   by rewrite !sum_n_n.
-  by apply le_Sn_O in Hnm.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  by apply Nat.nle_succ_0 in Hnm.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   rewrite -2!plus_assoc.
   apply f_equal.
   rewrite plus_comm -plus_assoc.
   apply f_equal, plus_comm.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite /sum_n_m -!iter_nat_S -!/(sum_n_m _ n m).
   apply IH.
   by apply le_S_n.
@@ -1005,8 +1005,8 @@ Proof.
   rewrite -sum_n_m_plus.
   apply sum_n_m_ext_loc => k Hk.
   rewrite sum_n_Sm //.
-  by apply le_O_n.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
+  by apply Nat.le_0_l.
 Qed.
 
 Lemma sum_n_m_sum_n (a:nat -> G) (n m : nat) :
@@ -1017,7 +1017,7 @@ Proof.
   rewrite (plus_comm _ (minus _ _)) /minus -plus_assoc plus_opp_l plus_zero_r.
   rewrite /sum_n /sum_n_m.
   apply sym_eq, sum_n_m_Chasles.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   by [].
 Qed.
 
@@ -1176,13 +1176,13 @@ Proof.
   intros a u n m.
   case: (le_dec n m) => Hnm.
   elim: m n u Hnm => [ | m IH] n u Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   by apply sym_eq, mult_distr_r.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -1198,13 +1198,13 @@ Proof.
   intros a u n m.
   case: (le_dec n m) => Hnm.
   elim: m n u Hnm => [ | m IH] n u Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   by apply sym_eq, mult_distr_l.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -1258,7 +1258,7 @@ Lemma pow_n_comm :
 Proof.
   intros x n m.
   rewrite -2!pow_n_plus.
-  by apply f_equal, Plus.plus_comm.
+  by apply f_equal, Nat.add_comm.
 Qed.
 
 End Ring1.
@@ -1914,7 +1914,7 @@ assert (locally l' (ball l' (pos_div_2 eps))).
   by apply locally_ball.
 specialize (Hl' (ball l' (pos_div_2 eps)) H0).
 unfold filtermap in Hl, Hl'.
-generalize (filter_and _ _ Hl Hl') => {H H0} H.
+generalize (filter_and _ _ Hl Hl') => {H0} H.
 apply filter_ex in H.
 case: H => x H.
 rewrite (double_var eps).
@@ -1937,7 +1937,7 @@ assert (H': locally l' (ball l' (pos_div_2 eps))).
   by apply locally_ball.
 specialize (Hl' (ball l' (pos_div_2 eps)) H').
 unfold filtermapi in Hl, Hl'.
-generalize (filter_and _ _ Hf (filter_and _ _ Hl Hl')) => {H H' Hl Hl' Hf} H.
+generalize (filter_and _ _ Hf (filter_and _ _ Hl Hl')) => {H' Hl Hl' Hf} H.
 apply filter_ex in H.
 destruct H as [x [Hf [[y [H1 H1']] [y' [H2 H2']]]]].
 rewrite (double_var eps).
@@ -2166,7 +2166,7 @@ intros D E DE CD x Hx.
 apply DE, CD.
 contradict Hx.
 apply: filter_imp Hx.
-move => {x} x Dx Ex.
+move => {} x Dx Ex.
 now apply Dx, DE.
 Qed.
 
@@ -2180,12 +2180,12 @@ split.
 apply CD.
 contradict Hx.
 apply: filter_imp Hx.
-move => {x} x nDx [Dx _].
+move => {} x nDx [Dx _].
 now apply nDx.
 apply CE.
 contradict Hx.
 apply: filter_imp Hx.
-move => {x} x nEx [_ Ex].
+move => {} x nEx [_ Ex].
 now apply nEx.
 Qed.
 
@@ -2394,7 +2394,7 @@ split.
   now exists eps.
   destruct (filter_ex P HP) as [x Hx].
   exists x.
-  move: (fun v => H' x v Hx) => {H H'} H.
+  move: (fun v => H' x v Hx) => {H'} H.
   now apply filter_imp with (1 := H).
 Qed.
 
@@ -2419,7 +2419,7 @@ split.
   case: (H eps) => {H} P [HP H].
   destruct (filter_ex P HP) as [x Hx].
   exists x.
-  move: (fun v => H x v Hx) => {H} H.
+  move: (fun v => H x v Hx) => {} H.
   apply filter_imp with (1 := H).
   by [].
 Qed.
@@ -2551,14 +2551,14 @@ Proof.
 
   move => eps.
 
-  generalize (proj1 cauchy_distance HFc) => {HFc} HFc.
+  generalize (proj1 cauchy_distance HFc) => {} HFc.
 
   case: (HFc (pos_div_2 eps)) => {HFc} P ; simpl ; case => HP H0.
   apply filter_imp with (2 := HP).
   move => g Hg t.
-  move: (fun h => H0 g h Hg) => {H0} H0.
-  move: (H t (pos_div_2 eps)) ; simpl => {H} H.
-  unfold Fr in H ; generalize (filter_and _ _ H HP) => {H} H.
+  move: (fun h => H0 g h Hg) => {} H0.
+  move: (H t (pos_div_2 eps)) ; simpl => {} H.
+  unfold Fr in H ; generalize (filter_and _ _ H HP) => {} H.
   apply filter_ex in H ; case: H => h H.
   rewrite (double_var eps).
   apply ball_triangle with (h t).
@@ -2612,7 +2612,7 @@ Proof.
     by apply FF2.
     simpl ; intros.
     apply H.
-  move: H => {Hfg} Hfg.
+  move: H => {} Hfg.
 
   assert (filter_prod F1 F2 (fun x : T1 * T2 => ball l (eps / 2) (h (fst x)))).
     apply Filter_prod with (fun x : T1 => ball l (eps / 2) (h x)) (fun _ => True).
@@ -2620,7 +2620,7 @@ Proof.
     by [].
     by apply FF2.
     by [].
-  move: H => {Hhl} Hhl.
+  move: H => {} Hhl.
 
   case: (@filter_and _ _ FF _ _ Hhl Hfg) => {Hhl Hfg} /= ; intros.
 
@@ -2659,12 +2659,12 @@ Proof.
     apply: Hp.
     by apply Hy.
 
-  move: H => {Hfg} Hfg.
+  move: H => {} Hfg.
   move: (Hf Hfg (pos_div_2 eps)) => {Hf Hfg} /= Hf.
 
   case: FF2 => HF2 FF2.
   generalize (fun x => proj1 (filterlim_locally (f x) (h x)) (Hfh x) (pos_div_2 (pos_div_2 eps)))
-    => {Hfh} Hfh.
+    => {} Hfh.
 
   case: Hf => P [Hp Hf].
   exists P ; split.
@@ -2672,7 +2672,7 @@ Proof.
   move => u v Hu Hv.
   move: (Hfh u) => /= Hu'.
   move: (Hfh v) => /= Hv'.
-  move: (@filter_and _ F2 FF2 _ _ Hu' Hv') => {Hu' Hv' Hfh} Hfh.
+  move: (@filter_and _ F2 FF2 _ _ Hu' Hv') => {Hu' Hv'} Hfh.
   case: (HF2 _ Hfh) => {Hfh} y Hy.
   replace (pos eps) with (eps / 2 / 2 + (eps / 2 + eps / 2 / 2)) by field.
   apply ball_triangle with (f u y).
@@ -2879,13 +2879,13 @@ Proof.
   intros a u n m.
   case: (le_dec n m) => Hnm.
   elim: m n u Hnm => [ | m IH] n u Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   by rewrite -Hnm !sum_n_n.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   rewrite IH.
   by apply sym_eq, scal_distr_l.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -4115,7 +4115,7 @@ Lemma coeff_Tn_bij {T} {n : nat} (x0 : T) (u : nat -> T) :
   forall i, (i < n)%nat -> coeff_Tn x0 (mk_Tn n u) i = u i.
 Proof.
   revert u ; induction n => /= u i Hi.
-  by apply lt_n_O in Hi.
+  by apply Nat.nlt_0_r in Hi.
   destruct i.
   by [].
   now apply (IHn (fun n => u (S n))), lt_S_n.
@@ -4126,14 +4126,14 @@ Proof.
   split.
   + move => -> {v1}.
     induction n => i Hi.
-    by apply lt_n_O in Hi.
+    by apply Nat.nlt_0_r in Hi.
     destruct i ; simpl.
     by [].
     by apply IHn, lt_S_n.
   + induction n => H.
     apply unit_ind ; move: (v1) ; now apply unit_ind.
     apply injective_projections.
-    by apply (H O), lt_O_Sn.
+    by apply (H O), Nat.lt_0_succ.
     apply IHn => i Hi.
     by apply (H (S i)), lt_n_S.
 Qed.
@@ -4143,9 +4143,9 @@ Lemma mk_Tn_ext {T} (n : nat) (u1 u2 : nat -> T) :
 Proof.
   move: u1 u2 ; induction n ; simpl ; split ; intros.
   by [].
-  by apply lt_n_O in H0.
+  by apply Nat.nlt_0_r in H0.
   apply f_equal2.
-  by apply H, lt_O_Sn.
+  by apply H, Nat.lt_0_succ.
   apply IHn => i Hi.
   by apply H, lt_n_S.
   destruct i.
@@ -4449,14 +4449,14 @@ Proof.
   rewrite -{2}(mk_matrix_bij zero A).
   apply mk_matrix_ext => /= i j Hi Hj.
   destruct n ; simpl.
-  by apply lt_n_O in Hj.
-  move: (coeff_mat zero A) => {A} A.
+  by apply Nat.nlt_0_r in Hj.
+  move: (coeff_mat zero A) => {} A.
   erewrite sum_n_ext_loc ; last first.
   move => /= k Hk.
   rewrite /Mone coeff_mat_bij //.
   by apply le_lt_n_Sm.
   rewrite /sum_n (sum_n_m_Chasles _ _ j) //.
-  2: by apply le_O_n.
+  2: by apply Nat.le_0_l.
   2: by apply lt_n_Sm_le.
   rewrite (sum_n_m_ext_loc _ (fun _ => zero) (S j)).
   rewrite sum_n_m_const_zero plus_zero_r.
@@ -4484,14 +4484,14 @@ Proof.
   rewrite -{2}(mk_matrix_bij zero A).
   apply mk_matrix_ext => /= i j Hi Hj.
   destruct m ; simpl.
-  by apply lt_n_O in Hi.
-  move: (coeff_mat zero A) => {A} A.
+  by apply Nat.nlt_0_r in Hi.
+  move: (coeff_mat zero A) => {} A.
   erewrite sum_n_ext_loc ; last first.
   move => /= k Hk.
   rewrite /Mone coeff_mat_bij //.
   by apply le_lt_n_Sm.
   rewrite /sum_n (sum_n_m_Chasles _ _ i) //.
-  2: by apply le_O_n.
+  2: by apply Nat.le_0_l.
   2: by apply lt_n_Sm_le.
   rewrite (sum_n_m_ext_loc _ (fun _ => zero) (S i)).
   rewrite sum_n_m_const_zero plus_zero_r.
@@ -4574,7 +4574,7 @@ constructor.
   intros P [N H].
   exists N.
   apply H.
-  apply le_refl.
+  apply Nat.le_refl.
 constructor.
 - now exists 0%nat.
 - intros P Q [NP HP] [NQ HQ].
@@ -4582,11 +4582,11 @@ constructor.
   intros n Hn.
   split.
   apply HP.
-  apply le_trans with (2 := Hn).
-  apply Max.le_max_l.
+  apply Nat.le_trans with (2 := Hn).
+  apply Nat.le_max_l.
   apply HQ.
-  apply le_trans with (2 := Hn).
-  apply Max.le_max_r.
+  apply Nat.le_trans with (2 := Hn).
+  apply Nat.le_max_r.
 - intros P Q H [NP HP].
   exists NP.
   intros n Hn.
@@ -4818,15 +4818,15 @@ Qed.
 Lemma sum_n_m_Reals a n m : (n <= m)%nat -> sum_n_m a n m = sum_f n m a.
 Proof.
   induction m => //= Hnm.
-  apply le_n_O_eq in Hnm.
-  by rewrite -Hnm sum_n_n /=.
+  apply Nat.le_0_r in Hnm.
+  by rewrite Hnm sum_n_n /=.
   case: (le_dec n m) => H.
   rewrite sum_n_Sm // IHm //.
   rewrite sum_f_n_Sm //.
   replace n with (S m).
   rewrite sum_n_n.
-  by rewrite /sum_f minus_diag /=.
-  apply le_antisym => //.
+  by rewrite /sum_f Nat.sub_diag /=.
+  apply Nat.le_antisymm => //.
   apply not_le in H.
   by apply lt_le_S.
 Qed.
@@ -4840,7 +4840,7 @@ Qed.
 Lemma sum_n_const (n : nat) (a : R) :
   sum_n (fun _ => a) n = INR (S n) * a.
 Proof.
-  by rewrite /sum_n sum_n_m_const -minus_n_O.
+  by rewrite /sum_n sum_n_m_const Nat.sub_0_r.
 Qed.
 
 Lemma norm_sum_n_m {K : AbsRing} {V : NormedModule K} (a : nat -> V) (n m : nat) :
@@ -4848,14 +4848,14 @@ Lemma norm_sum_n_m {K : AbsRing} {V : NormedModule K} (a : nat -> V) (n m : nat)
 Proof.
   case: (le_dec n m) => Hnm.
   elim: m n a Hnm => /= [ | m IH] n a Hnm.
-  apply le_n_O_eq in Hnm.
+  apply Nat.le_0_r in Hnm.
   rewrite -Hnm !sum_n_n.
   by apply Rle_refl.
   destruct n.
-  rewrite /sum_n !sum_n_Sm ; try by apply le_O_n.
+  rewrite /sum_n !sum_n_Sm ; try by apply Nat.le_0_l.
   eapply Rle_trans.
   apply norm_triangle.
-  apply Rplus_le_compat_r, IH, le_O_n.
+  apply Rplus_le_compat_r, IH, Nat.le_0_l.
   rewrite -!sum_n_m_S.
   apply IH.
   by apply le_S_n.
@@ -4871,12 +4871,12 @@ Proof.
   intros H.
   case: (le_dec n m) => Hnm.
   elim: m n a b Hnm H => /= [ | m IH] n a b Hnm H.
-  apply le_n_O_eq in Hnm ; rewrite -Hnm.
+  apply Nat.le_0_r in Hnm ; rewrite -Hnm.
   rewrite !sum_n_n ; by apply H.
   destruct n.
-  rewrite !sum_n_Sm ; try by apply le_O_n.
+  rewrite !sum_n_Sm ; try by apply Nat.le_0_l.
   apply Rplus_le_compat.
-  apply IH => // ; by apply le_O_n.
+  apply IH => // ; by apply Nat.le_0_l.
   by apply H.
   rewrite -!sum_n_m_S.
   apply IH => //.
@@ -4953,7 +4953,7 @@ Proof.
   eapply Rle_trans, (norm_triangle_inv (norm (a n)) l).
   apply Req_le, f_equal, f_equal2 => //.
   apply sym_eq, Rabs_pos_eq, norm_ge_0.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   case: n => [ | n].
   apply Rmax_l.
   eapply Rle_trans, Rmax_r.

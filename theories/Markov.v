@@ -39,7 +39,7 @@ assert (Hi: forall n, 0 < INR n + 1).
   intros N.
   rewrite <- S_INR.
   apply lt_0_INR.
-  apply lt_0_Sn.
+  apply Nat.lt_0_succ.
 intros P HP.
 set (E y := exists n, (P n /\ y = / (INR n + 1)) \/ (~ P n /\ y = 0)).
 assert (HE: forall n, P n -> E (/ (INR n + 1))).
@@ -53,7 +53,7 @@ assert (BE: is_upper_bound E 1).
   apply Rinv_le_contravar.
   exact Rlt_0_1.
   rewrite <- S_INR.
-  apply (le_INR 1), le_n_S, le_0_n.
+  apply (le_INR 1), le_n_S, Nat.le_0_l.
   exact Rle_0_1.
 destruct (completeness E) as [l [ub lub]].
   now exists 1.
@@ -108,7 +108,7 @@ assert (H: forall i, (i < N)%nat -> ~ P i).
   rewrite <- S_INR.
   apply (le_INR 1).
   apply le_n_S.
-  apply le_0_n.
+  apply Nat.le_0_l.
   apply Rlt_le_trans with (INR N + 1).
   apply Rplus_lt_compat_r.
   now apply lt_INR.

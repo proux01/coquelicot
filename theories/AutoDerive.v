@@ -112,8 +112,8 @@ rewrite Hg.
 apply IHk.
 intros n Hn.
 apply Hg.
-now apply lt_S.
-apply lt_n_Sn.
+now apply Nat.lt_lt_succ_r.
+apply Nat.lt_succ_diag_r.
 Qed.
 
 Definition Derive_Rn n (f : Rn n R) p g :=
@@ -760,7 +760,7 @@ rewrite nth_default ?size_map //.
 now intros (_&F&_).
 rewrite (nth_map (Cst 0)) //.
 move: (Dle v1 n l).
-case (D (nth (Cst 0) le v1)) => /= [d1 d2] {Dle} Dle [H1 [H2 _]].
+case (D (nth (Cst 0) le v1)) => /= [d1 d2] {} Dle [H1 [H2 _]].
 specialize (Dle H2).
 apply is_derive_ext with (fun x => apply k f (fun i => if ssrnat.eqn i v1 then interp (set_nth 0 l n x) (nth (Cst 0) le v1) else nth 0 (map (interp l) le) i)).
 intros t.
@@ -958,7 +958,7 @@ now apply IHe.
 simpl => l n.
 specialize (IHe2 l n).
 specialize (IHe3 l n).
-move: (fun l => IHe1 l (S n)) => {IHe1} IHe1.
+move: (fun l => IHe1 l (S n)) => {} IHe1.
 destruct (D e1 (S n)) as (a1,b1).
 destruct (D e2 n) as (a2,b2).
 destruct (D e3 n) as (a3,b3).

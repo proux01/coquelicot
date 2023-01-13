@@ -267,8 +267,8 @@ Proof.
   case: l Hl => [l | | ] Hl ; case: l0 Hl0 => [l0 | | ] Hl0 //.
   apply Rbar_finite_eq, Rle_antisym ; apply le_epsilon => e He ;
   set eps := mkposreal e He ; apply Rlt_le ;
-  case: (Hl (pos_div_2 eps)) => {Hl} Hl [n Hn] ;
-  case: (Hl0 (pos_div_2 eps)) => {Hl0} Hl0 [n0 Hn0].
+  case: (Hl (pos_div_2 eps)) => {} Hl [n Hn] ;
+  case: (Hl0 (pos_div_2 eps)) => {} Hl0 [n0 Hn0].
   have: (l0 = (l0 - eps/2) + eps/2) ; [by field | move => -> ] ;
   have : (l + e = (l + eps/2) + eps/2) ; [ simpl ; field | move => -> ] ;
   apply Rplus_lt_compat_r, (Rbar_lt_trans
@@ -277,17 +277,17 @@ Proof.
   have : (l0 + e = (l0 + eps/2) + eps/2) ; [ simpl ; field | move => -> ] ;
   apply Rplus_lt_compat_r, (Rbar_lt_trans
     (Finite (l - eps/2)) (u n) (Finite (l0 + eps/2)) Hn (Hl0 _)).
-  case: (Hl0 (l + 1)) => n {Hl0} Hl0 ; contradict Hl0 ;
+  case: (Hl0 (l + 1)) => n {} Hl0 ; contradict Hl0 ;
     apply Rbar_le_not_lt, Rbar_lt_le, (Hl (mkposreal _ Rlt_0_1)).
   case: (Hl (mkposreal _ Rlt_0_1)) => {Hl} _ [n Hl] ; contradict Hl ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl0.
-  case: (Hl (l0 + 1)) => n {Hl} Hl ; contradict Hl ;
+  case: (Hl (l0 + 1)) => n {} Hl ; contradict Hl ;
     apply Rbar_le_not_lt, Rbar_lt_le, (Hl0 (mkposreal _ Rlt_0_1)).
-  case: (Hl 0) => n {Hl} Hl ; contradict Hl ;
+  case: (Hl 0) => n {} Hl ; contradict Hl ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl0.
   case: (Hl0 (mkposreal _ Rlt_0_1)) => {Hl0} _ [n Hl0] ; contradict Hl0 ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl.
-  case: (Hl0 0) => n {Hl0} Hl0 ; contradict Hl0 ;
+  case: (Hl0 0) => n {} Hl0 ; contradict Hl0 ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl.
 Qed.
 Lemma Sup_seq_correct (u : nat -> Rbar) :
@@ -302,8 +302,8 @@ Proof.
   case: l Hl => [l | | ] Hl ; case: l0 Hl0 => [l0 | | ] Hl0 //.
   apply Rbar_finite_eq, Rle_antisym ; apply le_epsilon => e He ;
   set eps := mkposreal e He ; apply Rlt_le ;
-  case: (Hl (pos_div_2 eps)) => {Hl} Hl [n Hn] ;
-  case: (Hl0 (pos_div_2 eps)) => {Hl0} Hl0 [n0 Hn0].
+  case: (Hl (pos_div_2 eps)) => {} Hl [n Hn] ;
+  case: (Hl0 (pos_div_2 eps)) => {} Hl0 [n0 Hn0].
   have: (l0 = (l0 - eps/2) + eps/2) ; [by field | move => -> ] ;
   have : (l + e = (l + eps/2) + eps/2) ; [ simpl ; field | move => -> ] ;
   apply Rplus_lt_compat_r, (Rbar_lt_trans
@@ -314,15 +314,15 @@ Proof.
     (Finite (l - eps/2)) (u n0) (Finite (l0 + eps/2)) (Hl _) Hn0).
   case: (Hl (mkposreal _ Rlt_0_1)) => {Hl} _ [n Hl] ; contradict Hl ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl0.
-  case: (Hl0 (l - 1)) => n {Hl0} Hl0 ; contradict Hl0 ;
+  case: (Hl0 (l - 1)) => n {} Hl0 ; contradict Hl0 ;
     apply Rbar_le_not_lt, Rbar_lt_le, (Hl (mkposreal _ Rlt_0_1)).
   case: (Hl0 (mkposreal _ Rlt_0_1)) => {Hl0} _ [n Hl0] ; contradict Hl0 ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl.
-  case: (Hl0 0) => n {Hl0} Hl0 ; contradict Hl0 ;
+  case: (Hl0 0) => n {} Hl0 ; contradict Hl0 ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl.
-  case: (Hl (l0 - 1)) => n {Hl} Hl ; contradict Hl ;
+  case: (Hl (l0 - 1)) => n {} Hl ; contradict Hl ;
     apply Rbar_le_not_lt, Rbar_lt_le, (Hl0 (mkposreal _ Rlt_0_1)).
-  case: (Hl 0) => n {Hl} Hl ; contradict Hl ;
+  case: (Hl 0) => n {} Hl ; contradict Hl ;
     apply Rbar_le_not_lt, Rbar_lt_le, Hl0.
 Qed.
 Lemma Inf_seq_correct (u : nat -> Rbar) :
@@ -480,7 +480,7 @@ Lemma is_inf_seq_le (u v : nat -> Rbar) {l1 l2 : Rbar} :
   -> (is_inf_seq u l1) -> (is_inf_seq v l2) -> Rbar_le l1 l2.
 Proof.
   case: l1 => [l1 | | ] ; case: l2 => [l2 | | ] Hle Hu Hv ;
-  case: (is_inf_seq_glb _ _ Hu) => {Hu} Hu _ ;
+  case: (is_inf_seq_glb _ _ Hu) => {} Hu _ ;
   case: (is_inf_seq_glb _ _ Hv) => {Hv} _ Hv ;
   apply Hv => _ [n ->] ; apply Rbar_le_trans with (2 := Hle _), Hu ; by exists n.
 Qed.
@@ -506,18 +506,18 @@ Proof.
   rewrite /Sup_seq ; case: (ex_sup_seq _) ; case => [su | | ] Hsu //=.
 (* Finite, Finite *)
   apply le_epsilon => e He ; set eps := mkposreal e He ;
-  case: (Hiu (pos_div_2 eps)) => {Hiu} Hiu _ ;
-  case: (Hsu (pos_div_2 eps)) => {Hsu} Hsu _ ;
+  case: (Hiu (pos_div_2 eps)) => {} Hiu _ ;
+  case: (Hsu (pos_div_2 eps)) => {} Hsu _ ;
   apply Rlt_le.
   have : (iu = iu - e/2 + e/2) ; first by ring.
   move => -> ; have : (su+e = su + e/2 + e/2) ; first by field.
   by move => -> ; apply Rplus_lt_compat_r,
   (Rbar_lt_trans (Finite (iu - e/2)) (u O) (Finite (su + e/2))).
 (* Finite, m_infty *)
-  set eps := mkposreal _ Rlt_0_1 ; case: (Hiu eps) => {Hiu} Hiu _ ;
+  set eps := mkposreal _ Rlt_0_1 ; case: (Hiu eps) => {} Hiu _ ;
   move: (Hiu O) => {Hiu} ; apply Rbar_le_not_lt, Rbar_lt_le, Hsu.
 (* p_infty, Finite *)
-  set eps := mkposreal _ Rlt_0_1 ; case: (Hsu eps) => {Hsu} Hsu _ ;
+  set eps := mkposreal _ Rlt_0_1 ; case: (Hsu eps) => {} Hsu _ ;
   move: (Hsu O) => {Hsu} ; apply Rbar_le_not_lt, Rbar_lt_le, Hiu.
 (* p_infty, m_infty *)
   move: (Hiu 0 O) => {Hiu} ; apply Rbar_le_not_lt, Rbar_lt_le, Hsu.
@@ -533,7 +533,7 @@ Proof.
   apply: Hun (mkposreal e He).
   by move: (Hun (mkposreal _ Rlt_0_1)).
   case: (u n) => [un | | ] //.
-  move: (Hl (u n) n) ; case: (u n) => [un | | ] //= {Hl} Hl.
+  move: (Hl (u n) n) ; case: (u n) => [un | | ] //= {} Hl.
   by apply Rlt_irrefl in Hl.
 Qed.
 
@@ -723,7 +723,7 @@ Proof.
 (* * <- *)
   split.
   move => N.
-  move: (proj1 (Hl eps) N) => {Hl} Hl.
+  move: (proj1 (Hl eps) N) => {} Hl.
   apply Sup_seq_minor_lt in Hl.
   case: Hl => /= n Hl.
   exists (n + N)%nat ; intuition.
@@ -741,7 +741,7 @@ Proof.
   exists (n - N)%nat.
   rewrite MyNat.sub_add ; intuition.
   move => M N.
-  move: (Hl M N) => {Hl} Hl.
+  move: (Hl M N) => {} Hl.
   apply Sup_seq_minor_lt in Hl.
   case: Hl => /= n Hl.
   exists (n + N)%nat ; intuition.
@@ -942,7 +942,7 @@ Lemma is_LimSup_seq_const (a : R) :
 Proof.
   intros eps ; split.
   intros N ; exists N ; split.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Rminus_lt_0 ; ring_simplify.
   by apply eps.
   exists O => _ _.
@@ -961,7 +961,7 @@ Lemma is_LimInf_seq_const (a : R) :
 Proof.
   intros eps ; split.
   intros N ; exists N ; split.
-  by apply le_refl.
+  by apply Nat.le_refl.
   apply Rminus_lt_0 ; ring_simplify.
   by apply eps.
   exists O => _ _.
@@ -1006,36 +1006,36 @@ Proof.
   apply Rminus_lt_0 in Hl.
   case: (Hlv (pos_div_2 (mkposreal _ Hl))) => {Hlv} /= _ [n Hlv].
   case: (proj1 (Hlu (pos_div_2 (mkposreal _ Hl))) (N + n)%nat) => {Hlu} m /= [Hm Hlu].
-  move: (H _ (le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
   eapply Rlt_le_trans.
-  eapply Hlv, le_trans, Hm.
+  eapply Hlv, Nat.le_trans, Hm.
   by apply le_plus_r.
   apply Req_le ; field.
 
   case: (Hlv (lu - 1)) => {Hlv} n Hlv.
   case: (proj1 (Hlu (mkposreal _ Rlt_0_1)) (N + n)%nat) => {Hlu} m /= [Hm Hlu].
-  move: (H _ (le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
-  eapply Hlv, le_trans, Hm.
+  eapply Hlv, Nat.le_trans, Hm.
   by apply le_plus_r.
 
   case: (Hlv (mkposreal _ Rlt_0_1)) => {Hlv} /= _ [n Hlv].
   case: (Hlu (lv + 1) (N + n)%nat) => {Hlu} /= m [Hm Hlu].
-  move: (H _ (le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
-  eapply Hlv, le_trans, Hm.
+  eapply Hlv, Nat.le_trans, Hm.
   by apply le_plus_r.
 
   case: (Hlv 0) => {Hlv} n Hlv.
   case: (Hlu 0 (N + n)%nat) => {Hlu} m [Hm Hlu].
-  move: (H _ (le_trans _ _ _ (le_plus_l _ _) Hm)).
+  move: (H _ (Nat.le_trans _ _ _ (Nat.le_add_r _ _) Hm)).
   apply Rlt_not_le.
   eapply Rlt_trans, Hlu.
-  eapply Hlv, le_trans, Hm.
+  eapply Hlv, Nat.le_trans, Hm.
   by apply le_plus_r.
 Qed.
 Lemma LimInf_le (u v : nat -> R) :
@@ -1123,7 +1123,7 @@ Proof.
   case: (H1 (S N)) => {H1} n [Hn H1].
   exists (pred n).
   case: (n) Hn H1 => /= [ | m] Hm H1.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   split.
   by apply le_S_n.
   by apply H1.
@@ -1138,14 +1138,14 @@ Proof.
   case: H2 => N H2.
   exists (S N) => n Hn.
   case: (n) Hn => /= [ | m] Hm.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   apply H2 ; intuition.
 (* l = p_infty *)
   move => M N.
   case: (Hu M (S N)) => {Hu} n [Hn Hu].
   exists (pred n).
   case: (n) Hn Hu => /= [ | m] Hm Hu.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   split.
   by apply le_S_n.
   by apply Hu.
@@ -1161,7 +1161,7 @@ Proof.
   case: (Hu M) => {Hu} N Hu.
   exists (S N) => n Hn.
   case: (n) Hn => /= [ | m] Hm.
-  by apply le_Sn_O in Hm.
+  by apply Nat.nle_succ_0 in Hm.
   apply Hu ; intuition.
 Qed.
 Lemma is_LimInf_seq_ind_1 (u : nat -> R) (l : Rbar) :
@@ -1286,14 +1286,14 @@ Proof.
   move => N0.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Rabs_lt_between', Hu, le_plus_l.
+  by apply Rabs_lt_between', Hu, Nat.le_add_r.
   exists N => n Hn.
   by apply Rabs_lt_between', Hu.
   move => M N0.
   case: (Hu M) => {Hu} N Hu.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Hu, le_plus_l.
+  by apply Hu, Nat.le_add_r.
   by [].
 Qed.
 Lemma is_lim_LimInf_seq (u : nat -> R) (l : Rbar) :
@@ -1305,7 +1305,7 @@ Proof.
   move => N0.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Rabs_lt_between', Hu, le_plus_l.
+  by apply Rabs_lt_between', Hu, Nat.le_add_r.
   exists N => n Hn.
   by apply Rabs_lt_between', Hu.
   by [].
@@ -1313,7 +1313,7 @@ Proof.
   case: (Hu M) => {Hu} N Hu.
   exists (N + N0)%nat ; split.
   by apply le_plus_r.
-  by apply Hu, le_plus_l.
+  by apply Hu, Nat.le_add_r.
 Qed.
 Lemma is_LimSup_LimInf_lim_seq (u : nat -> R) (l : Rbar) :
   is_LimSup_seq u l -> is_LimInf_seq u l -> is_lim_seq u l.
@@ -1509,15 +1509,15 @@ Proof.
   apply H2 ; intuition.
   apply Rminus_lt_0 ; field_simplify ; rewrite ?Rdiv_1.
   by apply is_pos_div_2.
-  move: (fun n Hn => proj2 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (le_refl _))))
-  => {Hcv} Hcv.
+  move: (fun n Hn => proj2 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (Nat.le_refl _))))
+  => {} Hcv.
   case: (Hl (u Ncv + eps / 2) Ncv) => {Hl} n [Hn Hl].
   contradict Hl ; apply Rle_not_lt, Rlt_le.
   by apply Hcv.
-  move: (fun n Hn => proj1 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (le_refl _))))
-  => {Hcv} Hcv.
+  move: (fun n Hn => proj1 (proj1 (Rabs_lt_between' _ _ _) (Hcv n Ncv Hn (Nat.le_refl _))))
+  => {} Hcv.
   case: (Hl (u Ncv - eps / 2)) => {Hl} N Hl.
-  move: (Hcv _ (le_plus_l Ncv N)) => H.
+  move: (Hcv _ (Nat.le_add_r Ncv N)) => H.
   contradict H ; apply Rle_not_lt, Rlt_le, Hl, le_plus_r.
 Qed.
 
@@ -1584,29 +1584,29 @@ exists (N+M)%nat.
 intros n Hn.
 apply HP.
 apply plus_le_reg_l with M.
-rewrite Arith.Plus.plus_comm ; apply le_trans with (1:=Hn).
-apply le_trans with (1:=le_plus_r (phi M) _).
+rewrite Nat.add_comm ; apply Nat.le_trans with (1:=Hn).
+apply Nat.le_trans with (1:=le_plus_r (phi M) _).
 assert (H:(forall x, M+phi M + x <= M+phi (x+M))%nat).
 induction x as [|x IH].
-rewrite plus_0_l plus_0_r.
-apply le_refl.
+rewrite Nat.add_0_l Nat.add_0_r.
+apply Nat.le_refl.
 rewrite <- plus_n_Sm.
 apply lt_le_S.
-apply le_lt_trans with (1:=IH).
+apply Nat.le_lt_trans with (1:=IH).
 apply plus_lt_compat_l.
 apply Hphi.
 apply le_plus_r.
 assert (M <= n)%nat.
-apply le_trans with (2:=Hn); apply le_plus_r.
+apply Nat.le_trans with (2:=Hn); apply le_plus_r.
 specialize (H (n-M)%nat).
 replace (n-M+M)%nat with n in H.
-apply le_trans with (2:=H).
-rewrite (Arith.Plus.plus_comm _ (phi M)) -Arith.Plus.plus_assoc.
+apply Nat.le_trans with (2:=H).
+rewrite (Nat.add_comm _ (phi M)) -Arith.Plus.plus_assoc.
 apply plus_le_compat_l.
 rewrite le_plus_minus_r.
-apply le_refl.
+apply Nat.le_refl.
 exact H0.
-rewrite Arith.Plus.plus_comm.
+rewrite Nat.add_comm.
 now apply sym_eq, le_plus_minus_r.
 Qed.
 Lemma eventually_subseq :
@@ -1693,14 +1693,14 @@ Proof.
   replace l1 with ((l1-e/2)+e/2) by ring.
   apply Rplus_lt_compat_r.
   apply H1.
-  apply le_trans with (1 := Hn).
-  apply le_n_Sn.
+  apply Nat.le_trans with (1 := Hn).
+  apply Nat.le_succ_diag_r.
   replace (l2+e) with ((l2+e/2)+e/2) by field.
   by apply Rplus_lt_compat_r, H2.
   case: (proj2 (H2 (pos_div_2 eps))) => /= {H2} N H2.
   case: (proj1 (H1 (pos_div_2 eps)) (S N)) => /= {H1} .
   case => [ | n] [Hn H1].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   apply Rlt_trans with (u (S n) + e/2).
   replace l2 with ((l2-e/2)+e/2) by ring.
   apply Rplus_lt_compat_r.
@@ -1712,36 +1712,36 @@ Proof.
   case: (H2 (l1+1)) => {H2} N /= H2.
   case: (proj1 (H1 (mkposreal _ Rlt_0_1)) (S N)) ;
   case => /= {H1} [ | n] [Hn].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   apply Rle_not_lt, Rlt_le, H2.
   by apply le_S_n.
   have : False => //.
   case: (proj2 (H1 (mkposreal _ Rlt_0_1))) => {H1} N /= H1.
   case: ((H2 (l1-1)) N) => /= {H2}  n [Hn].
   apply Rle_not_lt, Rlt_le, H1.
-  by apply le_trans with (2 := le_n_Sn _).
+  by apply Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (H1 (l2+1)) => {H1} N /= H1.
   case: (proj1 (H2 (mkposreal _ Rlt_0_1)) N) => /= {H2}  n [Hn].
   apply Rle_not_lt, Rlt_le, H1.
-  by apply le_trans with (2 := le_n_Sn _).
+  by apply Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   by [].
   have : False => //.
   case: (H1 0) => {H1} N H1.
   case: (H2 0 N)=> {H2} n [Hn].
   apply Rle_not_lt, Rlt_le, H1.
-  by apply le_trans with (2 := le_n_Sn _).
+  by apply Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (proj2 (H2 (mkposreal _ Rlt_0_1))) => /= {H2} N H2.
   case: (H1 (l2-1) (S N)) ;
   case => [ | n] [Hn].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   have : False => //.
   case: (H2 0) => {H2} N H2.
   case: (H1 0 (S N)) ;
   case => [ | n] [Hn].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   by [].
 (* LimSup *)
@@ -1756,7 +1756,7 @@ Proof.
   case: (proj2 (H2 (pos_div_2 eps))) => /= {H2} N H2.
   case: ((proj1 (H1 (pos_div_2 eps))) (S N)) ;
   case => /= {H1} [ | n] [Hn H1].
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   replace l1 with ((l1-e/2)+e/2) by ring.
   replace (l2+e) with ((l2+e/2)+e/2) by field.
   apply Rplus_lt_compat_r.
@@ -1768,38 +1768,38 @@ Proof.
   replace (l1+e) with ((l1+e/2)+e/2) by field.
   apply Rplus_lt_compat_r.
   apply Rlt_trans with (1 := H2).
-  by apply H1, le_trans with (2 := le_n_Sn _).
+  by apply H1, Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (proj2 (H1 (mkposreal _ Rlt_0_1))) => /= {H1} N H1.
   case: (H2 (l1+1) N) => n [Hn].
-  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := le_n_Sn _).
+  by apply Rle_not_lt, Rlt_le, H1, Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (H2 (l1-1)) => {H2} N H2.
   case: (proj1 (H1 (mkposreal _ Rlt_0_1)) (S N)) ;
   case => [ | n] [Hn] /= .
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   have : False => //.
   case: (proj2 (H2 (mkposreal _ Rlt_0_1))) => {H2} /= N H2.
   case: (H1 (l2+1) (S N)) ;
   case => [ | n] [Hn] /= .
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   by [].
   have : False => //.
   case: (H2 0) => {H2} N H2.
   case: (H1 0 (S N)) ;
   case => [ | n] [Hn] /= .
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   by apply Rle_not_lt, Rlt_le, H2, le_S_n.
   have : False => //.
   case: (H1 (l2-1)) => {H1} N H1.
   case: (proj1 (H2 (mkposreal _ Rlt_0_1)) N) => /= {H2} n [Hn].
-  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := le_n_Sn _).
+  by apply Rle_not_lt, Rlt_le, H1, Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   have : False => //.
   case: (H1 0) => {H1} N H1.
   case: (H2 0 N) => {H2} n [Hn].
-  by apply Rle_not_lt, Rlt_le, H1, le_trans with (2 := le_n_Sn _).
+  by apply Rle_not_lt, Rlt_le, H1, Nat.le_trans with (2 := Nat.le_succ_diag_r _).
   by [].
 Qed.
 
@@ -1808,11 +1808,11 @@ Lemma is_lim_seq_incr_n (u : nat -> R) (N : nat) (l : Rbar) :
 Proof.
   split.
   elim: N u => [ | N IH] u Hu.
-  move: Hu ; apply is_lim_seq_ext => n ; by rewrite plus_0_r.
+  move: Hu ; apply is_lim_seq_ext => n ; by rewrite Nat.add_0_r.
   apply is_lim_seq_incr_1, IH in Hu.
   move: Hu ; by apply is_lim_seq_ext => n ; by rewrite plus_n_Sm.
   elim: N u => [ | N IH] u Hu.
-  move: Hu ; apply is_lim_seq_ext => n ; by rewrite plus_0_r.
+  move: Hu ; apply is_lim_seq_ext => n ; by rewrite Nat.add_0_r.
   apply is_lim_seq_incr_1, IH.
   move: Hu ; by apply is_lim_seq_ext => n ; by rewrite plus_n_Sm.
 Qed.
@@ -1827,7 +1827,7 @@ Lemma Lim_seq_incr_n (u : nat -> R) (N : nat) :
   Lim_seq (fun n => u (n + N)%nat) = Lim_seq u.
 Proof.
   elim: N u => [ | N IH] u.
-  apply Lim_seq_ext => n ; by rewrite plus_0_r.
+  apply Lim_seq_ext => n ; by rewrite Nat.add_0_r.
   rewrite -(Lim_seq_incr_1 u) -(IH (fun n => u (S n))).
   apply Lim_seq_ext => n ; by rewrite plus_n_Sm.
 Qed.
@@ -2060,7 +2060,7 @@ Proof.
   apply Rplus_le_compat_l.
   apply Ropp_le_contravar.
   elim: (Nu) => [ | m IH].
-  rewrite plus_0_r ; by apply Rle_refl.
+  rewrite Nat.add_0_r ; by apply Rle_refl.
   rewrite -plus_n_Sm.
   apply Rle_trans with (2 := IH).
   by apply H.
@@ -2079,7 +2079,7 @@ Proof.
   apply Rle_trans with (2 := Rle_abs _).
   apply Rplus_le_compat_r.
   elim: (Nu) => [ | m IH].
-  rewrite plus_0_r ; by apply Rle_refl.
+  rewrite Nat.add_0_r ; by apply Rle_refl.
   rewrite -plus_n_Sm.
   apply Rle_trans with (1 := IH).
   by apply H.
@@ -2099,7 +2099,8 @@ Proof.
   by apply Hl1.
   apply Rle_lt_trans with (2 := Hl2).
   elim: n N {Hl2} Hn => [ | n IH] N Hn.
-  rewrite (le_n_O_eq _ Hn).
+  apply Nat.le_0_r in Hn.
+  rewrite Hn.
   apply Rle_refl.
   apply le_lt_eq_dec in Hn.
   case: Hn => [Hn | ->].
@@ -2110,7 +2111,7 @@ Proof.
   case: (Hl M) => {Hl} N Hl.
   exists N => n Hn.
   apply Rle_lt_trans with (2 := Hl).
-  elim: Hn => [ | {n} n Hn IH].
+  elim: Hn => [ | {} n Hn IH].
   by apply Rle_refl.
   apply Rle_trans with (2 := IH).
   by apply H.
@@ -2127,7 +2128,7 @@ Proof.
   exists N => n Hn.
   apply Rabs_lt_between' ; split.
   apply Rlt_le_trans with (1 := Hl2).
-  elim: Hn => [ | {n} n Hn IH].
+  elim: Hn => [ | {} n Hn IH].
   by apply Rle_refl.
   apply Rle_trans with (1 := IH).
   by apply H.
@@ -2136,7 +2137,7 @@ Proof.
   case: (Hl M) => {Hl} N Hl.
   exists N => n Hn.
   apply Rlt_le_trans with (1 := Hl).
-  elim: Hn => [ | {n} n Hn IH].
+  elim: Hn => [ | {} n Hn IH].
   by apply Rle_refl.
   apply Rle_trans with (1 := IH).
   by apply H.
@@ -2159,7 +2160,8 @@ Proof.
   by apply Hl1.
   apply Rle_lt_trans with (2 := Hl2).
   elim: n N {Hl2} Hn => [ | n IH] N Hn.
-  rewrite (le_n_O_eq _ Hn).
+  apply Nat.le_0_r in Hn.
+  rewrite Hn.
   apply Rle_refl.
   apply le_lt_eq_dec in Hn.
   case: Hn => [Hn | ->].
@@ -2175,14 +2177,14 @@ Proof.
   by [].
   apply is_lim_seq_spec in Hu.
   case: (Hu (u O)) => {Hu} N Hu.
-  move: (Hu N (le_refl _)) => {Hu} Hu.
+  move: (Hu N (Nat.le_refl _)) => {} Hu.
   contradict Hu ; apply Rle_not_lt.
   elim: N => [ | N IH].
   by apply Rle_refl.
   by apply Rle_trans with (1 := H _).
   apply is_lim_seq_spec in Hu.
   case: (Hu M) => {Hu} N Hu.
-  move: (Hu N (le_refl _)) => {Hu} Hu.
+  move: (Hu N (Nat.le_refl _)) => {} Hu.
   contradict Hu ; by apply Rle_not_lt.
 Qed.
 Lemma ex_finite_lim_seq_incr (u : nat -> R) (M : R) :
@@ -2462,7 +2464,7 @@ Proof.
     intros Hw.
     case: (Rbar_lt_le_dec 0 l) => Hl.
     by apply Hw.
-    case: (Rbar_le_lt_or_eq_dec _ _ Hl) => // {Hl} Hl Hl0.
+    case: (Rbar_le_lt_or_eq_dec _ _ Hl) => // {} Hl Hl0.
     rewrite -(Rbar_opp_involutive (Rbar_inv l)).
     replace (Rbar_opp (Rbar_inv l)) with (Rbar_inv (Rbar_opp l))
     by (case: (l) Hl0 => [x | | ] //= Hl0 ; apply f_equal ;
@@ -2854,7 +2856,7 @@ Proof.
   case: Rle_lt_or_eq_dec (Rlt_irrefl 0) => // _ _.
   move => n ; by rewrite Rmult_0_l.
 
-  wlog: a u Ha / (0 < a) => [Hw | {Ha} Ha].
+  wlog: a u Ha / (0 < a) => [Hw | {} Ha].
     case: (Rlt_le_dec 0 a) => Ha'.
     by apply Hw.
     case: Ha' => // Ha'.
@@ -2993,10 +2995,10 @@ Proof.
   rewrite Ropp_minus_distr'.
   apply Rplus_le_compat, Ropp_le_contravar.
   elim: (N) => [ | m IH].
-  rewrite plus_0_r ; apply Rle_refl.
+  rewrite Nat.add_0_r ; apply Rle_refl.
   rewrite -plus_n_Sm ; by apply Rle_trans with (2 := Hu _).
   elim: (N) => [ | m IH].
-  rewrite plus_0_r ; apply Rle_refl.
+  rewrite Nat.add_0_r ; apply Rle_refl.
   rewrite -plus_n_Sm ; by apply Rle_trans with (1 := Hv _).
 Qed.
 
@@ -3144,15 +3146,15 @@ Proof.
   apply Ropp_lt_cancel ;
   rewrite Ropp_involutive Ropp_0 ;
   by apply Rlt_0_1.
-  move: (H0 _ (le_plus_l N N0)).
+  move: (H0 _ (Nat.le_add_r N N0)).
   by apply Rle_not_lt, Rge_le, H1, le_plus_r.
 (* ~ is_lim_seq ((-1)^n) l *)
   case: (H (mkposreal _ Rlt_0_1)) => /= {H} N H.
   rewrite Hq in H => {q Hq}.
   move: (H _ (le_n_2n _)) ; rewrite pow_1_even ; case/Rabs_lt_between' => _ H1.
   have H2 : (N <= S (2 * N))%nat.
-    by apply le_trans with (1 := le_n_2n _), le_n_Sn.
-  move: (H _ H2) ; rewrite pow_1_odd ; case/Rabs_lt_between' => {H H2} H2 _.
+    by apply Nat.le_trans with (1 := le_n_2n _), Nat.le_succ_diag_r.
+  move: (H _ H2) ; rewrite pow_1_odd ; case/Rabs_lt_between' => {H} H2 _.
   move: H1 ; apply Rle_not_lt, Rlt_le.
   pattern 1 at 2 ; replace (1) with ((-1)+2) by ring.
   replace (l+1) with ((l-1)+2) by ring.
@@ -3160,7 +3162,7 @@ Proof.
 (* ~ Rbar_is_lim_seq (q^n) p_infty *)
   case: (H 0) => {H} N H.
   have H0 : (N <= S (2 * N))%nat.
-    by apply le_trans with (1 := le_n_2n _), le_n_Sn.
+    by apply Nat.le_trans with (1 := le_n_2n _), Nat.le_succ_diag_r.
   move: (H _ H0) ; apply Rle_not_lt ; rewrite /pow -/pow.
   apply Rmult_le_0_r.
   apply Rle_trans with (1 := Hq), Ropp_le_cancel ;

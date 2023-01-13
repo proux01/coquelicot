@@ -149,7 +149,7 @@ move /filterlim_closely_norm.
 case /(_ eps) => [P [[N HN] HP]].
 exists (S N).
 intros [|u] v Hu Hv.
-elim le_Sn_O with (1 := Hu).
+elim Nat.nle_succ_0 with (1 := Hu).
 destruct (le_or_lt u v) as [Huv|Huv].
 rewrite -> sum_n_m_sum_n with (1 := Huv).
 apply HP ; apply HN.
@@ -158,7 +158,7 @@ now apply le_Sn_le.
 rewrite sum_n_m_zero.
 rewrite norm_zero.
 apply cond_pos.
-now apply lt_S.
+now apply Nat.lt_lt_succ_r.
 Qed.
 
 Lemma ex_series_Cauchy {K : AbsRing} {V : CompleteNormedModule K}
@@ -181,7 +181,7 @@ now apply H.
 intros Hu Hv.
 apply ball_sym.
 apply H => //.
-now apply lt_le_weak.
+now apply Nat.lt_le_incl.
 intros Hu Hv.
 apply: norm_compat1.
 rewrite <- sum_n_m_sum_n with (1 := Huv).
@@ -251,7 +251,7 @@ Lemma is_series_incr_n (a : nat -> V) (n : nat) (l : V) :
     -> is_series (fun k => a (n + k)%nat) l.
 Proof.
   case: n => /= [ | n] Hn Ha.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn.
   elim: n l Ha => [ | n IH] l Ha.
   rewrite sum_O in Ha.
@@ -259,7 +259,7 @@ Proof.
   apply is_series_ext with (fun k : nat => a (S (n + S k))).
   move => k ; apply f_equal ; ring.
   apply (is_series_incr_1 (fun k : nat => a (S (n + k))) l).
-  rewrite plus_0_r.
+  rewrite Nat.add_0_r.
   apply IH.
   replace (plus (plus l (a (S n))) (sum_n a n)) with (plus l (sum_n a (S n))).
   assumption.
@@ -277,7 +277,7 @@ Proof.
   apply f_equal.
   rewrite sum_n_m_S.
   apply f_equal ; lia.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   replace l with (plus (a 0%nat) (plus l (opp (a 0%nat)))).
   apply filterlim_comp_2 with (3 := filterlim_plus _ _).
   apply filterlim_id.
@@ -297,7 +297,7 @@ Lemma is_series_decr_n (a : nat -> V) (n : nat) (l : V) :
     -> is_series a l.
 Proof.
   case: n => /= [ | n] Hn Ha.
-  by apply lt_irrefl in Hn.
+  by apply Nat.lt_irrefl in Hn.
   clear Hn.
   elim: n a l Ha => [ | n IH] a l Ha.
   rewrite sum_O in Ha.
@@ -311,7 +311,7 @@ Proof.
   rewrite <- plus_assoc.
   apply f_equal.
   now rewrite opp_plus.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
 Qed.
 
 Lemma ex_series_incr_1 (a : nat -> V) :
@@ -334,11 +334,11 @@ Proof.
   split ; move => [la Ha].
   exists (plus la (opp (sum_n a (pred (S n))))).
   apply is_series_incr_n.
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   now rewrite <- plus_assoc, plus_opp_l, plus_zero_r.
   exists (plus la (sum_n a (pred (S n)))).
   apply is_series_decr_n with (S n).
-  by apply lt_O_Sn.
+  by apply Nat.lt_0_succ.
   now rewrite <- plus_assoc, plus_opp_r, plus_zero_r.
 Qed.
 
@@ -381,7 +381,7 @@ Proof.
   apply f_equal, Lim_seq_ext => n.
   rewrite /sum_n sum_n_m_S sum_Sn_m.
   rewrite Ha ; by apply Rplus_0_l.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
 Qed.
 Lemma Series_incr_n_aux (a : nat -> R) (n : nat) :
    (forall k, (k < n)%nat -> a k = 0)
@@ -420,7 +420,7 @@ Proof.
   apply (Cauchy_ex_series (V := R_CompleteNormedModule)) in Hs.
   case: (Hs eps) => {Hs} N Hs.
   exists (S N) ; case => [ | n] Hn.
-  by apply le_Sn_0 in Hn.
+  by apply Nat.nle_succ_0 in Hn.
   apply le_S_n in Hn.
   replace (a (S n) - 0)
     with (sum_n_m a (S n) (S n)).
@@ -498,7 +498,7 @@ Proof.
   by apply Hb.
   rewrite sum_n_Sm.
   by apply Rplus_le_le_0_compat.
-  by apply le_O_n.
+  by apply Nat.le_0_l.
   case: m => /= [ | m].
   by apply Rle_refl.
   rewrite -sum_n_m_S.
@@ -732,7 +732,7 @@ Proof.
       <= sum_f_R0 a n * sum_f_R0 b n.
     case => [ | n].
     simpl ; apply Rle_refl.
-    rewrite (cauchy_finite a b (S n) (lt_O_Sn n)).
+    rewrite (cauchy_finite a b (S n) (Nat.lt_0_succ n)).
     apply Rminus_le_0 ; ring_simplify.
     apply cond_pos_sum => m.
     apply cond_pos_sum => k.
@@ -741,23 +741,23 @@ Proof.
     <= sum_f_R0 (fun k : nat => sum_f_R0 (fun p : nat => a p * b (k - p)%nat) k) ((2*n)%nat).
     case => [ /= | n].
     by apply Rle_refl.
-    rewrite (cauchy_finite a b (S n) (lt_O_Sn n)).
+    rewrite (cauchy_finite a b (S n) (Nat.lt_0_succ n)).
     rewrite Rplus_comm ; apply Rle_minus_r.
     replace (pred (S n)) with n by auto.
     replace (2 * S n)%nat with (S n + S n)%nat by ring.
     rewrite -sum_f_rw.
     rewrite /sum_f.
     replace (S n + S n - S (S n))%nat with n.
-    elim: {1 5 8}n (le_refl n) => [ | m IH] Hm ; rewrite /sum_f_R0 -/sum_f_R0.
-    rewrite -minus_n_O plus_0_l ; simpl pred.
+    elim: {1 5 8}n (Nat.le_refl n) => [ | m IH] Hm ; rewrite /sum_f_R0 -/sum_f_R0.
+    rewrite Nat.sub_0_r Nat.add_0_l ; simpl pred.
     rewrite -?sum_f_rw_0.
     replace (sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat))
       with ((sum_f 0 (S (S n)) (fun p : nat => a p * b (S (S n) - p)%nat) -
         (fun p : nat => a p * b (S (S n) - p)%nat) 0%nat)
-        + a O * b (S (S n))) by (rewrite -minus_n_O ; ring).
-    rewrite -(sum_f_Sn_m _ O (S (S n))) ; [ | by apply lt_O_Sn].
-    rewrite sum_f_u_Sk ; [ | by apply le_O_n].
-    rewrite sum_f_n_Sm ; [ | by apply le_O_n].
+        + a O * b (S (S n))) by (rewrite Nat.sub_0_r ; ring).
+    rewrite -(sum_f_Sn_m _ O (S (S n))) ; [ | by apply Nat.lt_0_succ].
+    rewrite sum_f_u_Sk ; [ | by apply Nat.le_0_l].
+    rewrite sum_f_n_Sm ; [ | by apply Nat.le_0_l].
     apply Rle_trans with (sum_f 0 n (fun l0 : nat => a (S (l0 + 0)) * b (S n - l0)%nat) +
       a (S (S n)) * b (S (S n) - S (S n))%nat + a 0%nat * b (S (S n))).
       apply Rminus_le_0 ; ring_simplify.
@@ -765,11 +765,11 @@ Proof.
       repeat apply Rplus_le_compat_r.
       apply Req_le.
       rewrite ?sum_f_rw_0.
-      elim: {1 4 6}n (le_refl n) => [ | k IH] Hk // ;
+      elim: {1 4 6}n (Nat.le_refl n) => [ | k IH] Hk // ;
       rewrite /sum_f_R0 -/sum_f_R0.
       rewrite IH ; try by intuition.
       apply f_equal.
-      by rewrite plus_0_r /=.
+      by rewrite Nat.add_0_r /=.
     apply Rplus_le_compat.
     apply IH ; intuition.
     rewrite -?sum_f_rw_0.
@@ -804,21 +804,21 @@ Proof.
     apply f_equal2 ; apply f_equal ; intuition.
     rewrite IH ; apply f_equal, f_equal2 ; apply f_equal.
     ring.
-    rewrite ?(Coq.Arith.Plus.plus_comm _ (S m)) -minus_plus_simpl_l_reverse //=.
-    apply le_O_n.
+    rewrite ?(Nat.add_comm _ (S m)) -minus_plus_simpl_l_reverse //=.
+    apply Nat.le_0_l.
     rewrite /sum_f.
     elim: (S (S n) - S (S (n - S m)))%nat => {IH} [ | k IH] ;
     rewrite /sum_f_R0 -/sum_f_R0 //.
     by apply Rmult_le_pos.
     apply Rplus_le_le_0_compat => // ; by apply Rmult_le_pos.
-    by apply le_n_S, le_O_n.
+    by apply le_n_S, Nat.le_0_l.
     by apply Rmult_le_pos.
-    rewrite sum_f_Sn_m -?minus_n_O ; try by intuition.
+    rewrite sum_f_Sn_m ?Nat.sub_0_r ; try by intuition.
     ring.
     replace (S (S n)) with (S n + 1)%nat.
     rewrite -minus_plus_simpl_l_reverse.
-    simpl; apply minus_n_O.
-    now rewrite Coq.Arith.Plus.plus_comm.
+    simpl; apply eq_sym, Nat.sub_0_r.
+    now rewrite Nat.add_comm.
     elim: n => [ | n IH] //.
     rewrite -plus_n_Sm plus_Sn_m.
     apply lt_n_S ; intuition.
@@ -833,7 +833,7 @@ Proof.
       rewrite div2_S_double.
       apply Rle_trans with (1 := H1 _).
       apply Rminus_le_0 ; rewrite -sum_f_rw ; try by intuition.
-      rewrite /sum_f minus_diag /sum_f_R0 -/sum_f_R0.
+      rewrite /sum_f Nat.sub_diag /sum_f_R0 -/sum_f_R0.
       apply cond_pos_sum => l ; by apply Rmult_le_pos.
 
     change (is_lim_seq (sum_n (fun n : nat => sum_f_R0 (fun k : nat => a k * b (n - k)%nat) n)) (Finite (la * lb))).
@@ -853,10 +853,10 @@ Proof.
     apply H.
     apply le_double.
     apply le_S_n.
-    apply le_trans with (1 := Hn).
+    apply Nat.le_trans with (1 := Hn).
     apply (Div2.ind_0_1_SS (fun n => (n <= S (2 * Div2.div2 n))%nat)).
-    by apply le_O_n.
-    by apply le_refl.
+    by apply Nat.le_0_l.
+    by apply Nat.le_refl.
     move => k Hk.
     replace (Div2.div2 (S (S k))) with (S (Div2.div2 k)) by auto.
     replace (2 * S (Div2.div2 k))%nat with (S (S (2 * Div2.div2 k))) by ring.
@@ -964,7 +964,7 @@ Proof.
       by apply -> Rminus_lt_0.
     move => {H} /= Hk1 N H.
     exists N => n Hn.
-    move: (H n Hn) => {H} H.
+    move: (H n Hn) => {} H.
     apply Rabs_lt_between' in H ; case: H => _ H ;
     field_simplify in H ; rewrite ?Rdiv_1 in H ; by apply Rlt_le.
   case => {H} N H.
@@ -976,7 +976,7 @@ Proof.
   by apply Rabs_pos_lt.
   rewrite -Rabs_div.
   elim: n => [ | n IH].
-  rewrite plus_0_r /Rdiv Rinv_r.
+  rewrite Nat.add_0_r /Rdiv Rinv_r.
   rewrite Rabs_R1 ; by apply Rle_refl.
   by apply Ha.
   replace (Rabs (a (N + S n)%nat / a N))
@@ -984,7 +984,7 @@ Proof.
   simpl ; apply Rmult_le_compat.
   by apply Rabs_pos.
   by apply Rabs_pos.
-  apply H, le_plus_l.
+  apply H, Nat.le_add_r.
   by apply IH.
   rewrite -Rabs_mult ; apply f_equal.
   rewrite plus_n_Sm ; field ; split ; by apply Ha.
@@ -1003,7 +1003,7 @@ Proof.
   apply (is_lim_seq_geom k0).
   rewrite Rabs_pos_eq.
   unfold k0 ; lra.
-  apply Rle_trans with (2 := H N (le_refl _)) ; by apply Rabs_pos.
+  apply Rle_trans with (2 := H N (Nat.le_refl _)) ; by apply Rabs_pos.
   easy.
 Qed.
 
@@ -1023,7 +1023,7 @@ Proof.
     by apply -> Rminus_lt_0.
     by apply Rlt_R0_R2.
     exists N => n Hn.
-    move: (Hda n Hn) => {Hda} Hda.
+    move: (Hda n Hn) => {} Hda.
     apply Rabs_lt_between' in Hda.
     replace (k) with (l - (l - 1) / 2) by (unfold k ; field).
     by apply Rlt_le, Hda.
@@ -1044,7 +1044,7 @@ Proof.
     by apply Rlt_le, Rlt_trans with (1 := Rlt_0_1).
     by apply H, le_plus_r.
     by apply IH.
-  move => {H} H.
+  move => {} H.
   have : Finite 0 = p_infty.
     rewrite -(Lim_seq_geom_p k Hk1).
     apply sym_equal.

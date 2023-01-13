@@ -46,7 +46,7 @@ Proof.
   assert (forall eps : posreal, norm (If a) < eps).
     move => eps.
     generalize (fun Hy => proj1 (filterlim_locally_ball_norm _ _) (CIf a Hy) eps)
-      => /= {CIf} CIf.
+      => /= {} CIf.
       assert (Rabs (a + - a) < d1).
         rewrite -/(Rminus _ _) Rminus_eq_0 Rabs_R0.
         by apply d1.
@@ -111,7 +111,7 @@ Proof.
     2: apply (HMf (a - d1 / 2)%R) ; split => // ; by apply Rle_refl.
     by apply norm_ge_0.
   generalize (fun y Hy => proj1 (filterlim_locally_ball_norm _ _) (CIf y Hy) (pos_div_2 eps))
-    => /= {CIf} CIf.
+    => /= {} CIf.
   assert (0 < Rmin (d1 / 2) (eps / (2 * (Mf + 1)))).
     apply Rmin_case.
     by apply is_pos_div_2.
@@ -335,7 +335,7 @@ Proof.
   apply @is_filter_lim_locally_unique in Hy.
   rewrite -Hy {y Hy}.
   intros eps.
-  generalize (proj1 (filterlim_locally _ _) Hf) => {Hf} Hf.
+  generalize (proj1 (filterlim_locally _ _) Hf) => {} Hf.
   eapply filter_imp.
   simpl ; intros y Hy.
   replace (If a) with (@zero V).
@@ -468,11 +468,11 @@ Proof.
   by rewrite -Hx /= minus_eq_zero plus_zero_r.
   simpl.
 
-  have : (locally (a,b) (fun u : R * R => is_RInt f (fst u) b (If (fst u) b))) => [ | {Ha} Ha].
+  have : (locally (a,b) (fun u : R * R => is_RInt f (fst u) b (If (fst u) b))) => [ | {} Ha].
     case: Ha => /= e He.
     exists e => y Hy.
     apply He, Hy.
-  have : (locally (a,b) (fun u : R * R => is_RInt f a (snd u) (If a (snd u)))) => [ | {Hb} Hb].
+  have : (locally (a,b) (fun u : R * R => is_RInt f a (snd u) (If a (snd u)))) => [ | {} Hb].
     case: Hb => /= e He.
     exists e => y Hy.
     apply He, Hy.
@@ -690,7 +690,7 @@ Proof.
       move => t Ht; apply: ex_derive_continuous.
       by exists (dg t); apply Hg.
 
-  wlog: f Hf / (forall x, continuous f x) => [Hw | {Hf} Hf].
+  wlog: f Hf / (forall x, continuous f x) => [Hw | {} Hf].
     case: (continuous_ab_maj_consistent g a b (Rlt_le _ _ Hab)) => [ | M HM].
       move => x Hx; apply: ex_derive_continuous.
       by exists (dg x); apply Hg.
@@ -771,7 +771,7 @@ Lemma RInt_Chasles_bound_comp_l_loc (f : R -> R -> R) (a : R -> R) (b x : R) :
     RInt (f x') (a x') b).
 Proof.
 intros Hab (eps,Hae) Ca.
-generalize (proj1 (filterlim_locally _ _) Ca) => {Ca} Ca.
+generalize (proj1 (filterlim_locally _ _) Ca) => {} Ca.
 generalize (filter_and _ _ (Ca eps) (filter_and _ _ Hab Hae)).
 apply filter_imp => {Ca Hae Hab} y [Hy [Hab Hae]].
 apply RInt_Chasles with (2 := Hab).
@@ -791,8 +791,8 @@ Lemma RInt_Chasles_bound_comp_loc (f : R -> R -> R) (a b : R -> R) (x : R) :
     RInt (f x') (a x') (b x')).
 Proof.
 intros Hab (ea,Hae) (eb,Hbe) Ca Cb.
-generalize (proj1 (filterlim_locally _ _) Ca) => {Ca} Ca.
-generalize (proj1 (filterlim_locally _ _) Cb) => {Cb} Cb.
+generalize (proj1 (filterlim_locally _ _) Ca) => {} Ca.
+generalize (proj1 (filterlim_locally _ _) Cb) => {} Cb.
 set (e := mkposreal _ (Rmin_stable_in_posreal ea eb)).
 generalize (filter_and _ _ (filter_and _ _ (Ca e) (Cb e))
   (filter_and _ _ Hab (filter_and _ _ Hae Hbe))).
@@ -1281,7 +1281,7 @@ apply is_derive_RInt' with (a x).
 apply locally_singleton in Ia.
 exists d0 => /= y Hy.
 apply: RInt_correct.
-generalize (proj1 (Rabs_lt_between' _ _ _) Hy) => {Hy} Hy.
+generalize (proj1 (Rabs_lt_between' _ _ _) Hy) => {} Hy.
 eapply ex_RInt_Chasles.
 eapply ex_RInt_Chasles, Ia.
 apply ex_RInt_swap.
