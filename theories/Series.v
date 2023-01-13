@@ -158,7 +158,7 @@ now apply le_Sn_le.
 rewrite sum_n_m_zero.
 rewrite norm_zero.
 apply cond_pos.
-now apply lt_S.
+now apply Nat.lt_lt_succ_r.
 Qed.
 
 Lemma ex_series_Cauchy {K : AbsRing} {V : CompleteNormedModule K}

@@ -112,7 +112,7 @@ rewrite Hg.
 apply IHk.
 intros n Hn.
 apply Hg.
-now apply lt_S.
+now apply Nat.lt_lt_succ_r.
 apply Nat.lt_succ_diag_r.
 Qed.
 
