@@ -1592,7 +1592,7 @@ rewrite Nat.add_0_l Nat.add_0_r.
 apply Nat.le_refl.
 rewrite <- plus_n_Sm.
 apply lt_le_S.
-apply le_lt_trans with (1:=IH).
+apply Nat.le_lt_trans with (1:=IH).
 apply plus_lt_compat_l.
 apply Hphi.
 apply le_plus_r.
