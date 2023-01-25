@@ -1,3 +1,9 @@
+Version 3.3.0
+-------------
+
+* improved support for complex arithmetic
+* minimal version of Coq is now 8.12
+
 Version 3.2.0
 -------------
 
